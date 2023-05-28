@@ -15,8 +15,8 @@ namespace HCI
             _userService = userService;
             InitializeComponent();
             List<User> users = (List<User>)userService.GetAllUsers();
-            Console.WriteLine(users[0].Type);
-            Console.WriteLine(users[1].Type);
+            Console.WriteLine(users[0].Email);
+            Console.WriteLine(users[1].Email);
 
 
         }
