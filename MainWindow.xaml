@@ -55,6 +55,8 @@
             <Grid Margin="16">
                 <TextBlock Text="Dobrodošli u desktop aplikaciju!" FontSize="24" FontWeight="Bold" Margin="0,20,0,0"/>
                 <TextBlock Text="Ovde možete dodati sadržaj koji želite prikazati korisniku. U ovom primeru, prikazujemo samo naslov i jedan pasus teksta." TextWrapping="Wrap"/>
+                <Image x:Name="imageControl" Width="200" Height="200" Margin="0,20,0,0"/>
+
             </Grid>
         </Grid>
     </Grid>
