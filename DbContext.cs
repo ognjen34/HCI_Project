@@ -1,9 +1,17 @@
-﻿using HCI.Models.Users.Model;
+﻿using HCI.Models.Attractions.Model;
+using HCI.Models.Locations.Model;
+using HCI.Models.Restaurants.Model;
+using HCI.Models.Users.Model;
 using Microsoft.EntityFrameworkCore;
 
 public class AppDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Location> Locations { get; set; }
+    public DbSet<Attraction> Attractions { get; set; }
+    public DbSet<Restaurant> Restaurants { get; set; }
+
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
