@@ -1,4 +1,8 @@
-﻿using HCI.Models.Users.Repository;
+﻿using HCI.Models.Accommodations.Repository;
+using HCI.Models.Accommodations.Service;
+using HCI.Models.Trips.Repository;
+using HCI.Models.Trips.Service;
+using HCI.Models.Users.Repository;
 using HCI.Models.Users.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +25,12 @@ namespace HCI
                     services.AddSingleton<MainWindow>();
                     services.AddTransient<IUserRepository, UserRepository>();
                     services.AddTransient<IUserService, UserService>();
+                    services.AddTransient<IAccommodationRepository, AccommodationRepository>();
+                    services.AddTransient<IAccommodationService, AccommodationService>();
+                    services.AddTransient<ITripRepository, TripRepository>();
+                    services.AddTransient<ITripService, TripService>();
+                    services.AddTransient<IOrderedTripRepository, OrderedTripRepository>();
+                    services.AddTransient<IOrderedTripService, OrderedTripService>();
                 }).Build();
         }
 

@@ -1,9 +1,18 @@
-﻿using HCI.Models.Users.Model;
+﻿using HCI.Models.Accommodations.Model;
+using HCI.Models.Locations.Model;
+using HCI.Models.Trips.Model;
+using HCI.Models.Users.Model;
 using Microsoft.EntityFrameworkCore;
 
 public class AppDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Location> Locations { get; set; }
+    public DbSet<Accommodation> Accommodations { get; set; }
+    public DbSet<Trip> Trips { get; set; }
+    public DbSet<OrderedTrip> OrderedTrips { get; set; }
+
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
