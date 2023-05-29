@@ -17,6 +17,8 @@
         </Grid>
 
         <!-- Content -->
-        <ContentControl x:Name="contentControl" Grid.Row="1"/>
+
+        <Frame x:Name="contentControl" Grid.Row="1"/>
+
     </Grid>
 </Window>

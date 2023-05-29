@@ -1,25 +1,35 @@
-﻿using HCI.Models.Users.DTO;
+
+﻿using HCI.Models.Accommodations.Model;
+using HCI.Models.Accommodations.Repository;
+using HCI.Models.Accommodations.Service;
+using HCI.Models.Trips.Model;
+using HCI.Models.Trips.Service;
+using HCI.Models.Users.DTO;
+
 using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
 using HCI.Navbars;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace HCI
 {
     public partial class MainWindow : Window
     {
         private readonly IUserService _userService;
+        private readonly ITripService _tripService;
 
-        public MainWindow(IUserService userService)
+        public MainWindow(IUserService userService, ITripService tripService)
         {
             _userService = userService;
+            _tripService = tripService;
             InitializeComponent();
 
             var loginForm = new LoginForm(userService);
 
-            contentControl.Content = loginForm;
+            contentControl.Navigate(loginForm);
             loginForm.LoginSuccess += LoginForm_LoginSuccess;
 
         }
@@ -35,6 +45,7 @@ namespace HCI
             {
                 navbarControl.Content = new ClientNavBar();
                 navbarViewBox.Visibility = Visibility.Visible;
+                contentControl.Navigate(new HomePage(_tripService));
 
             }
             else if (user.Type == UserType.Agent)
@@ -45,5 +56,6 @@ namespace HCI
             }
             MessageBox.Show($"Login successful! User ID: {userId}, User Type: {userType}");
         }
+
     }
 }

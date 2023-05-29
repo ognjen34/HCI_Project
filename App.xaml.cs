@@ -1,3 +1,9 @@
+
+﻿using HCI.Models.Accommodations.Repository;
+using HCI.Models.Accommodations.Service;
+using HCI.Models.Trips.Repository;
+using HCI.Models.Trips.Service;
+
 ﻿using HCI.Models.Attractions.Repository;
 using HCI.Models.Attractions.Service;
 using HCI.Models.Locations.Repository;
@@ -5,6 +11,7 @@ using HCI.Models.Locations.Service;
 using HCI.Models.Restaurants.Repository;
 using HCI.Models.Restaurants.Service;
 using HCI.Models.Restaurants.Service.HCI.Models.Restaurants.Service;
+
 using HCI.Models.Users.Repository;
 using HCI.Models.Users.Service;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +35,13 @@ namespace HCI
                     services.AddSingleton<MainWindow>();
                     services.AddTransient<IUserRepository, UserRepository>();
                     services.AddTransient<IUserService, UserService>();
+
+                    services.AddTransient<IAccommodationRepository, AccommodationRepository>();
+                    services.AddTransient<IAccommodationService, AccommodationService>();
+                    services.AddTransient<ITripRepository, TripRepository>();
+                    services.AddTransient<ITripService, TripService>();
+                    services.AddTransient<IOrderedTripRepository, OrderedTripRepository>();
+                    services.AddTransient<IOrderedTripService, OrderedTripService>();
                     services.AddTransient<IRestaurantRepository, RestaurantRepository>();
                     services.AddTransient<IRestaurantService, RestaurantService>();
                     services.AddTransient<IAttractionRepository, AttractionRepository>();
@@ -44,6 +58,7 @@ namespace HCI
 
             var dbContext = AppHost.Services.GetRequiredService<AppDbContext>();
             dbContext.Database.EnsureCreated();
+            dbContext.InitDataBase();
 
             var mainWindow = AppHost!.Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
