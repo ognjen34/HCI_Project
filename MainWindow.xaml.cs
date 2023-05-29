@@ -1,5 +1,7 @@
-﻿using HCI.Models.Users.Model;
+﻿using HCI.Models.Users.DTO;
+using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
+using HCI.Navbars;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -14,19 +16,34 @@ namespace HCI
         {
             _userService = userService;
             InitializeComponent();
-            List<User> users = (List<User>)userService.GetAllUsers();
-            Console.WriteLine(users[0].Email);
-            Console.WriteLine(users[1].Email);
 
+            var loginForm = new LoginForm(userService);
+
+            contentControl.Content = loginForm;
+            loginForm.LoginSuccess += LoginForm_LoginSuccess;
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoginForm_LoginSuccess(object sender, LoginSuccessArgs e)
         {
-            // Handle button click events
+            User user = e.User;
+            int userId = user.Id;
+            string userType = user.Type.ToString();
+            contentControl.Content = null;
 
-            // Example: Writing to the console
-            Console.WriteLine("Button clicked!");
+            if (user.Type == UserType.Client)
+            {
+                navbarControl.Content = new ClientNavBar();
+                navbarViewBox.Visibility = Visibility.Visible;
+
+            }
+            else if (user.Type == UserType.Agent)
+            {
+                navbarControl.Content = new AgentNavBar();
+                navbarViewBox.Visibility = Visibility.Visible;
+
+            }
+            MessageBox.Show($"Login successful! User ID: {userId}, User Type: {userType}");
         }
     }
 }
