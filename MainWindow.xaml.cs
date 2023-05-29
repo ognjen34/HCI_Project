@@ -1,10 +1,14 @@
+
 ﻿using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Repository;
 using HCI.Models.Accommodations.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
+using HCI.Models.Users.DTO;
+
 using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
+using HCI.Navbars;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -14,46 +18,43 @@ namespace HCI
 {
     public partial class MainWindow : Window
     {
-        private readonly ITripService _userService;
+        private readonly IUserService _userService;
+        private readonly ITripService _tripService;
 
-        public MainWindow(ITripService userService)
+        public MainWindow(IUserService userService, ITripService tripService)
         {
             _userService = userService;
+            _tripService = tripService;
             InitializeComponent();
-            Trip trip = _userService.GetById(1);
-            Console.WriteLine(trip.Name);
-            Console.WriteLine(trip.Description);
-            SetImageSource(trip.Picture.Pictures);
 
+            var loginForm = new LoginForm(userService);
 
+            contentControl.Navigate(loginForm);
+            loginForm.LoginSuccess += LoginForm_LoginSuccess;
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoginForm_LoginSuccess(object sender, LoginSuccessArgs e)
         {
-            // Handle button click events
+            User user = e.User;
+            int userId = user.Id;
+            string userType = user.Type.ToString();
+            contentControl.Content = null;
 
-            // Example: Writing to the console
-            Console.WriteLine("Button clicked!");
-        }
-        private void SetImageSource(string base64Image)
-        {
-            try
+            if (user.Type == UserType.Client)
             {
-                // Create a BitmapImage from the base64 string
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = new System.IO.MemoryStream(Convert.FromBase64String(base64Image));
-                bitmapImage.EndInit();
+                navbarControl.Content = new ClientNavBar();
+                navbarViewBox.Visibility = Visibility.Visible;
+                contentControl.Navigate(new HomePage(_tripService));
 
-                // Set the BitmapImage as the source of the Image control
-                imageControl.Source = bitmapImage;
             }
-            catch (Exception ex)
+            else if (user.Type == UserType.Agent)
             {
-                // Handle any exceptions
-                Console.WriteLine("Error setting image source: " + ex.Message);
+                navbarControl.Content = new AgentNavBar();
+                navbarViewBox.Visibility = Visibility.Visible;
+
             }
+            MessageBox.Show($"Login successful! User ID: {userId}, User Type: {userType}");
         }
 
     }
