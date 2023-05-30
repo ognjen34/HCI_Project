@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="HCI.Frames.Map"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+              Height="450" Width="800">
+    <Grid>
+        <m:Map x:Name="myMap" CredentialsProvider="yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2" />
+    </Grid>
+</UserControl>

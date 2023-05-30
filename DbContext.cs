@@ -50,6 +50,17 @@ public class AppDbContext : DbContext
             }
         );
 
+        Users.Add(new User
+        {
+            Id = 3,
+            Email = "client",
+            Password = "123",
+            Name = "Vanja",
+            Surname = "Agent",
+            Type = UserType.Client
+        }
+        );
+
         Locations.Add(
             new Location
             {
@@ -167,7 +178,9 @@ public class AppDbContext : DbContext
                 Rating = 10,
                 CuisineType = CuisineType.Chinese,
                 Location = Locations.Find(3),
-                Description = "DODJITE NA GRMILICU"
+                Description = "DODJITE NA GRMILICU",
+                Picture = Pictures.Find(4),
+                ClassName = "Restaurant"
 
             }
             );
@@ -179,7 +192,9 @@ public class AppDbContext : DbContext
                 Rating = 9.5,
                 CuisineType = CuisineType.Japanese,
                 Location = Locations.Find(4),
-                Description = "DODJITE NA BUREK AE SIROM"
+                Description = "DODJITE NA BUREK AE SIROM",
+                Picture = Pictures.Find(3),
+                ClassName = "Restaurant"
 
             }
             );
@@ -190,7 +205,8 @@ public class AppDbContext : DbContext
                 Description = "Celodnevna poseta sinagoge generalno sranje al ono ako gotivite to dodjite , ja vam ne bih preporucio al ako ste fazon jevrej i gotivite te fazone dodjite odmah!",
                 Price = 10,
                 Picture = Pictures.Find(1),
-                Location  = Locations.Find(3)
+                Location  = Locations.Find(3),
+                ClassName ="Attraction"
 
 
 
@@ -205,7 +221,8 @@ public class AppDbContext : DbContext
             Description = "Ako znate koji je ovo * dodjite da ga obidjete super ovako nije lose!",
             Price = 10,
             Picture = Pictures.Find(1),
-            Location = Locations.Find(4)
+            Location = Locations.Find(4),
+            ClassName = "Attraction"
 
 
 

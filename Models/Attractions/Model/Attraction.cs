@@ -16,5 +16,6 @@ namespace HCI.Models.Attractions.Model
         public Location Location { get; set; }
         public Picture Picture { get; set; }
         public string Description { get; set; }
+        public string ClassName { get; set; }
     }
 }

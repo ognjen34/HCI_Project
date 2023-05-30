@@ -1,4 +1,5 @@
-﻿using HCI.Models.Locations.Model;
+﻿using HCI.Models.Accommodations.Model;
+using HCI.Models.Locations.Model;
 
 namespace HCI.Models.Restaurants.Model
 {
@@ -22,5 +23,7 @@ namespace HCI.Models.Restaurants.Model
         public string Description { get; set; }
         public double Rating { get; set; }
         public CuisineType CuisineType { get; set; }
+        public Picture Picture { get; set; }
+        public string ClassName { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 
-﻿using HCI.Models.Accommodations.Model;
+using HCI.Frames.Client;
+using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Repository;
 using HCI.Models.Accommodations.Service;
+using HCI.Models.Attractions.Service;
+using HCI.Models.Restaurants.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
 using HCI.Models.Users.DTO;
@@ -20,14 +23,19 @@ namespace HCI
     {
         private readonly IUserService _userService;
         private readonly ITripService _tripService;
+        private readonly IAttractionService _attractionService;
+        private readonly IRestaurantService _restaurantService;
 
-        public MainWindow(IUserService userService, ITripService tripService)
+        public MainWindow(IUserService userService, ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService)
         {
             _userService = userService;
+            _restaurantService = restaurantService;
             _tripService = tripService;
+            _attractionService = attractionService;
             InitializeComponent();
 
             var loginForm = new LoginForm(userService);
+
 
             contentControl.Navigate(loginForm);
             loginForm.LoginSuccess += LoginForm_LoginSuccess;
@@ -45,7 +53,7 @@ namespace HCI
             {
                 navbarControl.Content = new ClientNavBar();
                 navbarViewBox.Visibility = Visibility.Visible;
-                contentControl.Navigate(new HomePage(_tripService));
+                contentControl.Navigate(new Attractions(_attractionService, _restaurantService));
 
             }
             else if (user.Type == UserType.Agent)
