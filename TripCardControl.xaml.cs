@@ -1,4 +1,5 @@
-﻿using HCI.Models.Trips.Model;
+﻿using HCI.Models.Trips.DTO;
+using HCI.Models.Trips.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace HCI
     public partial class TripCardControl : UserControl
     {
         public Trip Trip;
+        public event EventHandler<OrderTripArgs> OrderTrip;
         public TripCardControl(Trip trip)
         {
             Trip = trip;
@@ -51,6 +53,11 @@ namespace HCI
                 // Handle any exceptions
                 Console.WriteLine("Error setting image source: " + ex.Message);
             }
+        }
+
+        private void OrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            OrderTrip?.Invoke(this, new OrderTripArgs(Trip));
         }
     }
 }
