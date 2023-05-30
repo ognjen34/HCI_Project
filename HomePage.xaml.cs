@@ -1,4 +1,5 @@
-﻿using HCI.Models.Trips.Model;
+﻿using HCI.Models.Trips.DTO;
+using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
 using System;
 using System.Collections.Generic;
@@ -25,16 +26,28 @@ namespace HCI
         private readonly ITripService _userService;
         public HomePage(ITripService userService)
         {
-
+            Console.WriteLine("opet opop");
             _userService = userService;
             InitializeComponent();
             IEnumerable<Trip> trips = _userService.GetAllTrips();
             trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip)); });
+            foreach(TripCardControl tripCardControl in tripsStackPanel.Children)
+            {
+                tripCardControl.OrderTrip += TripCardControl_OrderClicked;
+            }
+
             
 
-
+        }
+        
+        private void TripCardControl_OrderClicked(object sender, OrderTripArgs e)
+        {
+            Trip trip = e.trip;
+            Console.WriteLine(trip.Name);
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.contentControl.Navigate(new CertainTripPage(trip));
         }
 
-        
+
     }
 }
