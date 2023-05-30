@@ -1,4 +1,5 @@
 ﻿using HCI.Models.Accommodations.Model;
+using HCI.Models.Pictures.Model;
 using System;
 using System.Globalization;
 using System.IO;

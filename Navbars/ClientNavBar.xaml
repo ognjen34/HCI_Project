@@ -51,12 +51,12 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Home" Style="{StaticResource NavbarButtonStyle}" HorizontalAlignment="Stretch" />
+            <Button Content="Home" x:Name="homeButton" Style="{StaticResource NavbarButtonStyle}" HorizontalAlignment="Stretch" />
             <Button Content="O nama" Style="{StaticResource NavbarButtonStyle}" Grid.Column="1" />
             <Button Content="Kontakt"  Style="{StaticResource NavbarButtonStyle}" Grid.Column="2" />
 
             <!-- Logout button -->
-            <Button Content="Logout" Style="{StaticResource NavbarButtonStyle}" Grid.Column="5" HorizontalAlignment="Right"/>
+            <Button Content="Logout" x:Name="logoutButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="5" HorizontalAlignment="Right"/>
         </Grid>
     </Grid>
 </UserControl>

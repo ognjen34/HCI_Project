@@ -6,6 +6,7 @@ using HCI.Models.Restaurants.Model;
 using HCI.Models.Users.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using HCI.Models.Pictures.Model;
 
 public class AppDbContext : DbContext
 {

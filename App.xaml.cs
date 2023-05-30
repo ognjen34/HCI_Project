@@ -19,6 +19,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using HCI.Models.Pictures.Repository;
+using HCI.Models.Pictures.Service;
 
 namespace HCI
 {
@@ -38,6 +40,8 @@ namespace HCI
 
                     services.AddTransient<IAccommodationRepository, AccommodationRepository>();
                     services.AddTransient<IAccommodationService, AccommodationService>();
+                    services.AddTransient<IPictureRepository, PictureRepository>();
+                    services.AddTransient<IPictureService, PictureService>();
                     services.AddTransient<ITripRepository, TripRepository>();
                     services.AddTransient<ITripService, TripService>();
                     services.AddTransient<IOrderedTripRepository, OrderedTripRepository>();

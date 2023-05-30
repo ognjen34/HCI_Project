@@ -1,5 +1,6 @@
 ﻿using HCI.Models.Accommodations.Model;
 using HCI.Models.Locations.Model;
+using HCI.Models.Pictures.Model;
 
 namespace HCI.Models.Restaurants.Model
 {
