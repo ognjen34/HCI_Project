@@ -8,15 +8,50 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
 
+    <Page.Resources>
+        <Style x:Key="AddButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8,15,8"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Ellipse" Fill="{TemplateBinding Background}"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#BBDEFB"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#4CAF50"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer>
-            <StackPanel Name="tripsStackPanel">
-
-
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Style="{StaticResource AddButtonStyle}" Grid.Row="0" Content="+" HorizontalAlignment="Center" Margin="10" x:Name="addButton" Click="AddButton_Click" Visibility="Collapsed"/>
+                <StackPanel Name="tripsStackPanel" Grid.Row="1">
+                    <!-- Your existing trip cards or other content -->
+                </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>

@@ -1,5 +1,6 @@
 ﻿using HCI.Models.Accommodations.Model;
 using HCI.Models.Locations.Model;
+using HCI.Models.Pictures.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

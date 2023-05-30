@@ -28,6 +28,8 @@ namespace HCI.Navbars
         public AgentNavBar()
         {
             InitializeComponent();
+            homeButton.Click += HomeButton_Click;
+            logoutButton.Click += LogoutButton_Click;
         }
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
@@ -35,15 +37,6 @@ namespace HCI.Navbars
             HomeClicked?.Invoke(this, EventArgs.Empty);
         }
 
-        private void AboutButton_Click(object sender, RoutedEventArgs e)
-        {
-            AboutClicked?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ContactButton_Click(object sender, RoutedEventArgs e)
-        {
-            ContactClicked?.Invoke(this, EventArgs.Empty);
-        }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {

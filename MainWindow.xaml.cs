@@ -4,6 +4,7 @@ using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Repository;
 using HCI.Models.Accommodations.Service;
 using HCI.Models.Attractions.Service;
+using HCI.Models.Pictures.Service;
 using HCI.Models.Restaurants.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
@@ -25,13 +26,22 @@ namespace HCI
         private readonly ITripService _tripService;
         private readonly IAttractionService _attractionService;
         private readonly IRestaurantService _restaurantService;
+        private readonly IAccommodationService _accommodationService;
+        private readonly IPictureService _pictureService;
 
-        public MainWindow(IUserService userService, ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService)
+
+
+        private User user;
+
+        public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService)
         {
+            user = null;
+            _pictureService = pictureService;
             _userService = userService;
             _restaurantService = restaurantService;
             _tripService = tripService;
             _attractionService = attractionService;
+            _accommodationService = accommodationService;
             InitializeComponent();
 
             var loginForm = new LoginForm(userService);
@@ -44,27 +54,55 @@ namespace HCI
 
         private void LoginForm_LoginSuccess(object sender, LoginSuccessArgs e)
         {
-            User user = e.User;
-            int userId = user.Id;
-            string userType = user.Type.ToString();
+            user = e.User;
+
             contentControl.Content = null;
 
             if (user.Type == UserType.Client)
             {
-                navbarControl.Content = new ClientNavBar();
+                ClientNavBar clientNavBar = new ClientNavBar();
+                navbarControl.Content = clientNavBar;
+                clientNavBar.HomeClicked += HomeClicked;
+                clientNavBar.LogoutClicked += LogoutClicked;
                 navbarViewBox.Visibility = Visibility.Visible;
-                
-                contentControl.Navigate(new HomePage(_tripService, _attractionService, _restaurantService));
+
+                contentControl.Navigate(new HomePage(_tripService,_pictureService, _accommodationService,_attractionService, _restaurantService,user));
 
             }
             else if (user.Type == UserType.Agent)
             {
-                navbarControl.Content = new AgentNavBar();
+                AgentNavBar agentNavBar = new AgentNavBar();
+                agentNavBar.HomeClicked += HomeClicked;
+                agentNavBar.LogoutClicked += LogoutClicked;
+                navbarControl.Content = agentNavBar;
                 navbarViewBox.Visibility = Visibility.Visible;
+                contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, user));
 
             }
-            MessageBox.Show($"Login successful! User ID: {userId}, User Type: {userType}");
+        }
+
+        public void NavigateToHome()
+        {
+            contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, user));
+
+        }
+        private void HomeClicked(object sender, EventArgs e)
+        {
+            NavigateToHome();   
+        }
+
+        private void LogoutClicked(object sender, EventArgs e)
+        {
+            user = null;
+            navbarControl.Content = null;
+            navbarViewBox.Visibility = Visibility.Collapsed;
+
+            var loginForm = new LoginForm(_userService);
+            contentControl.Navigate(loginForm);
+            loginForm.LoginSuccess += LoginForm_LoginSuccess;
         }
 
     }
+
+
 }

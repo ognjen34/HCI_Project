@@ -1,5 +1,6 @@
 ﻿using HCI.Models.Accommodations.Model;
 using Microsoft.Maps.MapControl.WPF;
+using HCI.Models.Pictures.Model;
 using HCI.Models.Trips.Model;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
 ﻿using HCI.Models.Locations.Model;
+using HCI.Models.Pictures.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,5 @@ namespace HCI.Models.Accommodations.Model
             Pictures = new List<Picture>();
         }
     }
-    public class Picture
-    {
-        public int Id { get; set; }
-        public String Pictures { get; set; }
 
-    }
 }
