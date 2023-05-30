@@ -34,7 +34,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="35 $/night" HorizontalAlignment="Right" Grid.Row="0"/>
-                            <Button Content="Book" Width="80" Height="30" HorizontalAlignment="Right" Grid.Row="1" Background="#2196F3" Foreground="White"/>
+                            <Button Content="Book" Width="80" Height="30" HorizontalAlignment="Right" Grid.Row="1" Background="#2196F3" Foreground="White" Click="OrderButton_Click"/>
                         </Grid>
                     </Grid>
                 </Border>

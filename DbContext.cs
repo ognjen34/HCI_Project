@@ -142,25 +142,23 @@ public class AppDbContext : DbContext
              }
             );
         this.SaveChanges();
-       Accommodations.Add(
-        new Accommodation
-        {
-            Id = 1,
-            Name = "HOTEL XD",
-            Description = "OVDE DOBIJETE LUKSUZ",
-            PricePerDay = 100.0,
-            Location = Locations.Find(1),
-            Pictures = new List<Picture>
-            {
-                    Pictures.Find(2),
-                    Pictures.Find(3),
-                    Pictures.Find(4),
-                    Pictures.Find(5),
-                    Pictures.Find(6)
-
-            }
-        }
-    );
+        List<Picture> pictures = new List<Picture>();
+        pictures.Add(Pictures.Find(2));
+        pictures.Add(Pictures.Find(3));
+        pictures.Add(Pictures.Find(4));
+        pictures.Add(Pictures.Find(5));
+        pictures.Add(Pictures.Find(6));
+        Accommodations.Add(
+         new Accommodation
+         {
+             Id = 1,
+             Name = "HOTEL XD",
+             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare commodo fermentum. Nulla vel aliquam dolor. Mauris a sapien condimentum ex volutpat venenatis. In quis ligula vel lectus sagittis volutpat. Integer ullamcorper mauris eget laoreet dignissim. Nunc sollicitudin commodo lacus, quis finibus augue dignissim eget. Orci varius natoque penatibus et magnis dis parturient montes.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare commodo fermentum. Nulla vel aliquam dolo ",
+             PricePerDay = 100.0,
+             Location = Locations.Find(1),
+             Pictures = pictures
+         }
+     ); 
         Accommodations.Add(new Accommodation
         {
             Id = 2,
@@ -168,17 +166,10 @@ public class AppDbContext : DbContext
             Description = "MNOGO DOBAR HOTEL",
             PricePerDay = 1000.0,
             Location = Locations.Find(2),
-            Pictures = new List<Picture>
-            {
-                    Pictures.Find(2),
-                    Pictures.Find(3),
-                    Pictures.Find(4),
-                    Pictures.Find(5),
-                    Pictures.Find(6)
-
-            }
+            Pictures = pictures
         }
     );
+        this.SaveChanges();
         Restaurants.Add(
             new Restaurant
             {
@@ -255,5 +246,6 @@ public class AppDbContext : DbContext
         }
            );
         this.SaveChanges();
+
     }
 }
