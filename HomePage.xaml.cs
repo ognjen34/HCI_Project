@@ -1,4 +1,6 @@
-﻿using HCI.Models.Trips.DTO;
+﻿using HCI.Models.Attractions.Service;
+using HCI.Models.Restaurants.Service;
+using HCI.Models.Trips.DTO;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
 using System;
@@ -24,9 +26,13 @@ namespace HCI
     public partial class HomePage : Page
     {
         private readonly ITripService _userService;
-        public HomePage(ITripService userService)
+        private readonly IAttractionService _attractionService;
+        private readonly IRestaurantService _restaurantService;
+        public HomePage(ITripService userService, IAttractionService attractionService, IRestaurantService restaurantService)
         {
             Console.WriteLine("opet opop");
+            _attractionService = attractionService;
+            _restaurantService = restaurantService;
             _userService = userService;
             InitializeComponent();
             IEnumerable<Trip> trips = _userService.GetAllTrips();
@@ -45,7 +51,7 @@ namespace HCI
             Trip trip = e.trip;
             Console.WriteLine(trip.Name);
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.contentControl.Navigate(new CertainTripPage(trip));
+            mainWindow.contentControl.Navigate(new CertainTripPage(trip, _attractionService, _restaurantService));
         }
 
 

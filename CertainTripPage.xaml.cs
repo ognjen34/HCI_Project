@@ -1,4 +1,5 @@
 ﻿using HCI.Models.Accommodations.Model;
+using Microsoft.Maps.MapControl.WPF;
 using HCI.Models.Trips.Model;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HCI.Models.Attractions.Service;
+using HCI.Models.Restaurants.Service;
+using HCI.Frames.Client;
 
 namespace HCI
 {
@@ -25,15 +29,19 @@ namespace HCI
         public Trip Trip { get; set; }
         public int SelectedImg { get; set; }
         public List<Picture> Pictures { get; set; }
-        public CertainTripPage(Trip trip)
+        private readonly IAttractionService _attractionService;
+        private readonly IRestaurantService _restaurantService;
+        public CertainTripPage(Trip trip, IAttractionService attractionService, IRestaurantService restaurantService)
         {
+            _attractionService = attractionService;
+            _restaurantService = restaurantService;
             Trip = trip;
             SelectedImg = 1;
             Pictures = new List<Picture>();
             Pictures = Trip.Accommodation.Pictures.ToList();
             InitializeComponent();
-            Console.WriteLine(Pictures.Count);
-            Pictures.ForEach(Picture => { Console.WriteLine(Picture.Pictures); });
+            myMap.Center = new Location(47.6097, -122.3331);
+            myMap.ZoomLevel = 10;
             accomendationName.Text = trip.Accommodation.Name;
             accomendationDescritpion.Text = trip.Accommodation.Description;
 
@@ -91,7 +99,9 @@ namespace HCI
 
         private void resrveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Console.WriteLine("kurcina masna");
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService));
         }
     }
 }

@@ -53,7 +53,8 @@ namespace HCI
             {
                 navbarControl.Content = new ClientNavBar();
                 navbarViewBox.Visibility = Visibility.Visible;
-                contentControl.Navigate(new Attractions(_attractionService, _restaurantService));
+                
+                contentControl.Navigate(new HomePage(_tripService, _attractionService, _restaurantService));
 
             }
             else if (user.Type == UserType.Agent)
