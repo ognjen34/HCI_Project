@@ -1,6 +1,7 @@
 ﻿<Page x:Class="HCI.CertainTripPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HCI"
@@ -86,7 +87,8 @@
                 </Grid.RowDefinitions>
                 <Border BorderBrush="#5F5F5F" BorderThickness="2" Margin="15 5 15 15" Grid.Column="1">
                     <Grid Grid.Row="0">
-                        <TextBlock Text="Ce ovde bude mapa" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                       
+                        <m:Map x:Name="myMap" CredentialsProvider="yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2" />
                     </Grid>
                 </Border>
                 <TextBlock Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="18"/>
@@ -112,7 +114,7 @@
                 <Grid Grid.Row="5" HorizontalAlignment="Center" Width="250">
                     <TextBlock Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
                 </Grid>
-                <Button Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
+                <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
                 
             </Grid>
             
