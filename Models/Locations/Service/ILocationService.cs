@@ -6,10 +6,10 @@ namespace HCI.Models.Locations.Service
 {
     public interface ILocationService
     {
-        Task<Location> GetLocationById(int id);
-        Task<List<Location>> GetAllLocations();
-        Task AddLocation(Location location);
-        Task UpdateLocation(Location location);
-        Task DeleteLocation(int id);
+        Location GetLocationById(int id);
+        List<Location> GetAllLocations();
+        void AddLocation(Location location);
+        void UpdateLocation(Location location);
+        void DeleteLocation(int id);
     }
 }

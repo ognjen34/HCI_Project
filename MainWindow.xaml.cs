@@ -4,6 +4,7 @@ using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Repository;
 using HCI.Models.Accommodations.Service;
 using HCI.Models.Attractions.Service;
+using HCI.Models.Locations.Service;
 using HCI.Models.Pictures.Service;
 using HCI.Models.Restaurants.Service;
 using HCI.Models.Trips.Model;
@@ -28,12 +29,13 @@ namespace HCI
         private readonly IRestaurantService _restaurantService;
         private readonly IAccommodationService _accommodationService;
         private readonly IPictureService _pictureService;
+        private readonly ILocationService _locationService;
 
 
 
         private User user;
 
-        public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService)
+        public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService, ILocationService locationService)
         {
             user = null;
             _pictureService = pictureService;
@@ -41,6 +43,7 @@ namespace HCI
             _restaurantService = restaurantService;
             _tripService = tripService;
             _attractionService = attractionService;
+            _locationService = locationService;
             _accommodationService = accommodationService;
             InitializeComponent();
 
@@ -73,6 +76,7 @@ namespace HCI
             {
                 AgentNavBar agentNavBar = new AgentNavBar();
                 agentNavBar.HomeClicked += HomeClicked;
+                agentNavBar.LocationClicked += LocationClicked;
                 agentNavBar.LogoutClicked += LogoutClicked;
                 navbarControl.Content = agentNavBar;
                 navbarViewBox.Visibility = Visibility.Visible;
@@ -89,6 +93,15 @@ namespace HCI
         private void HomeClicked(object sender, EventArgs e)
         {
             NavigateToHome();   
+        }
+
+        public void NavigateToLocationsAgent()
+        {
+           contentControl.Navigate(new LocationPage(_locationService));
+        }
+        private void LocationClicked(object sender, EventArgs e)
+        {
+            NavigateToLocationsAgent();
         }
 
         private void LogoutClicked(object sender, EventArgs e)

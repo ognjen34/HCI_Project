@@ -108,7 +108,6 @@ namespace HCI
 
         private void resrveButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("kurcina masna");
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService));
         }
