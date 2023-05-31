@@ -66,7 +66,7 @@ public class AppDbContext : DbContext
             new Location
             {
                 Id = 1,
-                Address = "Knez Mihailova 6, 11000 Belgrade",
+                Address = "Bulevar Evrope, 21000 Novi Sad",
                 City = "Belgrade"
             }
             );

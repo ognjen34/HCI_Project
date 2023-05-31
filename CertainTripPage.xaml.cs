@@ -1,4 +1,8 @@
-﻿using HCI.Models.Accommodations.Model;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using HCI.Models.Accommodations.Model;
 using Microsoft.Maps.MapControl.WPF;
 using HCI.Models.Pictures.Model;
 using HCI.Models.Trips.Model;
@@ -41,10 +45,14 @@ namespace HCI
             Pictures = new List<Picture>();
             Pictures = Trip.Accommodation.Pictures.ToList();
             InitializeComponent();
-            myMap.Center = new Location(47.6097, -122.3331);
-            myMap.ZoomLevel = 10;
+            GeocodeAddress(Trip.Accommodation.Location.Address);
+            /*myMap.Center = new Location(47.6097, -122.3331);
+            myMap.ZoomLevel = 10;*/
+            accomendationLocation.Text = Trip.Accommodation.Location.City + " " + Trip.Accommodation.Location.Address; 
             accomendationName.Text = trip.Accommodation.Name;
             accomendationDescritpion.Text = trip.Accommodation.Description;
+            accomendationPrice.Text = "Price: " + trip.Accommodation.PricePerDay.ToString() + "$/night";
+            accomendationBeds.Text = "Beds:" + trip.Accommodation.Beds.ToString();
 
 
             SetImageSource(Pictures[SelectedImg].Pictures);
@@ -103,6 +111,50 @@ namespace HCI
             Console.WriteLine("kurcina masna");
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService));
+        }
+
+
+
+        private async Task GeocodeAddress(string address)
+        {
+            // Replace "YourBingMapsAPIKey" with your actual Bing Maps API key
+            string apiKey = "yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2";
+            string url = $"http://dev.virtualearth.net/REST/v1/Locations?query={Uri.EscapeDataString(address)}&key={apiKey}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic data = JObject.Parse(jsonResponse);
+                    var resourceSets = data.resourceSets;
+                    if (resourceSets.Count > 0)
+                    {
+                        var resources = resourceSets[0].resources;
+                        if (resources.Count > 0)
+                        {
+                            var point = resources[0].point;
+                            double latitude = point.coordinates[0];
+                            double longitude = point.coordinates[1];
+
+                            // Set the center of the map
+                            myMap.Center = new Location(latitude, longitude);
+                            myMap.ZoomLevel = 15;
+
+                            // Add a pin to the map
+                            var pin = new Pushpin();
+                            MapLayer.SetPosition(pin, new Location(latitude, longitude));
+                            myMap.Children.Add(pin);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + jsonResponse);
+                }
+            }
         }
     }
 }
