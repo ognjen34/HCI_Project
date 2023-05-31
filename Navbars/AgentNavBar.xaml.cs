@@ -21,7 +21,7 @@ namespace HCI.Navbars
     public partial class AgentNavBar : UserControl
     {
         public event EventHandler HomeClicked;
-        public event EventHandler AboutClicked;
+        public event EventHandler LocationClicked;
         public event EventHandler ContactClicked;
         public event EventHandler LogoutClicked;
 
@@ -30,12 +30,19 @@ namespace HCI.Navbars
             InitializeComponent();
             homeButton.Click += HomeButton_Click;
             logoutButton.Click += LogoutButton_Click;
+            locationsButton.Click += LocationsButton_Click;
         }
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
             HomeClicked?.Invoke(this, EventArgs.Empty);
         }
+
+        private void LocationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            LocationClicked?.Invoke(this, EventArgs.Empty);
+        }
+
 
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

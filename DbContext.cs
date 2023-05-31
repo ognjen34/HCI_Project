@@ -95,6 +95,8 @@ public class AppDbContext : DbContext
                 City = "Niš"
             }
         );
+        this.SaveChanges();
+
         Pictures.Add(
             new Picture
             {

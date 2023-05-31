@@ -14,29 +14,29 @@ namespace HCI.Models.Locations.Service
             _locationRepository = locationRepository;
         }
 
-        public async Task<Location> GetLocationById(int id)
+        public Location GetLocationById(int id)
         {
-            return await _locationRepository.GetById(id);
+            return _locationRepository.GetLocationById(id);
         }
 
-        public async Task<List<Location>> GetAllLocations()
+        public List<Location> GetAllLocations()
         {
-            return await _locationRepository.GetAll();
+            return _locationRepository.GetAllLocations();
         }
 
-        public async Task AddLocation(Location location)
+        public void AddLocation(Location location)
         {
-            await _locationRepository.Add(location);
+            _locationRepository.AddLocation(location);
         }
 
-        public async Task UpdateLocation(Location location)
+        public void UpdateLocation(Location location)
         {
-            await _locationRepository.Update(location);
+            _locationRepository.UpdateLocation(location);
         }
 
-        public async Task DeleteLocation(int id)
+        public void DeleteLocation(int id)
         {
-            await _locationRepository.Delete(id);
+            _locationRepository.DeleteLocation(id);
         }
     }
 }

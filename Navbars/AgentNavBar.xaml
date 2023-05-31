@@ -52,7 +52,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Content="Home" x:Name="homeButton" Style="{StaticResource NavbarButtonStyle}" HorizontalAlignment="Stretch" />
-            <Button Content="O nama" Style="{StaticResource NavbarButtonStyle}" Grid.Column="1" />
+            <Button Content="Locations" x:Name="locationsButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="1" />
             <Button Content="Kontakt"  Style="{StaticResource NavbarButtonStyle}" Grid.Column="2" />
 
             <!-- Logout button -->

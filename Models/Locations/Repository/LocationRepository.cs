@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using HCI.Models.Locations.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,35 +14,35 @@ namespace HCI.Models.Locations.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<Location> GetById(int id)
+        public Location GetLocationById(int id)
         {
-            return await _dbContext.Set<Location>().FindAsync(id);
+            return _dbContext.Locations.Find(id);
         }
 
-        public async Task<List<Location>> GetAll()
+        public List<Location> GetAllLocations()
         {
-            return await _dbContext.Set<Location>().ToListAsync();
+            return _dbContext.Locations.ToList();
         }
 
-        public async Task Add(Location location)
+        public void AddLocation(Location location)
         {
-            _dbContext.Set<Location>().Add(location);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.Locations.Add(location);
+            _dbContext.SaveChanges();
         }
 
-        public async Task Update(Location location)
+        public void UpdateLocation(Location location)
         {
-            _dbContext.Set<Location>().Update(location);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.Entry(location).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
-        public async Task Delete(int id)
+        public void DeleteLocation(int id)
         {
-            var location = await _dbContext.Set<Location>().FindAsync(id);
+            Location location = _dbContext.Locations.Find(id);
             if (location != null)
             {
-                _dbContext.Set<Location>().Remove(location);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.Locations.Remove(location);
+                _dbContext.SaveChanges();
             }
         }
     }
