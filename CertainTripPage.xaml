@@ -91,7 +91,7 @@
                         <m:Map x:Name="myMap" CredentialsProvider="yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2" />
                     </Grid>
                 </Border>
-                <TextBlock Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="18"/>
+                <TextBlock Name="accomendationLocation" Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="18"/>
                 <Grid Grid.Row="2" HorizontalAlignment="Center" Width="250">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*"/>
@@ -109,10 +109,10 @@
                     <DatePicker Grid.Column="1" Name="checkoutDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
                 </Grid>
                 <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
-                    <TextBlock Text="Price: 35 $/night"  HorizontalAlignment="left"  FontSize="15"/>
+                    <TextBlock Name="accomendationPrice" Text="Price: 35 $/night"  HorizontalAlignment="left"  FontSize="15"/>
                 </Grid>
                 <Grid Grid.Row="5" HorizontalAlignment="Center" Width="250">
-                    <TextBlock Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
+                    <TextBlock Name="accomendationBeds" Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
                 </Grid>
                 <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
                 
