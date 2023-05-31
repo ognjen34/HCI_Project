@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HCI"
+             xmlns:local="clr-namespace:HCI.Frames.Client"
              xmlns:converters="clr-namespace:HCI.Tools"
              mc:Ignorable="d"
              d:DesignHeight="100" d:DesignWidth="450">
@@ -11,9 +11,9 @@
         <converters:Base64StringToImageSourceConverter x:Key="Base64StringToImageSourceConverter" />
     </UserControl.Resources>
 
-    <Border  Margin="5" Grid.Column="1" >
+    <Border x:Name="Border" Margin="5" Grid.Column="1" >
         <Border.Effect>
-            <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.5" BlurRadius="10"  />
+            <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.5" BlurRadius="10" />
         </Border.Effect>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
             <Grid.ColumnDefinitions>
@@ -25,13 +25,13 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Picture, Converter={StaticResource Base64StringToImageSourceConverter}}"  Margin="10,0,0,0" Width="90" Height="90" Stretch="Fill" VerticalAlignment="Center" />
+                <Image  Name ="Img"   Margin="10,0,0,0" Width="90" Height="90" Stretch="Fill" VerticalAlignment="Center" />
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    
+
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">
@@ -47,30 +47,28 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Name="tripName" Text="{Binding Name}" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0" />
+                    <TextBlock Name="tripName"  FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0" />
 
                     <Separator Grid.Row="1" Margin="10,2,10,0" BorderBrush="Gray" BorderThickness="1" />
                 </Grid>
                 <Grid Grid.Row="1">
-                    <TextBlock Name="Location" Text="{Binding Location.Address}" FontSize="12" Foreground="Blue"  VerticalAlignment="Center" Margin="10,0,0,0"  />
+                    <TextBlock Name="Location"  FontSize="12" Foreground="Blue"  VerticalAlignment="Center" Margin="10,0,0,0"  />
                 </Grid>
                 <Grid Grid.Row="2">
-                    <TextBlock Name="Type" FontSize="12"  VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock  FontSize="12"  VerticalAlignment="Center" Margin="10,0,0,0">
                         <Run Text="Type:" />
-                        <Run Text="{Binding ClassName}" />
+                        <Run Name="Type" />
                     </TextBlock>
                 </Grid>
                 <Grid Grid.Row="3">
-                    <TextBlock Name="Price" FontSize="12"  VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock  FontSize="12"  VerticalAlignment="Center" Margin="10,0,0,0">
                         <Run Text="Price:" />
-                        <Run Text="{Binding Price}" />
+                        <Run Name="Price" />
                         <Run Text="RSD" />
 
                     </TextBlock>
                 </Grid>
             </Grid>
-            
-            
         </Grid>
     </Border>
 </UserControl>

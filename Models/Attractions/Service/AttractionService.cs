@@ -37,5 +37,10 @@ namespace HCI.Models.Attractions.Service
         {
             attractionRepository.Delete(id);
         }
+
+        public IEnumerable<Attraction> GetAllFromCity(string City)
+        {
+            return attractionRepository.GetAllFromCity(City);
+        }
     }
 }

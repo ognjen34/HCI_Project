@@ -1,4 +1,6 @@
-﻿using HCI.Models.Restaurants.Model;
+﻿using HCI.Models.Attractions.Model;
+using HCI.Models.Attractions.Repository;
+using HCI.Models.Restaurants.Model;
 using HCI.Models.Restaurants.Repository;
 using System;
 using System.Collections.Generic;
@@ -42,6 +44,10 @@ namespace HCI.Models.Restaurants.Service
             public void Delete(int id)
             {
                 _restaurantRepository.Delete(id);
+            }
+            public IEnumerable<Restaurant> GetAllFromCity(string City)
+            {
+                return _restaurantRepository.GetAllFromCity(City);
             }
         }
     }
