@@ -52,5 +52,10 @@ namespace HCI.Models.Attractions.Repository
                 dbContext.SaveChanges();
             }
         }
+
+        public IEnumerable<Attraction> GetAllFromCity(string city)
+        {
+            return dbContext.Attractions.Where(a => a.Location.City == city).ToList();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using HCI.Models.Restaurants.Model;
+﻿using HCI.Models.Attractions.Model;
+using HCI.Models.Restaurants.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +48,10 @@ namespace HCI.Models.Restaurants.Repository
                 _dbContext.Restaurants.Remove(restaurant);
                 _dbContext.SaveChanges();
             }
+        }
+        public IEnumerable<Restaurant> GetAllFromCity(string city)
+        {
+            return _dbContext.Restaurants.Where(a => a.Location.City == city).ToList();
         }
     }
 }

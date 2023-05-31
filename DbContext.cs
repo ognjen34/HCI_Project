@@ -156,7 +156,7 @@ public class AppDbContext : DbContext
              Name = "HOTEL XD",
              Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare commodo fermentum. Nulla vel aliquam dolor. Mauris a sapien condimentum ex volutpat venenatis. In quis ligula vel lectus sagittis volutpat. Integer ullamcorper mauris eget laoreet dignissim. Nunc sollicitudin commodo lacus, quis finibus augue dignissim eget. Orci varius natoque penatibus et magnis dis parturient montes.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare commodo fermentum. Nulla vel aliquam dolo ",
              PricePerDay = 100.0,
-             Location = Locations.Find(1),
+             Location = Locations.Find(3),
              Pictures = pictures
          }
      ); 

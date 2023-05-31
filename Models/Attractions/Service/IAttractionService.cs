@@ -7,6 +7,7 @@ namespace HCI.Models.Attractions.Service
     {
         Attraction GetById(int id);
         IEnumerable<Attraction> GetAll();
+        IEnumerable<Attraction> GetAllFromCity(string City);
         void Add(Attraction attraction);
         void Update(Attraction attraction);
         void Delete(int id);
