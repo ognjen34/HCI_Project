@@ -78,6 +78,8 @@ namespace HCI
                 agentNavBar.HomeClicked += HomeClicked;
                 agentNavBar.LocationClicked += LocationClicked;
                 agentNavBar.LogoutClicked += LogoutClicked;
+                agentNavBar.RestaurantClicked += RestaurantClicked;
+
                 navbarControl.Content = agentNavBar;
                 navbarViewBox.Visibility = Visibility.Visible;
                 contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, user));
@@ -102,6 +104,15 @@ namespace HCI
         private void LocationClicked(object sender, EventArgs e)
         {
             NavigateToLocationsAgent();
+        }
+
+        public void NavigateToRestaurantsAgent()
+        {
+            contentControl.Navigate(new RestaurantPage(_restaurantService,_locationService,_pictureService));
+        }
+        private void RestaurantClicked(object sender, EventArgs e)
+        {
+            NavigateToRestaurantsAgent();
         }
 
         private void LogoutClicked(object sender, EventArgs e)

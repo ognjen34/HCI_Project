@@ -45,6 +45,8 @@ namespace HCI
         {
             InitializeComponent();
 
+            this.navigateBackToLocations = navigateBackToLocations;
+
             locationService = service;
 
             map.Loaded += Map_Loaded;
@@ -91,7 +93,6 @@ namespace HCI
                 };
 
                 locationService.AddLocation(newLocation);
-                MessageBox.Show("Location created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 navigateBackToLocations?.Invoke();
             }
 

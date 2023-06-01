@@ -53,7 +53,7 @@
 
             <Button Content="Home" x:Name="homeButton" Style="{StaticResource NavbarButtonStyle}" HorizontalAlignment="Stretch" />
             <Button Content="Locations" x:Name="locationsButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="1" />
-            <Button Content="Kontakt"  Style="{StaticResource NavbarButtonStyle}" Grid.Column="2" />
+            <Button Content="Restaurants" x:Name="restaurantsButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="2" />
 
             <!-- Logout button -->
             <Button Content="Logout" x:Name="logoutButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="5" HorizontalAlignment="Right"/>
