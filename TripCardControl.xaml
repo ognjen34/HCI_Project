@@ -7,35 +7,53 @@
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="450">
 
-    <Border BorderBrush="#5F5F5F" BorderThickness="2" Margin="5" Grid.Column="1">
-                    <Grid Height="200" Background="White">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image x:Name="imageControl" Margin="10" Width="200" Height="200" />
-                            <Grid Grid.Column="1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="100"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Name="tripName"  Text="aksjdlkasdjlk"  FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="0"/>
-                                <TextBlock Name="description" Text="aaaaaaaaaaaaaaaaaaaa" FontSize="10" VerticalAlignment="Center" Grid.Row="1" Width="150" Height="auto" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left"/>
-                            </Grid>
-                        </Grid>
-                        <Grid Grid.Column="1" Margin="10 10 10 20" VerticalAlignment="Bottom">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="35 $/night" HorizontalAlignment="Right" Grid.Row="0"/>
-                            <Button Content="Book" Width="80" Height="30" HorizontalAlignment="Right" Grid.Row="1" Background="#2196F3" Foreground="White" Click="OrderButton_Click"/>
-                        </Grid>
+    <Grid>
+
+        <Grid.Resources>
+            <Style x:Key="ShadowBorderStyle" TargetType="Border">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#888"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="15"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Border Style="{StaticResource ShadowBorderStyle}">
+            
+            <Grid Height="200" Background="White" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                        <Image x:Name="imageControl" Margin="0 0 5 0" Width="200" Height="200"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="tripName"  Text="aksjdlkasdjlk"  FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="0"/>
+                        <TextBlock Name="description" Text="aaaaaaaaaaaaaaaaaaaa" FontSize="10" VerticalAlignment="Center" Grid.Row="1" Width="150" Height="auto" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left"/>
                     </Grid>
-                </Border>
+                </Grid>
+                <Grid Grid.Column="1" Margin="10 10 10 20" VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Name="accomendationPrice" Text="35 $/night" HorizontalAlignment="Right" Grid.Row="0"/>
+                    <Button Content="Book" Width="80" Height="30" HorizontalAlignment="Right" Grid.Row="1" Background="#2196F3" Foreground="White" Click="OrderButton_Click"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

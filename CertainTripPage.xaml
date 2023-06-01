@@ -35,89 +35,105 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
+    <Grid>
 
-    <Border BorderBrush="#5F5F5F" BorderThickness="2" Margin="15 5 15 15" Grid.Column="1">
-        <Grid Background="White">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="6*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="6*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+        <Grid.Resources>
+            <Style x:Key="ShadowBorderStyle" TargetType="Border">
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#888"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="10"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Border Style="{StaticResource ShadowBorderStyle}">
+            <Grid Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="6*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="1*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Border BorderBrush="#5F5F5F" BorderThickness="1" Margin="15 5 15 15" Grid.Column="1">
-                        <Image Name="accomendationImages" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+                        <Border Style="{StaticResource ShadowBorderStyle}">
+                            <Image Name="accomendationImages" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
 
+                        </Border>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Name="backButton" Background="#2196F3" Foreground="White" Width="20" Height="20" Content="&lt;" Grid.Column="0" Click="backButton_Click"
+                Style="{StaticResource CircularButtonStyle}"/>
+                            <Button Name="nextButton" Width="20" Height="20" Content=">" Grid.Column="1" Background="#2196F3" Foreground="White" Click="nextButton_Click"
+                Style="{StaticResource CircularButtonStyle}"/>
+                        </Grid>
+
+                    </Grid>
+                    <TextBlock Name="accomendationName" Text="Na dobrom si putu" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <TextBlock Name="accomendationDescritpion" Text="Opis Opis opis" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource ShadowBorderStyle}">
+                        <Grid Grid.Row="0">
+
+                            <m:Map x:Name="myMap" CredentialsProvider="yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2" />
+                        </Grid>
                     </Border>
-                    <Grid Grid.Row="1">
+                    <TextBlock Name="accomendationLocation" Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="18"/>
+                    <Grid Grid.Row="2" HorizontalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Name="backButton" Background="#2196F3" Foreground="White" Width="20" Height="20" Content="&lt;" Grid.Column="0" Click="backButton_Click"
-            Style="{StaticResource CircularButtonStyle}"/>
-                        <Button Name="nextButton" Width="20" Height="20" Content=">" Grid.Column="1" Background="#2196F3" Foreground="White" Click="nextButton_Click"
-            Style="{StaticResource CircularButtonStyle}"/>
+                        <TextBlock Grid.Column="0"  Text="Check In: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
+                        <DatePicker Grid.Column="1" Name="checkInDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
                     </Grid>
+                    <Grid Grid.Row="3" HorizontalAlignment="Center" Width="250">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"  Text="Check out: " HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15"/>
+                        <DatePicker Grid.Column="1" Name="checkoutDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
+                    </Grid>
+                    <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
+                        <TextBlock Name="accomendationPrice" Text="Price: 35 $/night"  HorizontalAlignment="left"  FontSize="15"/>
+                    </Grid>
+                    <Grid Grid.Row="5" HorizontalAlignment="Center" Width="250">
+                        <TextBlock Name="accomendationBeds" Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
+                    </Grid>
+                    <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
 
                 </Grid>
-                <TextBlock Name="accomendationName" Text="Na dobrom si putu" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
 
-                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <TextBlock Name="accomendationDescritpion" Text="Opis Opis opis" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
-                </ScrollViewer>
             </Grid>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <Border BorderBrush="#5F5F5F" BorderThickness="2" Margin="15 5 15 15" Grid.Column="1">
-                    <Grid Grid.Row="0">
-                       
-                        <m:Map x:Name="myMap" CredentialsProvider="yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2" />
-                    </Grid>
-                </Border>
-                <TextBlock Name="accomendationLocation" Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="18"/>
-                <Grid Grid.Row="2" HorizontalAlignment="Center" Width="250">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="5*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"  Text="Check In: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
-                    <DatePicker Grid.Column="1" Name="checkInDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
-                </Grid>
-                <Grid Grid.Row="3" HorizontalAlignment="Center" Width="250">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="5*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"  Text="Check out: " HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15"/>
-                    <DatePicker Grid.Column="1" Name="checkoutDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
-                </Grid>
-                <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
-                    <TextBlock Name="accomendationPrice" Text="Price: 35 $/night"  HorizontalAlignment="left"  FontSize="15"/>
-                </Grid>
-                <Grid Grid.Row="5" HorizontalAlignment="Center" Width="250">
-                    <TextBlock Name="accomendationBeds" Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
-                </Grid>
-                <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
-                
-            </Grid>
-            
-        </Grid>
-    </Border>
+        </Border>
+    </Grid>
 </Page>
