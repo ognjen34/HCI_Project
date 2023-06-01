@@ -113,7 +113,7 @@
                             <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"  Text="Check In: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
-                        <DatePicker Grid.Column="1" Name="checkInDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
+                        <DatePicker Grid.Column="1" Name="checkInDate" HorizontalAlignment="Left" Height="25" SelectedDate="{Binding CheckInDate}" Loaded="checkInDate_Loaded" />
                     </Grid>
                     <Grid Grid.Row="3" HorizontalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>
@@ -121,7 +121,7 @@
                             <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"  Text="Check out: " HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15"/>
-                        <DatePicker Grid.Column="1" Name="checkoutDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"/>
+                        <DatePicker Grid.Column="1" Name="checkoutDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"  SelectedDate="{Binding CheckInDate}" Loaded="checkOutDate_Loaded"/>
                     </Grid>
                     <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
                         <TextBlock Name="accomendationPrice" Text="Price: 35 $/night"  HorizontalAlignment="left"  FontSize="15"/>
