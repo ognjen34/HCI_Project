@@ -118,6 +118,17 @@ namespace HCI
         }
 
 
+        private void checkInDate_Loaded(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = (DatePicker)sender;
+            datePicker.DisplayDateStart = DateTime.Today.AddDays(1);
+        }
+        private void checkOutDate_Loaded(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = (DatePicker)sender;
+            datePicker.DisplayDateStart = DateTime.Today.AddDays(2);
+        }
+
 
         private async Task GeocodeAddress(string address)
         {

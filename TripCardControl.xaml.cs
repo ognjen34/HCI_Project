@@ -33,6 +33,7 @@ namespace HCI
             Console.WriteLine(trip.Name);
             Console.WriteLine(trip.Description);
             SetImageSource(trip.Picture.Pictures);
+            accomendationPrice.Text = Trip.Accommodation.PricePerDay.ToString() + "$/Night";
         }
 
         private void SetImageSource(string base64Image)
