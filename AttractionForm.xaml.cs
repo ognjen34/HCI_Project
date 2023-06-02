@@ -1,10 +1,4 @@
-﻿using HCI.Models.Locations.Model;
-using HCI.Models.Locations.Service;
-using HCI.Models.Pictures.Model;
-using HCI.Models.Pictures.Service;
-using HCI.Models.Restaurants.Model;
-using HCI.Models.Restaurants.Service;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,63 +12,95 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using HCI.Models.Locations.Model;
+using HCI.Models.Pictures.Model;
+using HCI.Models.Pictures.Service;
+using HCI.Models.Attractions.Model;
+using HCI.Models.Attractions.Service;
+using HCI.Models.Locations.Service;
 
 namespace HCI
 {
     /// <summary>
-    /// Interaction logic for RestaurantForm.xaml
+    /// Interaction logic for AttractionForm.xaml
     /// </summary>
-    public partial class RestaurantForm : UserControl
+    public partial class AttractionForm : UserControl
     {
-        private readonly Restaurant existingRestaurant;
-        private readonly IRestaurantService restaurantService;
-        private readonly ILocationService locationService;
+        private readonly Attraction existingAttraction;
         private readonly IPictureService pictureService;
-        private readonly Action navigateBackToRestaurants;
+        private readonly IAttractionService attractionService;
+        private readonly ILocationService locationService;
+
+        private readonly Action navigateBackToAttractions;
         private byte[] selectedImageBytes;
 
-        public RestaurantForm(Restaurant restaurant, IRestaurantService restaurantService, ILocationService locationService, IPictureService pictureService, Action navigateBackToRestaurants)
+        public AttractionForm(Attraction attraction, ILocationService locationService, IPictureService pictureService, IAttractionService attractionService, Action navigateBackToAttractions)
         {
             InitializeComponent();
 
-            existingRestaurant = restaurant;
-            this.restaurantService = restaurantService;
-            this.locationService = locationService;
+            existingAttraction = attraction;
             this.pictureService = pictureService;
-            this.navigateBackToRestaurants = navigateBackToRestaurants;
+            this.attractionService = attractionService;
+            this.locationService = locationService;
 
             PopulateLocations();
 
-            cuisineTypeComboBox.ItemsSource = Enum.GetValues(typeof(CuisineType));
-            cuisineTypeComboBox.SelectedItem = CuisineType.Italian;
-
-            // Initialize form with existing restaurant data
-            if (existingRestaurant != null)
+            // Initialize form with existing attraction data
+            if (existingAttraction != null)
             {
-                nameBox.Text = existingRestaurant.Name;
-                descriptionBox.Text = existingRestaurant.Description;
-                ratingBox.Text = existingRestaurant.Rating.ToString();
-                cuisineTypeComboBox.SelectedItem = existingRestaurant.CuisineType;
+                nameBox.Text = existingAttraction.Name;
+                descriptionBox.Text = existingAttraction.Description;
+                priceBox.Text = existingAttraction.Price.ToString();
 
-                if (existingRestaurant.Picture != null)
+                if (existingAttraction.Location != null)
                 {
-                    selectedImageBytes = Convert.FromBase64String(existingRestaurant.Picture.Pictures);
+                    StackPanel stackPanel = new StackPanel
+                    {
+                        Orientation = Orientation.Vertical
+                    };
+
+
+                    TextBlock cityTextBlock = new TextBlock
+                    {
+                        Text = existingAttraction.Location.City
+                    };
+
+                    TextBlock addressTextBlock = new TextBlock
+                    {
+                        Text = existingAttraction.Location.Address
+                    };
+
+                    stackPanel.Children.Add(cityTextBlock);
+                    stackPanel.Children.Add(addressTextBlock);
+
+                    ComboBoxItem comboBoxItem = new ComboBoxItem
+                    {
+                        Content = stackPanel,
+                        Tag = existingAttraction.Location
+                    };
+
+                    locationComboBox.SelectedItem = comboBoxItem;
+                }
+
+                if (existingAttraction.Picture != null)
+                {
+                    selectedImageBytes = Convert.FromBase64String(existingAttraction.Picture.Pictures);
                     selectedImage.Source = LoadImage(selectedImageBytes);
                     imagePlaceholder.Visibility = Visibility.Collapsed;
                 }
 
                 saveButton.Content = "Update";
-                formLabel.Text = "UPDATE RESTAURANT";
+                formLabel.Text = "UPDATE ATTRACTION";
             }
 
-            cancelButton.Click += (sender, e) => navigateBackToRestaurants?.Invoke();
+            cancelButton.Click += (sender, e) => navigateBackToAttractions?.Invoke();
             saveButton.Click += SaveButton_Click;
 
-            // Allow drag and drop for the image
             imagePreview.Drop += ImagePreview_Drop;
             imagePreview.DragEnter += ImagePreview_DragEnter;
             imagePreview.DragLeave += ImagePreview_DragLeave;
             imagePreview.DragOver += ImagePreview_DragOver;
+            this.navigateBackToAttractions += navigateBackToAttractions;
         }
 
         private void PopulateLocations()
@@ -109,9 +135,8 @@ namespace HCI
 
                 locationComboBox.Items.Add(comboBoxItem);
 
-                if (existingRestaurant != null && existingRestaurant.Location != null && existingRestaurant.Location.Equals(location))
+                if (existingAttraction != null && existingAttraction.Location != null && existingAttraction.Location.Equals(location))
                 {
-                    // Set the selected ComboBoxItem
                     locationComboBox.SelectedItem = comboBoxItem;
                 }
             }
@@ -134,68 +159,56 @@ namespace HCI
         {
             string name = nameBox.Text.Trim();
             string description = descriptionBox.Text.Trim();
-            string ratingText = ratingBox.Text.Trim();
+            string priceText = priceBox.Text.Trim();
             Location selectedLocation = ((ComboBoxItem)locationComboBox.SelectedItem)?.Tag as Location;
-            CuisineType selectedCuisineType = (CuisineType)cuisineTypeComboBox.SelectedItem;
 
-            // Validate form inputs
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(ratingText) || selectedLocation == null || selectedImageBytes == null)
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(priceText) || selectedLocation == null || selectedImageBytes == null)
             {
                 errorMessageTextBlock.Text = "Please fill in all the fields.";
                 errorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
 
-            // Validate name length
-            if (name.Length > 30)
+            // Validate price
+            if (!float.TryParse(priceText, out float price) || price < 0)
             {
-                errorMessageTextBlock.Text = "Name must be no more than 30 characters.";
+                errorMessageTextBlock.Text = "Please enter a valid price greater than or equal to 0.";
                 errorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
 
-            // Validate rating
-            if (!double.TryParse(ratingText, out double rating) || rating < 0 || rating > 5)
-            {
-                errorMessageTextBlock.Text = "Please enter a valid rating between 0 and 5.";
-                errorMessageTextBlock.Visibility = Visibility.Visible;
-                return;
-            }
-
-            // Create new or update existing restaurant
-            Restaurant restaurant = existingRestaurant ?? new Restaurant();
-            restaurant.Name = name;
-            restaurant.Description = description;
-            restaurant.Rating = rating;
-            restaurant.Location = selectedLocation;
-            restaurant.CuisineType = selectedCuisineType;
-            restaurant.ClassName = "Restaurant";
+            Attraction attraction = existingAttraction ?? new Attraction();
+            attraction.Name = name;
+            attraction.Description = description;
+            attraction.Price = price;
+            attraction.Location = selectedLocation;
 
             if (selectedImageBytes != null)
             {
-                if (existingRestaurant != null)
+                if (existingAttraction != null)
                 {
-
                     Picture picture = new Picture { Pictures = Convert.ToBase64String(selectedImageBytes) };
-                    restaurant.Picture = picture;
-                    pictureService.DeletePicture(existingRestaurant.Picture.Id);
+                    attraction.Picture = picture;
+                    pictureService.DeletePicture(existingAttraction.Picture.Id);
                 }
-
+                else
+                {
+                    Picture picture = new Picture { Pictures = Convert.ToBase64String(selectedImageBytes) };
+                    attraction.Picture = picture;
+                }
             }
 
-            if (existingRestaurant == null)
+            if (existingAttraction == null)
             {
-                restaurantService.Add(restaurant);
+                attractionService.Add(attraction);
             }
             else
             {
-                restaurantService.Update(restaurant);
+                attractionService.Update(attraction);
             }
 
-            navigateBackToRestaurants?.Invoke();
+            navigateBackToAttractions?.Invoke();
         }
-
-
 
         private void ImagePreview_Drop(object sender, DragEventArgs e)
         {
