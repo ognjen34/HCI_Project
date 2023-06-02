@@ -122,6 +122,7 @@ namespace HCI
             contentControl.Navigate(loginForm);
             loginForm.LoginSuccess += LoginForm_LoginSuccess;
             loginForm.RegisterPressed += RegisterClicked;
+        }
 
         public void NavigateToRestaurantsAgent()
         {
