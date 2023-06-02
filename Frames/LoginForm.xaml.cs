@@ -25,6 +25,7 @@ namespace HCI
     {
         private readonly IUserService _userService;
         public event EventHandler<LoginSuccessArgs> LoginSuccess;
+        public event EventHandler RegisterPressed;
 
         public LoginForm(IUserService userService)
         {
@@ -55,6 +56,11 @@ namespace HCI
             }
         }
 
+        private void registerButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegisterPressed?.Invoke(this, EventArgs.Empty);
+        }
+
         protected virtual void OnLoginSuccess(User user)
         {
             // Check if there are any subscribers to the event
@@ -72,5 +78,7 @@ namespace HCI
             ErrorMessage.Text = "";
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
+
+        
     }
 }

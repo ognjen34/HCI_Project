@@ -46,8 +46,6 @@ namespace HCI
             Pictures = Trip.Accommodation.Pictures.ToList();
             InitializeComponent();
             GeocodeAddress(Trip.Accommodation.Location.Address);
-            /*myMap.Center = new Location(47.6097, -122.3331);
-            myMap.ZoomLevel = 10;*/
             accomendationLocation.Text = Trip.Accommodation.Location.City + " " + Trip.Accommodation.Location.Address; 
             accomendationName.Text = trip.Accommodation.Name;
             accomendationDescritpion.Text = trip.Accommodation.Description;
