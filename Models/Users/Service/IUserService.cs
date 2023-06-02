@@ -14,6 +14,7 @@ namespace HCI.Models.Users.Service
         void RemoveUser(User user);
         IEnumerable<User> GetAllUsers();
         User GetUserByEmailAndPassword(string email, string password);
+        User GetUserByEmail(string email);
 
     }
 }

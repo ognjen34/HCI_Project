@@ -1,4 +1,5 @@
 
+using HCI.Frames;
 using HCI.Frames.Client;
 using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Repository;
@@ -52,6 +53,7 @@ namespace HCI
 
             contentControl.Navigate(loginForm);
             loginForm.LoginSuccess += LoginForm_LoginSuccess;
+            loginForm.RegisterPressed += RegisterClicked;
 
         }
 
@@ -104,6 +106,21 @@ namespace HCI
             NavigateToLocationsAgent();
         }
 
+        private void RegisterClicked(object sender, EventArgs e)
+        {
+            var registerForm = new RegisterForm(_userService);
+            registerForm.buttonClicked += navigateBackToLogin;
+            contentControl.Navigate(registerForm);
+        }
+
+        private void navigateBackToLogin(object sender, EventArgs e)
+        {
+            var loginForm = new LoginForm(_userService);
+            contentControl.Navigate(loginForm);
+            loginForm.LoginSuccess += LoginForm_LoginSuccess;
+            loginForm.RegisterPressed += RegisterClicked;
+        }
+
         private void LogoutClicked(object sender, EventArgs e)
         {
             user = null;
@@ -113,6 +130,7 @@ namespace HCI
             var loginForm = new LoginForm(_userService);
             contentControl.Navigate(loginForm);
             loginForm.LoginSuccess += LoginForm_LoginSuccess;
+            loginForm.RegisterPressed += RegisterClicked;
         }
 
     }
