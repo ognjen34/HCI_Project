@@ -22,7 +22,7 @@ namespace HCI.Navbars
     {
         public event EventHandler HomeClicked;
         public event EventHandler LocationClicked;
-        public event EventHandler ContactClicked;
+        public event EventHandler RestaurantClicked;
         public event EventHandler LogoutClicked;
 
         public AgentNavBar()
@@ -31,6 +31,7 @@ namespace HCI.Navbars
             homeButton.Click += HomeButton_Click;
             logoutButton.Click += LogoutButton_Click;
             locationsButton.Click += LocationsButton_Click;
+            restaurantsButton.Click += RestaurantsButton_Click;
         }
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
@@ -42,7 +43,10 @@ namespace HCI.Navbars
         {
             LocationClicked?.Invoke(this, EventArgs.Empty);
         }
-
+        private void RestaurantsButton_Click(object sender, RoutedEventArgs e)
+        {
+            RestaurantClicked?.Invoke(this, EventArgs.Empty);
+        }
 
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

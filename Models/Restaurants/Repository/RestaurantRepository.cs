@@ -36,8 +36,12 @@ namespace HCI.Models.Restaurants.Repository
 
         public void Update(Restaurant restaurant)
         {
-            _dbContext.Restaurants.Update(restaurant);
-            _dbContext.SaveChanges();
+            var existingRestaurant = GetById(restaurant.Id);
+            if (existingRestaurant != null)
+            {
+                _dbContext.Entry(existingRestaurant).CurrentValues.SetValues(restaurant);
+                _dbContext.SaveChanges();
+            }
         }
 
         public void Delete(int id)

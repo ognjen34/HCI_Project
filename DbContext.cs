@@ -178,7 +178,7 @@ public class AppDbContext : DbContext
             {
                 Id = 1,
                 Name = "KOD BAKE",
-                Rating = 10,
+                Rating = 4,
                 CuisineType = CuisineType.Chinese,
                 Location = Locations.Find(3),
                 Description = "DODJITE NA GRMILICU",
@@ -192,7 +192,7 @@ public class AppDbContext : DbContext
             {
                 Id = 2,
                 Name = "KOD DEKE",
-                Rating = 9.5,
+                Rating = 4,
                 CuisineType = CuisineType.Japanese,
                 Location = Locations.Find(4),
                 Description = "DODJITE NA BUREK AE SIROM",
@@ -201,6 +201,8 @@ public class AppDbContext : DbContext
 
             }
             );
+        this.SaveChanges();
+
         Attractions.Add(new Attraction 
             {
                 Id = 1,
