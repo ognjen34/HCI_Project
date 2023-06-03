@@ -31,14 +31,17 @@ namespace HCI
         private readonly IAccommodationService _accommodationService;
         private readonly IPictureService _pictureService;
         private readonly ILocationService _locationService;
+        private readonly IOrderedTripService _orderedTripService;
+
 
 
 
         private User user;
 
-        public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService, ILocationService locationService)
+        public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService, ILocationService locationService ,IOrderedTripService orderedTripService)
         {
             user = null;
+            _orderedTripService = orderedTripService;
             _pictureService = pictureService;
             _userService = userService;
             _restaurantService = restaurantService;
@@ -68,10 +71,11 @@ namespace HCI
                 ClientNavBar clientNavBar = new ClientNavBar();
                 navbarControl.Content = clientNavBar;
                 clientNavBar.HomeClicked += HomeClicked;
+                clientNavBar.HistoryClicked += HistoryClicked;
                 clientNavBar.LogoutClicked += LogoutClicked;
                 navbarViewBox.Visibility = Visibility.Visible;
 
-                contentControl.Navigate(new HomePage(_tripService,_pictureService, _accommodationService,_attractionService, _restaurantService,user));
+                contentControl.Navigate(new HomePage(_tripService,_pictureService, _accommodationService,_attractionService, _restaurantService, _orderedTripService,user));
 
             }
             else if (user.Type == UserType.Agent)
@@ -84,14 +88,20 @@ namespace HCI
                 agentNavBar.AttractionsClicked += AttractionsClicked;
                 navbarControl.Content = agentNavBar;
                 navbarViewBox.Visibility = Visibility.Visible;
-                contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, user));
+                contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, user));
 
             }
         }
 
+        private void HistoryClicked(object? sender, EventArgs e)
+        {
+            contentControl.Navigate(new History(_orderedTripService,user));
+
+        }
+
         public void NavigateToHome()
         {
-            contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, user));
+            contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, user));
 
         }
         private void HomeClicked(object sender, EventArgs e)

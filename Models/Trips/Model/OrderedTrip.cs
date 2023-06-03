@@ -1,5 +1,6 @@
 ﻿using HCI.Models.Attractions.Model;
 using HCI.Models.Restaurants.Model;
+using HCI.Models.Users.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace HCI.Models.Trips.Model
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
         public double TotalPrice => CalculateTotalPrice();
+        public User User { get; set; }
 
         public OrderedTrip()
         {

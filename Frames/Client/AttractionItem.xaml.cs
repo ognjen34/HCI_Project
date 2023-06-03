@@ -80,7 +80,7 @@ namespace HCI.Frames.Client
             Border.Effect = dropShadowEffect;
         }
 
-        private void RemoveGlowEffect()
+        public void RemoveGlowEffect()
         {
             var dropShadowEffect = new DropShadowEffect
             {

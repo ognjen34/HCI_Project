@@ -34,16 +34,18 @@ namespace HCI
         private readonly IPictureService _pictureService;
         private readonly IAttractionService _attractionService;
         private readonly IRestaurantService _restaurantService;
+        private readonly IOrderedTripService _orderedTripService;
 
         private readonly User _user;
 
-        public HomePage(ITripService tripService, IPictureService pictureService, IAccommodationService accomodationService, IAttractionService attractionService, IRestaurantService restaurantService, User user)
+        public HomePage(ITripService tripService, IPictureService pictureService, IAccommodationService accomodationService, IAttractionService attractionService, IRestaurantService restaurantService,IOrderedTripService orderedTripService, User user)
         {
             _pictureService = pictureService;
             _tripService = tripService;
             _attractionService = attractionService;
             _restaurantService = restaurantService;
             _accommodationService = accomodationService;
+            _orderedTripService = orderedTripService;
 
             _user = user;
 
@@ -71,7 +73,7 @@ namespace HCI
             Trip trip = e.trip;
             Console.WriteLine(trip.Name);
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.contentControl.Navigate(new CertainTripPage(trip, _attractionService, _restaurantService));
+            mainWindow.contentControl.Navigate(new CertainTripPage(trip, _attractionService, _restaurantService, _orderedTripService,_user));
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
