@@ -23,6 +23,8 @@ using System.Windows.Shapes;
 using HCI.Models.Attractions.Service;
 using HCI.Models.Restaurants.Service;
 using HCI.Frames.Client;
+using HCI.Models.Trips.Service;
+using HCI.Models.Users.Model;
 
 namespace HCI
 {
@@ -36,10 +38,15 @@ namespace HCI
         public List<Picture> Pictures { get; set; }
         private readonly IAttractionService _attractionService;
         private readonly IRestaurantService _restaurantService;
-        public CertainTripPage(Trip trip, IAttractionService attractionService, IRestaurantService restaurantService)
+        private readonly IOrderedTripService _orderedTripService;
+        private User _user;
+        public CertainTripPage(Trip trip, IAttractionService attractionService, IRestaurantService restaurantService,IOrderedTripService orderedTripService,User user)
         {
+            
             _attractionService = attractionService;
             _restaurantService = restaurantService;
+            _orderedTripService = orderedTripService;
+            _user = user;
             Trip = trip;
             SelectedImg = 1;
             Pictures = new List<Picture>();
@@ -109,10 +116,11 @@ namespace HCI
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             OrderedTrip orderedTrip = new OrderedTrip();
             orderedTrip.Trip = Trip;
+            orderedTrip.User = _user;
             orderedTrip.CheckOut = checkoutDate.SelectedDate ?? DateTime.MinValue;
             orderedTrip.CheckIn = checkInDate.SelectedDate ?? DateTime.MinValue;
             
-            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService, orderedTrip));
+            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService, _orderedTripService, orderedTrip));
         }
 
 

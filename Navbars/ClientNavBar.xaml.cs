@@ -24,6 +24,7 @@ namespace HCI.Navbars
         public event EventHandler AboutClicked;
         public event EventHandler ContactClicked;
         public event EventHandler LogoutClicked;
+        public event EventHandler HistoryClicked;
 
         public ClientNavBar()
         {
@@ -41,6 +42,11 @@ namespace HCI.Navbars
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             LogoutClicked?.Invoke(this, EventArgs.Empty);
+        }
+        private void HistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("kara");
+            HistoryClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -3,6 +3,7 @@ using HCI.Models.Attractions.Service;
 using HCI.Models.Restaurants.Model;
 using HCI.Models.Restaurants.Service;
 using HCI.Models.Trips.Model;
+using HCI.Models.Trips.Service;
 using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json.Linq;
 using System;
@@ -23,16 +24,18 @@ namespace HCI.Frames.Client
     {
         IAttractionService attractionService;
         IRestaurantService restaurantService;
+        IOrderedTripService orderedTripService;
         
         List<Location> locations = new List<Location>();
         OrderedTrip OrderedTrip { get; set; }
         double TotalPriceDouble { get; set; }
 
-        public Attractions(IAttractionService attractionService, IRestaurantService restaurantService, OrderedTrip trip)
+        public Attractions(IAttractionService attractionService, IRestaurantService restaurantService,IOrderedTripService  orderedTripService,OrderedTrip trip)
         {
             OrderedTrip = trip;
             this.attractionService = attractionService;
             this.restaurantService = restaurantService;
+            this.orderedTripService = orderedTripService;
             InitializeComponent();
             GeocodeAddress(OrderedTrip.Trip.Accommodation.Location.Address);
 
@@ -115,7 +118,7 @@ namespace HCI.Frames.Client
         }
         private void OrderClicked(object sender, EventArgs e)
         {
-            Console.WriteLine(OrderedTrip.Restaurants.Count);
+            orderedTripService.AddOrderedTrip(OrderedTrip);
         }
 
         private async Task AddPin(string address)

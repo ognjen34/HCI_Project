@@ -7,6 +7,7 @@ using HCI.Models.Users.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using HCI.Models.Pictures.Model;
+using System;
 
 public class AppDbContext : DbContext
 {
@@ -173,6 +174,7 @@ public class AppDbContext : DbContext
         }
     );
         this.SaveChanges();
+        List<Restaurant> restaurants = new List<Restaurant>();
         Restaurants.Add(
             new Restaurant
             {
@@ -202,6 +204,9 @@ public class AppDbContext : DbContext
             }
             );
         this.SaveChanges();
+        restaurants.Add(Restaurants.Find(1));
+        restaurants.Add(Restaurants.Find(2));
+
 
         Attractions.Add(new Attraction 
             {
@@ -250,6 +255,94 @@ public class AppDbContext : DbContext
 
         }
            );
+        Trips.Add(new Trip
+        {
+            Id = 2,
+            Name = "Tripcina!",
+            Description = "Ima sta oces da se vidi sve, bas dobro i tako to blaa blaaaaaaaaa xdddd loool",
+            Accommodation = Accommodations.Find(2),
+            Picture = Pictures.Find(2)
+
+
+
+
+
+        }
+           );
+        Trips.Add(new Trip
+        {
+            Id = 3,
+            Name = "Tunguzija za dvoje!",
+            Description = "Ima sve i svasta i gluh i njem sam zbog nje ona drugog grlji ljubi ritam mrvi meee!",
+            Accommodation = Accommodations.Find(2),
+            Picture = Pictures.Find(4)
+
+
+
+
+
+        }
+           );
+        this.SaveChanges();
+        OrderedTrips.Add(
+            new OrderedTrip
+            {
+                Trip = Trips.Find(1),
+                CheckIn = DateTime.Now.AddDays(3),
+                CheckOut = DateTime.Now.AddDays(10),
+                Attractions = new List<Attraction>(){
+                    Attractions.Find(1),
+                    Attractions.Find(2),   
+            
+                },
+                Restaurants = restaurants,
+                User = Users.Find(3)
+                
+
+                
+            }
+            ) ;
+        OrderedTrips.Add(
+            new OrderedTrip
+            {
+                Trip = Trips.Find(2),
+                CheckIn = DateTime.Now.AddDays(-40),
+                CheckOut = DateTime.Now.AddDays(-30),
+                Attractions = new List<Attraction>(){
+                    Attractions.Find(1),
+                    Attractions.Find(2),
+                    Attractions.Find(1),
+                    Attractions.Find(2),
+                    Attractions.Find(1),
+                    Attractions.Find(2),
+                    Attractions.Find(1),
+                    Attractions.Find(2),
+
+                },
+                Restaurants = restaurants,
+                User = Users.Find(3)
+
+
+
+            }
+            );
+        OrderedTrips.Add(
+            new OrderedTrip
+            {
+                Trip = Trips.Find(3),
+                CheckIn = DateTime.Now,
+                CheckOut = DateTime.Now.AddDays(10),
+                Attractions = new List<Attraction>(){
+                    Attractions.Find(1),
+
+                },
+                Restaurants = restaurants,
+                User = Users.Find(3)
+
+
+
+            }
+            );
         this.SaveChanges();
 
     }
