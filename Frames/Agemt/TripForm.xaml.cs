@@ -1,12 +1,13 @@
 ﻿using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Service;
+using HCI.Models.Pictures.Model;
+using HCI.Models.Pictures.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,10 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HCI.Models.Pictures.Service;
-using HCI.Models.Pictures.Model;
-using System.IO;
 
 namespace HCI
 {
@@ -27,72 +24,48 @@ namespace HCI
     /// </summary>
     public partial class TripForm : UserControl
     {
+        private readonly Trip existingTrip;
         private readonly ITripService tripService;
         private readonly IAccommodationService accommodationService;
         private readonly IPictureService pictureService;
         private readonly Action navigateBackToHomePage;
+        private byte[] selectedImageBytes;
 
-        private string base64Image;
-
-        public TripForm(ITripService tripService, IAccommodationService accommodationService, IPictureService pictureService, Action navigateBackToHomePage)
+        public TripForm(Trip trip, ITripService tripService, IAccommodationService accommodationService, IPictureService pictureService, Action navigateBackToHomePage)
         {
             InitializeComponent();
 
-            this.navigateBackToHomePage = navigateBackToHomePage;
+            existingTrip = trip;
             this.tripService = tripService;
             this.accommodationService = accommodationService;
             this.pictureService = pictureService;
+            this.navigateBackToHomePage = navigateBackToHomePage;
 
             PopulateAccommodations();
 
-            AllowDrop = true;
-            DragEnter += TripForm_DragEnter;
-            Drop += TripForm_Drop;
-        }
-
-        private async void TripForm_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (existingTrip != null)
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                if (files.Length > 0)
+                nameBox.Text = existingTrip.Name;
+                descriptionBox.Text = existingTrip.Description;
+
+                if (existingTrip.Picture != null)
                 {
-                    string filePath = files[0];
-                    string extension = System.IO.Path.GetExtension(filePath);
-
-                    if (extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
-                        extension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase) ||
-                        extension.Equals(".png", StringComparison.OrdinalIgnoreCase))
-                    {
-                        base64Image = await ConvertImageToBase64(filePath);
-
-                        BitmapImage imageSource = new BitmapImage(new Uri(filePath));
-                        imagePreview.Source = imageSource;
-                        imagePlaceholder.Visibility = Visibility.Collapsed;
-                    }
+                    selectedImageBytes = Convert.FromBase64String(existingTrip.Picture.Pictures);
+                    selectedImage.Source = LoadImage(selectedImageBytes);
+                    imagePlaceholder.Visibility = Visibility.Collapsed;
                 }
-            }
-        }
 
-        private void TripForm_DragEnter(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop) || sender == e.Source)
-            {
-                e.Effects = DragDropEffects.None;
+                saveButton.Content = "Update";
+                formLabel.Text = "UPDATE TRIP";
             }
-        }
 
-        private async Task<string> ConvertImageToBase64(string filePath)
-        {
-            try
-            {
-                byte[] imageBytes = await File.ReadAllBytesAsync(filePath);
-                return Convert.ToBase64String(imageBytes);
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
+            cancelButton.Click += (sender, e) => navigateBackToHomePage?.Invoke();
+            saveButton.Click += SaveButton_Click;
+
+            imagePreview.Drop += ImagePreview_Drop;
+            imagePreview.DragEnter += ImagePreview_DragEnter;
+            imagePreview.DragLeave += ImagePreview_DragLeave;
+            imagePreview.DragOver += ImagePreview_DragOver;
         }
 
         private void PopulateAccommodations()
@@ -136,92 +109,138 @@ namespace HCI
 
                 if (accommodationComboBox.SelectedItem == null)
                 {
-                    accommodationComboBox.SelectedItem = comboBoxItem;
-                }
+                    if (this.existingTrip != null)
+                    {
+                        if (this.existingTrip.Accommodation.Id == ((Accommodation)comboBoxItem.Tag).Id)
+                        {
+                            accommodationComboBox.SelectedItem = comboBoxItem;
+
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else {
+                        accommodationComboBox.SelectedItem = comboBoxItem;
+                    }
+                    }
+
+
             }
         }
 
-        private void AddTripButton_Click(object sender, RoutedEventArgs e)
+        private BitmapImage LoadImage(byte[] imageData)
         {
-            string name = nameBox.Text;
-            string description = descriptionBox.Text;
-            ComboBoxItem selectedItem = (ComboBoxItem)accommodationComboBox.SelectedItem;
-            Accommodation selectedAccomodation = (Accommodation)selectedItem.Tag;
-
-            if (ValidateForm(name, description, selectedAccomodation))
+            using (MemoryStream stream = new MemoryStream(imageData))
             {
-                if (!string.IsNullOrEmpty(base64Image))
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = stream;
+                image.EndInit();
+                return image;
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string name = nameBox.Text.Trim();
+            string description = descriptionBox.Text.Trim();
+            Accommodation selectedAccommodation = ((Accommodation)((ComboBoxItem)accommodationComboBox.SelectedItem).Tag);
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                errorMessageTextBlock.Text = "Please fill in the Name field.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                errorMessageTextBlock.Text = "Please fill in the Description field.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (selectedImageBytes == null)
+            {
+                errorMessageTextBlock.Text = "Please drag and drop an image to the Picture box.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            Trip trip = existingTrip ?? new Trip();
+            trip.Name = name;
+            trip.Description = description;
+            trip.Accommodation = selectedAccommodation;
+
+            if (selectedImageBytes != null)
+            {
+                if (existingTrip != null)
                 {
-                    bool pictureAdded = pictureService.AddPicture(base64Image);
-                    if (!pictureAdded)
-                    {
-                        ShowErrorMessage("Failed to add the picture.");
-                        return;
-                    }
-
-                    Picture addedPicture = pictureService.GetAllPictures().LastOrDefault();
-
-                    Trip newTrip = new Trip
-                    {
-                        Name = name,
-                        Description = description,
-                        Accommodation = selectedAccomodation,
-                        Picture = addedPicture
-                    };
-
-                    tripService.AddTrip(newTrip);
-
-                    ClearForm();
-                    navigateBackToHomePage?.Invoke();
+                    Picture picture = new Picture { Pictures = Convert.ToBase64String(selectedImageBytes) };
+                    trip.Picture = picture;
+                    pictureService.DeletePicture(trip.Picture.Id);
                 }
                 else
                 {
-                    ShowErrorMessage("Please add an image.");
+                    Picture picture = new Picture { Pictures = Convert.ToBase64String(selectedImageBytes) };
+                    trip.Picture = picture;
+                }
+            }
+
+            if (existingTrip != null)
+            {
+                tripService.UpdateTrip(trip);
+            }
+            else
+            {
+                tripService.AddTrip(trip);
+            }
+
+            navigateBackToHomePage?.Invoke();
+        }
+
+        private void ImagePreview_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files != null && files.Length > 0)
+                {
+                    selectedImageBytes = File.ReadAllBytes(files[0]);
+                    selectedImage.Source = LoadImage(selectedImageBytes);
+                    imagePlaceholder.Visibility = Visibility.Collapsed;
                 }
             }
         }
 
-        private bool ValidateForm(string name, string description, Accommodation selectedAccommodation)
+        private void ImagePreview_DragEnter(object sender, DragEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description) || selectedAccommodation == null)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                ShowErrorMessage("All fields are mandatory.");
-                return false;
+                e.Effects = DragDropEffects.Copy;
             }
+            e.Handled = true;
+        }
 
-            if (description.Length > 250)
+        private void ImagePreview_DragLeave(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void ImagePreview_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                ShowErrorMessage("Description should not exceed 250 characters.");
-                return false;
+                e.Effects = DragDropEffects.Copy;
             }
-
-            return true;
-        }
-
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            navigateBackToHomePage?.Invoke();
-        }
-
-        private void ClearForm()
-        {
-            nameBox.Clear();
-            descriptionBox.Clear();
-            accommodationComboBox.SelectedItem = null;
-            imagePreview.Source = null;
-            base64Image = null;
-        }
-
-        private void ShowErrorMessage(string message)
-        {
-            ErrorMessage.Text = message;
-            ErrorMessage.Visibility = Visibility.Visible;
-        }
-
-        private void ShowSuccessMessage(string message)
-        {
-            ErrorMessage.Text = message;
-            ErrorMessage.Visibility = Visibility.Visible;
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
         }
     }
 }

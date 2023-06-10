@@ -50,36 +50,48 @@ namespace HCI
             _user = user;
 
             InitializeComponent();
+            IEnumerable<Trip> trips = _tripService.GetAllTrips();
 
             if (_user.Type == UserType.Agent)
             {
+                trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Agent,_tripService)); });
+                foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
+                {
+                    tripCardControl.EditClickedEvent += TripCardControl_EditClicked;
+                }
                 addButton.Visibility = Visibility.Visible;
             }
             else
             {
+                trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Client,_tripService)); });
+                foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
+                {
+                    tripCardControl.OrderTrip += TripCardControl_OrderClicked;
+                }
                 addButton.Visibility = Visibility.Collapsed;
             }
 
-            IEnumerable<Trip> trips = _tripService.GetAllTrips();
-            trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip)); });
-            foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
-            {
-                tripCardControl.OrderTrip += TripCardControl_OrderClicked;
-            }
+            
         }
 
         private void TripCardControl_OrderClicked(object sender, OrderTripArgs e)
         {
             Trip trip = e.trip;
-            Console.WriteLine(trip.Name);
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.contentControl.Navigate(new CertainTripPage(trip, _attractionService, _restaurantService, _orderedTripService,_user));
+        }
+
+        private void TripCardControl_EditClicked(object sender, OrderTripArgs e)
+        {
+            Trip trip = e.trip;
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.contentControl.Navigate(new TripForm(trip,_tripService, _accommodationService, _pictureService, () => mainWindow.NavigateToHome()));
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.contentControl.Navigate(new TripForm(_tripService, _accommodationService, _pictureService, () => mainWindow.NavigateToHome()));
+            mainWindow.contentControl.Navigate(new TripForm(null,_tripService, _accommodationService, _pictureService, () => mainWindow.NavigateToHome()));
         }
     }
 }
