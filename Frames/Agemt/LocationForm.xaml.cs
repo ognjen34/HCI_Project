@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using HCI.Models.Attractions.Model;
+using HCI.Models.Attractions.Service;
 using HCI.Models.Locations.Service;
+using HCI.Models.Restaurants.Model;
+using HCI.Models.Restaurants.Service;
 using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -12,19 +16,40 @@ namespace HCI
     {
         private HCI.Models.Locations.Model.Location existingLocation;
         private ILocationService locationService;
+        private Attraction attraction;
+        private IRestaurantService restaurantService;
+        private Restaurant restaurant;
+        private IAttractionService attractionService;
         private Pushpin selectedLocationPin;
-        private readonly Action navigateBackToLocations;
+        private readonly Action navigateBackStep;
+        private readonly Action navigateBackPage;
+        private FormType formType;
+
+        enum FormType
+        {
+            ATTRACTION,
+            RESTAURANT,
+            ACCOMODATION
+        }
 
 
-        public LocationForm(HCI.Models.Locations.Model.Location location, ILocationService service, Action navigateBackToLocations)
+        public LocationForm(Attraction attraction, ILocationService service,IAttractionService attractionService, Action navigateBackStep, Action navigateBackPage)
         {
             InitializeComponent();
 
-            existingLocation = location;
+            this.stepperControl.StepNumber = 1;
+            this.attractionService = attractionService;
+            existingLocation = attraction.Location;
             locationService = service;
 
-            this.navigateBackToLocations = navigateBackToLocations;
-           
+            this.navigateBackStep = navigateBackStep;
+            this.navigateBackPage = navigateBackPage;
+
+            this.attraction = attraction;
+
+            formType = FormType.ATTRACTION;
+            map.Loaded += Map_Loaded;
+
             if (existingLocation != null)
             {
                 addressBox.Text = existingLocation.Address;
@@ -34,18 +59,50 @@ namespace HCI
 
                 formLabel.Text = "UPDATE LOCATION";
 
-                MarkLocationOnMap(location);
+                MarkLocationOnMap(attraction.Location);
             }
-            map.Loaded += Map_Loaded;
-            cancelButton.Click += (sender, e) => navigateBackToLocations?.Invoke();
+            cancelButton.Click += (sender, e) => navigateBackStep?.Invoke();
 
         }
+
+        public LocationForm(Restaurant restaurant, ILocationService service, IRestaurantService restaurantService, Action navigateBackStep, Action navigateBackPage)
+        {
+            InitializeComponent();
+
+            this.stepperControl.StepNumber = 1;
+            this.restaurantService = restaurantService;
+            existingLocation = restaurant.Location;
+            locationService = service;
+
+            this.navigateBackStep = navigateBackStep;
+            this.navigateBackPage = navigateBackPage;
+
+            this.restaurant = restaurant;
+
+            formType = FormType.RESTAURANT;
+            map.Loaded += Map_Loaded;
+
+            if (existingLocation != null)
+            {
+                addressBox.Text = existingLocation.Address;
+                cityBox.Text = existingLocation.City;
+
+                saveButton.Content = "Update";
+
+                formLabel.Text = "UPDATE LOCATION";
+
+                MarkLocationOnMap(restaurant.Location);
+            }
+            cancelButton.Click += (sender, e) => navigateBackStep?.Invoke();
+
+        }
+
 
         public LocationForm(ILocationService service, Action navigateBackToLocations)
         {
             InitializeComponent();
 
-            this.navigateBackToLocations = navigateBackToLocations;
+            this.navigateBackStep = navigateBackToLocations;
 
             locationService = service;
 
@@ -60,13 +117,18 @@ namespace HCI
             string address = addressBox.Text;
             string city = cityBox.Text;
 
-            if (string.IsNullOrWhiteSpace(address) || string.IsNullOrWhiteSpace(city))
+            if (string.IsNullOrWhiteSpace(address))
             {
-                errorMessage.Text = "Please fill in all the fields.";
+                errorMessage.Text = "Please fill in the Address field.";
                 errorMessage.Visibility = Visibility.Visible;
                 return;
             }
-
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                errorMessage.Text = "Please fill in the City field.";
+                errorMessage.Visibility = Visibility.Visible;
+                return;
+            }
             // Check if the location is within Serbia
             if (!IsLocationInSerbia(address, city))
             {
@@ -79,10 +141,23 @@ namespace HCI
             {
                 existingLocation.Address = address;
                 existingLocation.City = city;
-
                 locationService.UpdateLocation(existingLocation);
-                MessageBox.Show("Location updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                navigateBackToLocations?.Invoke();
+
+                if (formType == FormType.ATTRACTION)
+                {
+                    this.attraction.Location = existingLocation;
+                    this.attractionService.Update(this.attraction);
+                    MessageBox.Show("Attraction updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+                if (formType == FormType.RESTAURANT)
+                {
+                    this.restaurant.Location = existingLocation;
+                    this.restaurantService.Update(this.restaurant);
+                    MessageBox.Show("Restaurant updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+                navigateBackPage?.Invoke();
             }
             else
             {
@@ -93,7 +168,19 @@ namespace HCI
                 };
 
                 locationService.AddLocation(newLocation);
-                navigateBackToLocations?.Invoke();
+                if(formType == FormType.ATTRACTION)
+                {
+                    this.attraction.Location = newLocation;
+                    this.attractionService.Add(this.attraction);
+
+                }
+                if (formType == FormType.RESTAURANT)
+                {
+                    this.restaurant.Location = newLocation;
+                    this.restaurantService.Add(this.restaurant);
+
+                }
+                navigateBackPage?.Invoke();
             }
 
             addressBox.Text = string.Empty;
@@ -108,7 +195,7 @@ namespace HCI
             cityBox.Text = string.Empty;
 
             ClearSelectedLocationPin();
-            navigateBackToLocations?.Invoke();
+            navigateBackStep?.Invoke();
 
         }
         private void Map_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -176,7 +263,6 @@ namespace HCI
 
         private void Map_Loaded(object sender, RoutedEventArgs e)
         {
-            ZoomMapToSerbia();
         }
 
         private bool IsLocationInSerbia(string address, string city)
