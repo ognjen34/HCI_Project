@@ -1,6 +1,6 @@
-﻿using HCI.Models.Attractions.DTO;
-using HCI.Models.Attractions.Model;
-using HCI.Models.Attractions.Service;
+﻿using HCI.Models.Restaurants.DTO;
+using HCI.Models.Restaurants.Model;
+using HCI.Models.Restaurants.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,36 +19,38 @@ using System.Windows.Shapes;
 namespace HCI
 {
     /// <summary>
-    /// Interaction logic for AttractionCardControl.xaml
+    /// Interaction logic for RestaurantCardControl.xaml
     /// </summary>
-    public partial class AttractionCardControl : UserControl
+    public partial class RestaurantCardControl : UserControl
     {
-        public Attraction Attraction { get; }
-        public event EventHandler<EditAttracitonArgs> EditClickedEvent;
-        private readonly IAttractionService _attractionService;
+        public Restaurant Restaurant { get; }
+        public event EventHandler<EditRestaurantArgs> EditClickedEvent;
+        private readonly IRestaurantService _restaurantService;
 
-        public AttractionCardControl(Attraction attraction, IAttractionService attractionService)
+        public RestaurantCardControl(Restaurant restaurant, IRestaurantService restaurantService)
         {
             InitializeComponent();
-            _attractionService = attractionService;
-            Attraction = attraction;
-            DataContext = Attraction;
+            _restaurantService = restaurantService;
+            Restaurant = restaurant;
+            DataContext = Restaurant;
             editButton.Click += EditClicked;
+
+            // Load the base64 image
             LoadBase64Image();
         }
 
         private void EditClicked(object sender, RoutedEventArgs e)
         {
-            EditClickedEvent?.Invoke(this, new EditAttracitonArgs(this.Attraction));
+            EditClickedEvent?.Invoke(this, new EditRestaurantArgs(this.Restaurant));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this attraction?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this restaurant?,this action is irreversible!", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                _attractionService.Delete(this.Attraction.Id);
+                _restaurantService.Delete(this.Restaurant.Id);
 
                 var parentStackPanel = Parent as StackPanel;
                 parentStackPanel?.Children.Remove(this);
@@ -57,19 +59,20 @@ namespace HCI
 
         private void LoadBase64Image()
         {
-            if (Attraction.Picture != null)
+            if (Restaurant.Picture != null)
             {
                 try
                 {
-                    byte[] imageBytes = Convert.FromBase64String(Attraction.Picture.Pictures);
+                    byte[] imageBytes = Convert.FromBase64String(Restaurant.Picture.Pictures);
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.StreamSource = new System.IO.MemoryStream(imageBytes);
                     bitmap.EndInit();
-                    attractionImage.Source = bitmap;
+                    restaurantImage.Source = bitmap;
                 }
                 catch (Exception ex)
                 {
+                    // Handle the exception if unable to load the image
                     Console.WriteLine("Error loading image: " + ex.Message);
                 }
             }

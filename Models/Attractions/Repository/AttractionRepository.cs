@@ -26,6 +26,7 @@ namespace HCI.Models.Attractions.Repository
 
         public void Add(Attraction attraction)
         {
+            attraction.ClassName = "Attraction";
             dbContext.Attractions.Add(attraction);
             dbContext.SaveChanges();
         }

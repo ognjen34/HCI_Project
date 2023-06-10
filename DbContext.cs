@@ -272,7 +272,7 @@ public class AppDbContext : DbContext
         Trips.Add(new Trip
         {
             Id = 3,
-            Name = "Tunguzija za dvoje!",
+            Name = "Putovanje!",
             Description = "Ima sve i svasta i gluh i njem sam zbog nje ona drugog grlji ljubi ritam mrvi meee!",
             Accommodation = Accommodations.Find(2),
             Picture = Pictures.Find(4)

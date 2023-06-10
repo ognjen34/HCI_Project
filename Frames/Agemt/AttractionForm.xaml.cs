@@ -43,44 +43,12 @@ namespace HCI
             this.attractionService = attractionService;
             this.locationService = locationService;
 
-            PopulateLocations();
-
             // Initialize form with existing attraction data
             if (existingAttraction != null)
             {
                 nameBox.Text = existingAttraction.Name;
                 descriptionBox.Text = existingAttraction.Description;
                 priceBox.Text = existingAttraction.Price.ToString();
-
-                if (existingAttraction.Location != null)
-                {
-                    StackPanel stackPanel = new StackPanel
-                    {
-                        Orientation = Orientation.Vertical
-                    };
-
-
-                    TextBlock cityTextBlock = new TextBlock
-                    {
-                        Text = existingAttraction.Location.City
-                    };
-
-                    TextBlock addressTextBlock = new TextBlock
-                    {
-                        Text = existingAttraction.Location.Address
-                    };
-
-                    stackPanel.Children.Add(cityTextBlock);
-                    stackPanel.Children.Add(addressTextBlock);
-
-                    ComboBoxItem comboBoxItem = new ComboBoxItem
-                    {
-                        Content = stackPanel,
-                        Tag = existingAttraction.Location
-                    };
-
-                    locationComboBox.SelectedItem = comboBoxItem;
-                }
 
                 if (existingAttraction.Picture != null)
                 {
@@ -89,12 +57,11 @@ namespace HCI
                     imagePlaceholder.Visibility = Visibility.Collapsed;
                 }
 
-                saveButton.Content = "Update";
                 formLabel.Text = "UPDATE ATTRACTION";
             }
 
             cancelButton.Click += (sender, e) => navigateBackToAttractions?.Invoke();
-            saveButton.Click += SaveButton_Click;
+            nextButton.Click += NextButton_Click;
 
             imagePreview.Drop += ImagePreview_Drop;
             imagePreview.DragEnter += ImagePreview_DragEnter;
@@ -103,44 +70,7 @@ namespace HCI
             this.navigateBackToAttractions += navigateBackToAttractions;
         }
 
-        private void PopulateLocations()
-        {
-            IEnumerable<Location> locations = locationService.GetAllLocations();
-
-            foreach (Location location in locations)
-            {
-                StackPanel stackPanel = new StackPanel
-                {
-                    Orientation = Orientation.Vertical
-                };
-
-                TextBlock cityTextBlock = new TextBlock
-                {
-                    Text = location.City
-                };
-
-                TextBlock addressTextBlock = new TextBlock
-                {
-                    Text = location.Address
-                };
-
-                stackPanel.Children.Add(cityTextBlock);
-                stackPanel.Children.Add(addressTextBlock);
-
-                ComboBoxItem comboBoxItem = new ComboBoxItem
-                {
-                    Content = stackPanel,
-                    Tag = location
-                };
-
-                locationComboBox.Items.Add(comboBoxItem);
-
-                if (existingAttraction != null && existingAttraction.Location != null && existingAttraction.Location.Equals(location))
-                {
-                    locationComboBox.SelectedItem = comboBoxItem;
-                }
-            }
-        }
+      
 
         private BitmapImage LoadImage(byte[] imageData)
         {
@@ -155,33 +85,58 @@ namespace HCI
             }
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             string name = nameBox.Text.Trim();
             string description = descriptionBox.Text.Trim();
             string priceText = priceBox.Text.Trim();
-            Location selectedLocation = ((ComboBoxItem)locationComboBox.SelectedItem)?.Tag as Location;
 
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(priceText) || selectedLocation == null || selectedImageBytes == null)
+            if (string.IsNullOrWhiteSpace(name))
             {
-                errorMessageTextBlock.Text = "Please fill in all the fields.";
+                errorMessageTextBlock.Text = "Please fill in the Name field.";
                 errorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
 
-            // Validate price
+            if ( string.IsNullOrWhiteSpace(description))
+            {
+                errorMessageTextBlock.Text = "Please fill in the Description field.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(priceText))
+            {
+                errorMessageTextBlock.Text = "Please fill in the Price field with valid price number in euros.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (selectedImageBytes == null)
+            {
+                errorMessageTextBlock.Text = "Please drag and drop an image to the Picture box.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
             if (!float.TryParse(priceText, out float price) || price < 0)
             {
                 errorMessageTextBlock.Text = "Please enter a valid price greater than or equal to 0.";
                 errorMessageTextBlock.Visibility = Visibility.Visible;
                 return;
             }
+            if (name.Length > 30)
+            {
+                errorMessageTextBlock.Text = "Name must be no more than 30 characters.";
+                errorMessageTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+            this.imagePlaceholder.Visibility = Visibility.Collapsed;
 
             Attraction attraction = existingAttraction ?? new Attraction();
             attraction.Name = name;
             attraction.Description = description;
             attraction.Price = price;
-            attraction.Location = selectedLocation;
 
             if (selectedImageBytes != null)
             {
@@ -197,17 +152,8 @@ namespace HCI
                     attraction.Picture = picture;
                 }
             }
-
-            if (existingAttraction == null)
-            {
-                attractionService.Add(attraction);
-            }
-            else
-            {
-                attractionService.Update(attraction);
-            }
-
-            navigateBackToAttractions?.Invoke();
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.contentControl.Navigate(new LocationForm(attraction, locationService, attractionService, () => mainWindow.contentControl.Navigate(new AttractionForm(attraction, locationService, pictureService, attractionService, () => mainWindow.NavigateToAttractionsAgent())), () => mainWindow.NavigateToAttractionsAgent()));
         }
 
         private void ImagePreview_Drop(object sender, DragEventArgs e)

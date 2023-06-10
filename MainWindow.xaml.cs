@@ -82,7 +82,6 @@ namespace HCI
             {
                 AgentNavBar agentNavBar = new AgentNavBar();
                 agentNavBar.HomeClicked += HomeClicked;
-                agentNavBar.LocationClicked += LocationClicked;
                 agentNavBar.LogoutClicked += LogoutClicked;
                 agentNavBar.RestaurantClicked += RestaurantClicked;
                 agentNavBar.AttractionsClicked += AttractionsClicked;
@@ -109,14 +108,8 @@ namespace HCI
             NavigateToHome();   
         }
 
-        public void NavigateToLocationsAgent()
-        {
-           contentControl.Navigate(new LocationPage(_locationService));
-        }
-        private void LocationClicked(object sender, EventArgs e)
-        {
-            NavigateToLocationsAgent();
-        }
+
+
 
 
         private void RegisterClicked(object sender, EventArgs e)
