@@ -1,5 +1,6 @@
 
 using HCI.Frames;
+using HCI.Frames.Agemt;
 using HCI.Frames.Client;
 using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Repository;
@@ -36,11 +37,13 @@ namespace HCI
 
 
 
+
         private User user;
 
         public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService, ILocationService locationService ,IOrderedTripService orderedTripService)
         {
             user = null;
+            _accommodationService = accommodationService;
             _orderedTripService = orderedTripService;
             _pictureService = pictureService;
             _userService = userService;
@@ -48,7 +51,6 @@ namespace HCI
             _tripService = tripService;
             _attractionService = attractionService;
             _locationService = locationService;
-            _accommodationService = accommodationService;
             InitializeComponent();
 
             var loginForm = new LoginForm(userService);
@@ -85,6 +87,7 @@ namespace HCI
                 agentNavBar.LogoutClicked += LogoutClicked;
                 agentNavBar.RestaurantClicked += RestaurantClicked;
                 agentNavBar.AttractionsClicked += AttractionsClicked;
+                agentNavBar.AccomodationClicked += AccomodationsClicked;
                 navbarControl.Content = agentNavBar;
                 navbarViewBox.Visibility = Visibility.Visible;
                 contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, user));
@@ -135,6 +138,16 @@ namespace HCI
         {
             NavigateToRestaurantsAgent();
 
+        }
+        private void AccomodationsClicked(object sender, EventArgs e)
+        {
+            NavigateToAccomodationsAgent();
+
+        }
+
+        public void NavigateToAccomodationsAgent()
+        {
+            contentControl.Navigate(new AccomodationPage(_accommodationService, _locationService, _pictureService));
         }
 
         public void NavigateToAttractionsAgent()

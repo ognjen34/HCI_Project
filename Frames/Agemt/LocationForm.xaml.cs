@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using HCI.Models.Accommodations.Model;
+using HCI.Models.Accommodations.Service;
 using HCI.Models.Attractions.Model;
 using HCI.Models.Attractions.Service;
 using HCI.Models.Locations.Service;
@@ -23,6 +25,8 @@ namespace HCI
         private Pushpin selectedLocationPin;
         private readonly Action navigateBackStep;
         private readonly Action navigateBackPage;
+        private IAccommodationService accommodationService;
+        private Accommodation accommodation;
         private FormType formType;
 
         enum FormType
@@ -96,6 +100,37 @@ namespace HCI
             cancelButton.Click += (sender, e) => navigateBackStep?.Invoke();
 
         }
+        public LocationForm(Accommodation accomodation, ILocationService service, IAccommodationService accommodationService, Action navigateBackStep, Action navigateBackPage)
+        {
+            InitializeComponent();
+
+            this.stepperControl.StepNumber = 1;
+            this.accommodationService = accommodationService;
+            existingLocation = accomodation.Location;
+            locationService = service;
+
+            this.navigateBackStep = navigateBackStep;
+            this.navigateBackPage = navigateBackPage;
+
+            this.accommodation = accomodation;
+
+            formType = FormType.ACCOMODATION;
+            map.Loaded += Map_Loaded;
+
+            if (existingLocation != null)
+            {
+                addressBox.Text = existingLocation.Address;
+                cityBox.Text = existingLocation.City;
+
+                saveButton.Content = "Update";
+
+                formLabel.Text = "UPDATE LOCATION";
+
+                MarkLocationOnMap(accomodation.Location);
+            }
+            cancelButton.Click += (sender, e) => navigateBackStep?.Invoke();
+
+        }
 
 
         public LocationForm(ILocationService service, Action navigateBackToLocations)
@@ -157,6 +192,13 @@ namespace HCI
                     MessageBox.Show("Restaurant updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 }
+                if (formType == FormType.ACCOMODATION)
+                {
+                    this.accommodation.Location = existingLocation;
+                    this.accommodationService.Update(this.accommodation);
+                    MessageBox.Show("Accomodtaion updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
                 navigateBackPage?.Invoke();
             }
             else
@@ -178,6 +220,12 @@ namespace HCI
                 {
                     this.restaurant.Location = newLocation;
                     this.restaurantService.Add(this.restaurant);
+
+                }
+                if (formType == FormType.ACCOMODATION)
+                {
+                    this.accommodation.Location = newLocation;
+                    this.accommodationService.AddAccommodation(this.accommodation);
 
                 }
                 navigateBackPage?.Invoke();

@@ -58,8 +58,18 @@ public class AppDbContext : DbContext
             Email = "client",
             Password = "123",
             Name = "Vanja",
-            Surname = "Agent",
+            Surname = "Client",
             Type = UserType.Client
+        }
+        );
+        Users.Add(new User
+        {
+            Id = 4,
+            Email = "admin",
+            Password = "123",
+            Name = "Vanja",
+            Surname = "Agent",
+            Type = UserType.Agent
         }
         );
 
