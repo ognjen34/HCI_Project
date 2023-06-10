@@ -13,5 +13,6 @@ namespace HCI.Models.Accommodations.Service
         void AddAccommodation(Accommodation accommodation);
         void RemoveAccommodation(Accommodation accommodation);
         IEnumerable<Accommodation> GetAllAccommodations();
+        void Update(Accommodation accommodation);
     }
 }
