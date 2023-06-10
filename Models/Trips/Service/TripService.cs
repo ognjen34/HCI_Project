@@ -26,7 +26,10 @@ namespace HCI.Models.Trips.Service
         {
             _tripRepository.Add(trip);
         }
-
+        public void UpdateTrip(Trip trip)
+        {
+            _tripRepository.Update(trip);
+        }
         public void RemoveTrip(Trip trip)
         {
             _tripRepository.Remove(trip);

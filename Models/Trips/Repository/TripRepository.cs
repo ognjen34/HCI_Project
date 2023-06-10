@@ -32,6 +32,11 @@ namespace HCI.Models.Trips.Repository
             _dbContext.Trips.Remove(trip);
             _dbContext.SaveChanges();
         }
+        public void Update(Trip trip)
+        {
+            _dbContext.Trips.Update(trip);
+            _dbContext.SaveChanges();
+        }
 
         public IEnumerable<Trip> GetAll()
         {

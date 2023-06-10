@@ -13,5 +13,6 @@ namespace HCI.Models.Trips.Repository
         void Add(Trip trip);
         void Remove(Trip trip);
         IEnumerable<Trip> GetAll();
+        void Update(Trip trip);
     }
 }
