@@ -24,7 +24,7 @@
         </Grid.Resources>
 
         <Border Style="{StaticResource ShadowBorderStyle}">
-            
+
             <Grid Height="200" Background="White" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -35,23 +35,46 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                        <Image x:Name="imageControl" Margin="0 0 5 0" Width="200" Height="200"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
+                    <Image x:Name="imageControl" Margin="0 0 5 0" Width="200" Height="200"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Name="tripName"  Text="aksjdlkasdjlk"  FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="0"/>
-                        <TextBlock Name="description" Text="aaaaaaaaaaaaaaaaaaaa" FontSize="10" VerticalAlignment="Center" Grid.Row="1" Width="150" Height="auto" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left"/>
+                        <TextBlock Name="tripName"  Text="aksjdlkasdjlk"  FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="4"/>
+                        <TextBlock Name="locationName" Text="Location Name" FontSize="12" Foreground="#2196F3" Margin="0,5,0,0"  VerticalAlignment="Center" Grid.Row="2"/>
+                        <TextBlock Name="description" Text="aaaaaaaaaaaaaaaaaaaa" FontSize="10" Margin="0,10,0,0"   VerticalAlignment="Center" Grid.Row="3" Width="150" Height="auto" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left"/>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Margin="10 10 10 20" VerticalAlignment="Bottom">
+                <Grid Grid.Column="1" Margin="10 10 10 20" HorizontalAlignment="Right">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Name="accomendationPrice" Text="35 $/night" HorizontalAlignment="Right" Grid.Row="0"/>
-                    <Button Content="Book" Width="80" Height="30" HorizontalAlignment="Right" Grid.Row="1" Background="#2196F3" Foreground="White" Click="OrderButton_Click"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Name="priceLabel" Text="Price:" HorizontalAlignment="Left" Grid.Row="0" Margin="0,20,5,0" Grid.Column="0"/>
+                    <TextBlock Name="accomendationPrice" Text="35 $/night" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="0" Grid.Column="1"/>
+                    <TextBlock Name="bedsLabel" Text="Beds:" HorizontalAlignment="Left" Grid.Row="1" Margin="0,20,5,0" Grid.Column="0"/>
+                    <TextBlock Name="bedsValue" Text="3" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="1" Grid.Column="1"/>
+                    <Grid HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Bottom"  Grid.ColumnSpan="3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Book" x:Name="orderButton" Visibility="Visible" Width="80" Height="30" Grid.Column="0" Background="#2196F3" Foreground="White" Click="OrderButton_Click"/>
+                        <Button Content="Edit" x:Name="editButton" Visibility="Visible" Width="80" Height="30" Grid.Column="1" Background="#2196F3" Foreground="White" Click="EditClicked" />
+                        <Button Content="Delete" x:Name="deleteButton" Visibility="Visible" Width="80" Margin="20,0,0,0" Height="30" Grid.Column="2" Background="#2196F3" Foreground="White" Click="DeleteButton_Click"/>
+
+                    </Grid>
                 </Grid>
             </Grid>
         </Border>
