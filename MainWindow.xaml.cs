@@ -19,6 +19,8 @@ using HCI.Navbars;
 using HCI.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -45,6 +47,7 @@ namespace HCI
         public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService, ILocationService locationService ,IOrderedTripService orderedTripService)
         {
             user = null;
+            SetWindowLogo();
             _accommodationService = accommodationService;
             _orderedTripService = orderedTripService;
             _pictureService = pictureService;
@@ -63,7 +66,32 @@ namespace HCI
             loginForm.RegisterPressed += RegisterClicked;
 
         }
+        private void SetWindowLogo()
+        {
+            try
+            {
+                string logoPath = "logo.png"; // Update the path to your logo image file
+                string curDir = Directory.GetCurrentDirectory();
+                string projectDir = curDir;
+                Assembly assembly = Assembly.GetEntryAssembly();
 
+                string projectName = assembly.GetName().Name;
+                while (!string.IsNullOrEmpty(projectDir) && !projectDir.EndsWith(projectName))
+                {
+                    projectDir = Directory.GetParent(projectDir)?.FullName;
+                }
+                string path = Path.Combine(projectDir, logoPath);
+
+                Uri logoUri = new Uri(path, UriKind.RelativeOrAbsolute);
+                BitmapImage logoImage = new BitmapImage(logoUri);
+
+                this.Icon = logoImage;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error setting window logo: " + ex.Message);
+            }
+        }
         private void LoginForm_LoginSuccess(object sender, LoginSuccessArgs e)
         {
             user = e.User;

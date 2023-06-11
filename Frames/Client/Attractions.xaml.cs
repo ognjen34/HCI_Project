@@ -202,7 +202,7 @@ namespace HCI.Frames.Client
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
               
-                HelpProvider.ShowHelp("attractions", mainWindow);
+                HelpProvider.ShowHelp("attractions", mainWindow,1);
                 
 
             }

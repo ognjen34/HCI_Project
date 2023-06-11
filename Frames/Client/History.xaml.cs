@@ -49,7 +49,7 @@ namespace HCI.Frames.Client
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 if (_user.Type == UserType.Client)
                 {
-                    HelpProvider.ShowHelp("clienthistory", mainWindow);
+                    HelpProvider.ShowHelp("clienthistory", mainWindow,1);
                 }
                 
             }

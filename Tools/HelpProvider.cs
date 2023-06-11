@@ -27,9 +27,10 @@ namespace HCI.Tools
             //NOOP
         }
 
-        public static void ShowHelp(string key, MainWindow originator)
+        public static void ShowHelp(string key, MainWindow originator,int mode)
         {
-            HelpViewer hh = new HelpViewer(key, originator);
+            HelpViewer hh = HelpViewer.Instance;
+            hh.ShowHelpWindow(key, originator,mode);
             hh.Show();
         }
     }

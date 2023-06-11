@@ -209,7 +209,7 @@ namespace HCI
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-                HelpProvider.ShowHelp("agenttripsform", mainWindow);
+                HelpProvider.ShowHelp("agenttripsform", mainWindow,2);
 
 
             }

@@ -3,6 +3,7 @@ using HCI.Models.Attractions.Model;
 using HCI.Models.Attractions.Service;
 using HCI.Models.Locations.Service;
 using HCI.Models.Pictures.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HCI
 {
@@ -38,6 +40,17 @@ namespace HCI
                 attractionsStackPanel.Children.Add(attractionCard);
                 attractionCard.EditClickedEvent += AttractionCardControl_EditClicked;
             }
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                HelpProvider.ShowHelp("agentattractions", mainWindow, 2);
+
+            }
+
         }
 
         private void AttractionCardControl_EditClicked(object sender, EditAttracitonArgs e)

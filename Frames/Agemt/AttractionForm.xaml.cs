@@ -77,7 +77,7 @@ namespace HCI
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-                HelpProvider.ShowHelp("agentattractionsform", mainWindow);
+                HelpProvider.ShowHelp("agentattractionsform", mainWindow,2);
 
 
             }

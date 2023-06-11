@@ -53,7 +53,7 @@
             <TextBlock Text="{Binding Location.City}" Grid.Row="2" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
 
             <TextBlock Text="Price:" FontWeight="Bold" Margin="10" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Price}" Grid.Row="3" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+            <TextBlock Text="{Binding Price, StringFormat='{}{0} €'}" Grid.Row="3" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
 
             <StackPanel Grid.ColumnSpan="3" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">

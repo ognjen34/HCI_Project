@@ -87,7 +87,7 @@ namespace HCI.Frames.Agemt
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-                HelpProvider.ShowHelp("agentaccommodationsform", mainWindow);
+                HelpProvider.ShowHelp("agentaccommodationsform", mainWindow,2);
 
 
             }

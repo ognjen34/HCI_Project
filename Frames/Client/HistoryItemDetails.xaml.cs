@@ -208,7 +208,7 @@ namespace HCI.Frames.Client
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 
-                HelpProvider.ShowHelp("historydetails", mainWindow);
+                HelpProvider.ShowHelp("historydetails", mainWindow,1);
                
 
             }

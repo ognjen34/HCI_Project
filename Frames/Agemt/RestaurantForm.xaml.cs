@@ -201,7 +201,7 @@ namespace HCI
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-                HelpProvider.ShowHelp("agentrestaurantsform", mainWindow);
+                HelpProvider.ShowHelp("agentrestaurantsform", mainWindow,2);
 
 
             }

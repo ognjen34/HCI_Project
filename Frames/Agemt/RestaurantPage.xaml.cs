@@ -3,6 +3,7 @@ using HCI.Models.Pictures.Service;
 using HCI.Models.Restaurants.DTO;
 using HCI.Models.Restaurants.Model;
 using HCI.Models.Restaurants.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,17 @@ namespace HCI
             Restaurant restaurant = e.restaurant;
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.contentControl.Navigate(new RestaurantForm(restaurant, _restaurantService,_locationService,_pictureService, () => mainWindow.NavigateToRestaurantsAgent()));
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                HelpProvider.ShowHelp("agentrestaurants", mainWindow, 2);
+                
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

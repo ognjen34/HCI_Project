@@ -5,6 +5,7 @@ using HCI.Models.Attractions.DTO;
 using HCI.Models.Attractions.Model;
 using HCI.Models.Locations.Service;
 using HCI.Models.Pictures.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,17 @@ namespace HCI.Frames.Agemt
                 accomodationCard.EditClickedEvent += AccomodationCardEdit_Clicked;
             }
         }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                HelpProvider.ShowHelp("agentaccommodations", mainWindow, 2);
 
+            }
+
+        }
         private void AccomodationCardEdit_Clicked(object? sender, EditAccomodationArgs e)
         {
             Accommodation accomodaton = e.accomodation;

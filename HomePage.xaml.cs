@@ -97,11 +97,11 @@ namespace HCI
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 if(_user.Type == UserType.Agent)
                 {
-                    HelpProvider.ShowHelp("agenthome", mainWindow);
+                    HelpProvider.ShowHelp("agenthome", mainWindow,2);
                 }
                 else
                 {
-                    HelpProvider.ShowHelp("clienthome", mainWindow);
+                    HelpProvider.ShowHelp("clienthome", mainWindow,1);
                 }
             }
         }

@@ -42,7 +42,20 @@ namespace HCI
             if (focusedControl is DependencyObject)
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                HelpProvider.ShowHelp("login", mainWindow);
+                HelpProvider.ShowHelp("login", mainWindow,0);
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -51,6 +64,11 @@ namespace HCI
             // Retrieve the values from the form fields
             string username = usernameBox.Text;
             string password = passwordBox.Password;
+            if (!IsValidEmail(usernameBox.Text))
+            {
+                ShowErrorMessage("Username needs to be in email format!");
+                return;
+            }
 
             User user = _userService.GetUserByEmailAndPassword(username, password);
             if (user != null)
