@@ -7,6 +7,13 @@
                           xmlns:stepper="clr-namespace:HCI.Frames.Agemt"
              mc:Ignorable="d"
              d:DesignHeight="1000" d:DesignWidth="1200">
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="ApplicationCommands.Help"/>
+    </UserControl.InputBindings>
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Center"/>

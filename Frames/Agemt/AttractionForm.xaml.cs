@@ -18,6 +18,7 @@ using HCI.Models.Pictures.Service;
 using HCI.Models.Attractions.Model;
 using HCI.Models.Attractions.Service;
 using HCI.Models.Locations.Service;
+using HCI.Tools;
 
 namespace HCI
 {
@@ -69,8 +70,19 @@ namespace HCI
             imagePreview.DragOver += ImagePreview_DragOver;
             this.navigateBackToAttractions += navigateBackToAttractions;
         }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-      
+                HelpProvider.ShowHelp("agentattractionsform", mainWindow);
+
+
+            }
+        }
+
 
         private BitmapImage LoadImage(byte[] imageData)
         {

@@ -4,6 +4,7 @@ using HCI.Models.Pictures.Model;
 using HCI.Models.Pictures.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -201,7 +202,18 @@ namespace HCI
 
             navigateBackToHomePage?.Invoke();
         }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
+                HelpProvider.ShowHelp("agenttripsform", mainWindow);
+
+
+            }
+        }
         private void ImagePreview_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))

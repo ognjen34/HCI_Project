@@ -4,6 +4,7 @@ using HCI.Models.Pictures.Model;
 using HCI.Models.Pictures.Service;
 using HCI.Models.Restaurants.Model;
 using HCI.Models.Restaurants.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -192,6 +193,18 @@ namespace HCI
         private void ImagePreview_DragLeave(object sender, DragEventArgs e)
         {
             e.Handled = true;
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+                HelpProvider.ShowHelp("agentrestaurantsform", mainWindow);
+
+
+            }
         }
 
         private void ImagePreview_DragOver(object sender, DragEventArgs e)
