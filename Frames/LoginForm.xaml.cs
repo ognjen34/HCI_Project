@@ -1,6 +1,7 @@
 ﻿using HCI.Models.Users.DTO;
 using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,15 @@ namespace HCI
             loginButton.Click += LoginButton_Click;
         }
 
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                HelpProvider.ShowHelp("login", mainWindow);
+            }
+        }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {

@@ -16,9 +16,11 @@ using HCI.Models.Users.DTO;
 using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
 using HCI.Navbars;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace HCI

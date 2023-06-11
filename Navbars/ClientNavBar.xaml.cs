@@ -21,8 +21,6 @@ namespace HCI.Navbars
     public partial class ClientNavBar : UserControl
     {
         public event EventHandler HomeClicked;
-        public event EventHandler AboutClicked;
-        public event EventHandler ContactClicked;
         public event EventHandler LogoutClicked;
         public event EventHandler HistoryClicked;
 
