@@ -3,6 +3,7 @@ using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Repository;
 using HCI.Models.Trips.Service;
 using HCI.Models.Users.Model;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,19 @@ namespace HCI.Frames.Client
                 var historyItem = new HistoryItem(item);
                 //historyItem.ItemClicked += AttractionItem_Clicked;
                 historyItemsControl.Items.Add(historyItem);
+            }
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                if (_user.Type == UserType.Client)
+                {
+                    HelpProvider.ShowHelp("clienthistory", mainWindow,1);
+                }
+                
             }
         }
 

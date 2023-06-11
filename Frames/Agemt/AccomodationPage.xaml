@@ -35,7 +35,12 @@
             </Setter>
         </Style>
     </Page.Resources>
-
+    <Page.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </Page.CommandBindings>
+    <Page.InputBindings>
+        <KeyBinding Key="F1" Command="ApplicationCommands.Help"/>
+    </Page.InputBindings>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*"/>

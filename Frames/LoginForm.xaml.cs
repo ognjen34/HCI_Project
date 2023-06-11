@@ -1,6 +1,7 @@
 ﻿using HCI.Models.Users.DTO;
 using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
+using HCI.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,12 +36,39 @@ namespace HCI
             loginButton.Click += LoginButton_Click;
         }
 
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                HelpProvider.ShowHelp("login", mainWindow,0);
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             // Retrieve the values from the form fields
             string username = usernameBox.Text;
             string password = passwordBox.Password;
+            if (!IsValidEmail(usernameBox.Text))
+            {
+                ShowErrorMessage("Username needs to be in email format!");
+                return;
+            }
 
             User user = _userService.GetUserByEmailAndPassword(username, password);
             if (user != null)

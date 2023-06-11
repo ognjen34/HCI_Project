@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using HCI.Models.Accommodations.Model;
 using HCI.Models.Accommodations.Service;
 using HCI.Models.Attractions.Model;
@@ -8,6 +9,7 @@ using HCI.Models.Attractions.Service;
 using HCI.Models.Locations.Service;
 using HCI.Models.Restaurants.Model;
 using HCI.Models.Restaurants.Service;
+using HCI.Tools;
 using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -235,6 +237,18 @@ namespace HCI
             cityBox.Text = string.Empty;
 
             ClearSelectedLocationPin();
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+                HelpProvider.ShowHelp("agentlocationform", mainWindow,2);
+
+
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

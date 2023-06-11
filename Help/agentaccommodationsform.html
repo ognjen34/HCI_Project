@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Accommodations Form</title>
+    <style>
+        /* Reset default list styles */
+        ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            overflow: auto;
+            position: relative;
+        }
+
+            li > div {
+                margin-left: 20px;
+            }
+
+        .step-number {
+            position: absolute;
+            top: 0;
+            left: 0px;
+            font-weight: bold;
+        }
+
+        img {
+            display: block;
+            float: left;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form for Adding/Updating Accomodations</h1>
+
+    <h2></h2>
+    <ol>
+        <li>
+            <span class="step-number">1.</span>
+            <div>
+                <p>Fill out the basic informations of the form.</p>
+
+                <img src="Pictures/agentaccommodation_page.png" alt="LoginForm" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">2.</span>
+            <div>
+                <p>Enter accommodation name in the <strong>Name</strong> field.</p>
+                <p>Enter accommodation description in the <strong>Description</strong> field.</p>
+                <p>Enter accommodation price in the <strong>Price</strong> field.Note that the price has to be a number </p>
+                <p>Enter number of beds in the <strong>Beds</strong> field.Note that the beds has to be a number </p>
+                <img src="Pictures/agentaccommodation_basic.png" alt="LoginForm with Login Button" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3.</span>
+            <div>
+                <p>To upload a picture for the accomodation , drag and drop the image file into the marked area.</p>
+                <p>If the file is uploaded successfuly you will se the preview of the image</p>
+                <p>You can add multiple images for the accomodation, by repeating the first step</p>
+                <img src="Pictures/agentaccommodation_image.png" alt="LoginForm with Error Message" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">4.</span>
+            <div>
+                <p>You can remove added image by clicking on it.</p>
+                <img src="Pictures/agentaccommodation_image_remove.png" alt="LoginForm with Error Message" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">5.</span>
+            <div>
+                <p>To finish adding basic information, click on the next button, or if you changed your mind you can click on the cancel button</p>
+
+                <img src="Pictures/agentaccommodation_finish.png" alt="LoginForm with Error Message" width="400">
+            </div>
+        </li>
+    </ol>
+
+
+</body>
+</html>

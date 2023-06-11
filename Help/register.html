@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <style>
+        /* Reset default list styles */
+        ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            overflow: auto;
+            position: relative;
+        }
+
+            li > div {
+                margin-left: 20px;
+            }
+
+        .step-number {
+            position: absolute;
+            top: 0;
+            left: 0px;
+            font-weight: bold;
+        }
+
+        img {
+            display: block;
+            float: left;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registration Form</h1>
+
+    <h2>Registering</h2>
+    <ol>
+        <li>
+            <span class="step-number">1.</span>
+            <div>
+                <p>There are several inputs to fill out:</p>
+                <ul>
+                    <li><strong>Name:</strong> Enter your first name.</li>
+                    <li><strong>Surname:</strong> Enter your last name.</li>
+                    <li><strong>Username:</strong> Enter a valid email address. This will be your username.</li>
+                    <li><strong>Password:</strong> Enter a password with a minimum length of 8 characters.</li>
+                    <li><strong>Confirm Password:</strong> Re-enter your password to confirm it.</li>
+                </ul>
+                <img src="Pictures/RegisterForm_Step2.png" alt="Registration Form Step 2" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">2.</span>
+            <div>
+                <p>Fill in all the required fields with the appropriate information.</p>
+                <p>If any of the fields are left empty, an error message will be displayed indicating which field needs to be filled in.</p>
+                <p>If the <strong>Name</strong> field is left empty, the error message "Fill in the Name field" will be displayed.</p>
+                <p>If the <strong>Surname</strong> field is left empty, the error message "Fill in the Surname field" will be displayed.</p>
+                <p>If the <strong>Username</strong> field is left empty, the error message "Fill in the Username field" will be displayed.</p>
+                <p>If the <strong>Password</strong> field is left empty, the error message "Fill in the Password field" will be displayed.</p>
+                <p>If the <strong>Confirm Password</strong> field is left empty, the error message "Fill in the Confirm Password field" will be displayed.</p>
+                <img src="Pictures/RegisterForm_Step3_Error.png" alt="Registration Form Step 3 Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3.</span>
+            <div>
+                <p>Ensure that the <strong>Name</strong> field does not exceed 30 characters.</p>
+                <p>If the name entered exceeds the character limit, the error message "Name cannot exceed 30 characters!" will be displayed.</p>
+                <img src="Pictures/RegisterForm_Step4_Name_Limit_Error.png" alt="Registration Form Step 4 Name Limit Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">4.</span>
+            <div>
+                <p>Ensure that the <strong>Surname</strong> field does not exceed 30 characters.</p>
+                <p>If the surname entered exceeds the character limit, the error message "Surname cannot exceed 30 characters!" will be displayed.</p>
+                <img src="Pictures/RegisterForm_Step5_Surname_Limit_Error.png" alt="Registration Form Step 5 Surname Limit Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">5.</span>
+            <div>
+                <p>Ensure that the <strong>Username</strong> field is in email format.</p>
+                <p>If an invalid email address is entered, the error message "Username needs to be in email format!" will be displayed.</p>
+                <p>The correct email format is: example@gmail.com</p>
+                <img src="Pictures/RegisterForm_Step6_Invalid_Email_Error.png" alt="Registration Form Step 6 Invalid Email Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">6.</span>
+            <div>
+                <p>Ensure that the <strong>Password</strong> field is at least 8 characters long.</p>
+                <p>If the password length is less than 8 characters, the error message "Password must be at least 8 characters long!" will be displayed.</p>
+                <img src="Pictures/RegisterForm_Step7_Short_Password_Error.png" alt="Registration Form Step 7 Short Password Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">7.</span>
+            <div>
+                <p>Ensure that the entered <strong>Password</strong> and <strong>Confirm Password</strong> match.</p>
+                <p>If the passwords do not match, the error message "Password and Confirm Password do not match!" will be displayed.</p>
+                <img src="Pictures/RegisterForm_Step8_Password_Mismatch_Error.png" alt="Registration Form Step 8 Password Mismatch Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">8.</span>
+            <div>
+                <p>Check if a user with the entered email already exists in the system.</p>
+                <p>If a user with the same email already exists, the error message "User with this email already exists!" will be displayed.</p>
+                <img src="Pictures/RegisterForm_Step9_User_Already_Exists_Error.png" alt="Registration Form Step 9 User Already Exists Error" width="400">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">9.</span>
+            <div>
+                <p>If all the validations pass successfully, the registration will be considered successful.</p>
+                <p>A success message, "Registration successful!", will be displayed, and the user will be added to the system.</p>
+                <p>You will then be redirected to the login page where you can enter your credentials to log into the application.</p>
+                <img src="Pictures/RegisterForm_Step10_Success.png" alt="Registration Form Step 10 Success" width="400">
+            </div>
+        </li>
+    </ol>
+</body>
+</html>

@@ -51,7 +51,7 @@
             <TextBlock Text="{Binding Location.Address}" Grid.Row="1" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
 
             <TextBlock Text="Price per Day:" FontWeight="Bold" Margin="10" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding PricePerDay}" Grid.Row="2" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+            <TextBlock Text="{Binding PricePerDay, StringFormat='{}{0} €'}" Grid.Row="2" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
             
             <TextBlock Text="Beds:" FontWeight="Bold" Margin="10" Grid.Row="3"  Grid.Column="1" VerticalAlignment="Center" />
             <TextBlock Text="{Binding Beds}" Grid.Row="3" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />

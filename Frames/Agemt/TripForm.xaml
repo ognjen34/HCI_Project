@@ -6,6 +6,12 @@
              xmlns:hci="clr-namespace:HCI"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="800">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="ApplicationCommands.Help"/>
+    </UserControl.InputBindings>
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Center"/>
