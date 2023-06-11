@@ -99,8 +99,12 @@ namespace HCI
 
         private void HistoryClicked(object? sender, EventArgs e)
         {
-            contentControl.Navigate(new History(_orderedTripService,user));
+            NavigateToHistoryClient();
 
+        }
+        public void NavigateToHistoryClient ()
+        {
+            contentControl.Navigate(new History(_orderedTripService, user));
         }
 
         public void NavigateToHome()

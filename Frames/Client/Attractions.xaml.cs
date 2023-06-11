@@ -4,6 +4,8 @@ using HCI.Models.Restaurants.Model;
 using HCI.Models.Restaurants.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
+using HCI.Models.Users.Model;
+using HCI.Tools;
 using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json.Linq;
 using System;
@@ -119,6 +121,9 @@ namespace HCI.Frames.Client
         private void OrderClicked(object sender, EventArgs e)
         {
             orderedTripService.AddOrderedTrip(OrderedTrip);
+            MessageBox.Show("Order succesfull.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.NavigateToHistoryClient();
         }
 
         private async Task AddPin(string address)
@@ -188,6 +193,18 @@ namespace HCI.Frames.Client
             if (pinToRemove != null)
             {
                 myMap.Children.Remove(pinToRemove);
+            }
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+              
+                HelpProvider.ShowHelp("attractions", mainWindow);
+                
+
             }
         }
         private async Task GeocodeAddress(string address)

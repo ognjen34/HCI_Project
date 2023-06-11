@@ -15,6 +15,8 @@ using HCI.Models.Attractions.Model;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Threading;
+using HCI.Models.Users.Model;
+using HCI.Tools;
 
 namespace HCI.Frames.Client
 {
@@ -197,6 +199,18 @@ namespace HCI.Frames.Client
                 {
                     Console.WriteLine("Error: " + jsonResponse);
                 }
+            }
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                
+                HelpProvider.ShowHelp("historydetails", mainWindow);
+               
+
             }
         }
 

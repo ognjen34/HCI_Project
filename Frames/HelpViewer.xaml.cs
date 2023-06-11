@@ -27,7 +27,7 @@ namespace HCI.Frames
             string curDir = Directory.GetCurrentDirectory();
             string projectDir = curDir;
 
-            while (!string.IsNullOrEmpty(projectDir) && !projectDir.EndsWith("HCI"))
+            while (!string.IsNullOrEmpty(projectDir) && !projectDir.EndsWith("ProjVeliki"))
             {
                 projectDir = Directory.GetParent(projectDir)?.FullName;
             }

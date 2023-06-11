@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AttractionsDocumentation</title>
+    <style>
+        /* Reset default list styles */
+        ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            overflow: auto;
+            position: relative;
+        }
+
+            li > div {
+                margin-left: 20px;
+            }
+
+        .step-number {
+            position: absolute;
+            top: 0;
+            left: 0px;
+            font-weight: bold;
+        }
+
+        img {
+            display: block;
+            float: left;
+            margin-right: 10px;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            list-style-type: disc;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Attractions UserControl</h1>
+
+    <h2>Adding Attractions</h2>
+    <ol>
+        <li>
+            <span class="step-number">1.</span>
+            <div>
+
+                <p>The Page consists of two main sections:</p>
+                <ul>
+                    <li>The left section displays a list of attractions and restaurants.</li>
+                    <li>The right section contains a map where attractions and restaurants are plotted.</li>
+                </ul>
+                <img src="Pictures/attractions_usercontrol.png" alt="Attractions UserControl" width="700">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">2.</span>
+            <div>
+                <p>Attractions and restaurants are shown based on the city of the trip's accommodation.</p>
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3.</span>
+            <div>
+                <p>Users can interact with attractions and restaurants in the following ways:</p>
+                <ul>
+                    <li>To add an attraction or restaurant to the trip, click on the corresponding marker </li>
+                    <li>If the attraction or restaurant is not already included in the trip, it will be added.</li>
+                    <li>If the attraction or restaurant is already included in the trip, it will be removed.</li>
+                </ul>
+                <img src="Pictures/attractions_interaction.png" alt="Attractions Interaction" width="700">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">4.</span>
+            <div>
+                <p>The total price of the trip is displayed at the bottom of the Page.</p>
+                <p>Users can place an order by clicking the "Order" button.</p>
+                <img src="Pictures/attractions_order.png" alt="Attractions Interaction" width="700">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">5.</span>
+            <div>
+                <p>If the order is successful you will be notified about it.</p>
+                <img src="Pictures/attractions_success.png" alt="Attractions Interaction" width="700">
+            </div>
+        </li>
+
+    </ol>
+</body>
+</html>
