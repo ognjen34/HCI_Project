@@ -58,17 +58,14 @@ namespace HCI.Frames
 
             List<string> documentationPages = modePages[mode];
 
-            string curDir = Directory.GetCurrentDirectory();
-            string projectDir = curDir;
-            Assembly assembly = Assembly.GetEntryAssembly();
+            string assemblyPath = Assembly.GetExecutingAssembly().Location;
+            string solutionPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(assemblyPath)));
 
-            string projectName = assembly.GetName().Name;
-            while (!string.IsNullOrEmpty(projectDir) && !projectDir.EndsWith(projectName))
-            {
-                projectDir = Directory.GetParent(projectDir)?.FullName;
-            }
 
-            string path = Path.Combine(projectDir, "Help", key + ".html");
+            DirectoryInfo solutionDirectory = Directory.GetParent(solutionPath);
+            string parentFolderPath = solutionDirectory?.FullName;
+
+            string path = Path.Combine(parentFolderPath, "Help", key + ".html");
 
             if (!File.Exists(path))
             {
