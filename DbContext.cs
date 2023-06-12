@@ -27,7 +27,13 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        modelBuilder.Entity<OrderedTrip>()
+                .HasMany(o => o.Attractions)
+                .WithMany();
+
+        modelBuilder.Entity<OrderedTrip>()
+            .HasMany(o => o.Restaurants)
+            .WithMany();
     }
     public void InitDataBase()
     {
@@ -186,7 +192,7 @@ public class AppDbContext : DbContext
         }
     );
         this.SaveChanges();
-        List<Restaurant> restaurants = new List<Restaurant>();
+        HashSet<Restaurant> restaurants = new HashSet<Restaurant>();
         Restaurants.Add(
             new Restaurant
             {
@@ -302,7 +308,7 @@ public class AppDbContext : DbContext
                 Trip = Trips.Find(1),
                 CheckIn = DateTime.Now.AddDays(3),
                 CheckOut = DateTime.Now.AddDays(10),
-                Attractions = new List<Attraction>(){
+                Attractions = new HashSet<Attraction>(){
                     Attractions.Find(1),
                     Attractions.Find(2),   
             
@@ -320,7 +326,7 @@ public class AppDbContext : DbContext
                 Trip = Trips.Find(2),
                 CheckIn = DateTime.Now.AddDays(-40),
                 CheckOut = DateTime.Now.AddDays(-30),
-                Attractions = new List<Attraction>(){
+                Attractions = new HashSet<Attraction>(){
                     Attractions.Find(1),
                     Attractions.Find(2),
                     Attractions.Find(1),
@@ -344,7 +350,7 @@ public class AppDbContext : DbContext
                 Trip = Trips.Find(3),
                 CheckIn = DateTime.Now,
                 CheckOut = DateTime.Now.AddDays(10),
-                Attractions = new List<Attraction>(){
+                Attractions = new HashSet<Attraction>(){
                     Attractions.Find(1),
 
                 },

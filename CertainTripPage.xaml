@@ -41,11 +41,10 @@
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Margin" Value="10"/>
                 <Setter Property="Background" Value="White"/>
-                <Setter Property="BorderBrush" Value="#888"/>
-                <Setter Property="BorderThickness" Value="2"/>
+
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="10"/>
+                        <DropShadowEffect ShadowDepth="0" Color="#888" Opacity="0.8" BlurRadius="10"/>
                     </Setter.Value>
                 </Setter>
             </Style>
