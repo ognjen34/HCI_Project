@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HCI.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,12 @@ namespace HCI.Navbars
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
             HomeClicked?.Invoke(this, EventArgs.Empty);
+        }
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+            HelpProvider.ShowHelp("clienthome", mainWindow, 1);
         }
 
 

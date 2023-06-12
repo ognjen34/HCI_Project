@@ -47,6 +47,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*   "></ColumnDefinition>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
@@ -55,6 +56,7 @@
             <Button Content="Restaurants" x:Name="restaurantsButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="1" />
             <Button Content="Attractions" x:Name="attractionsButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="2" />
             <Button Content="Accomodations" x:Name="accomodationsButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="3" />
+            <Button Content="Help" x:Name="helpButton" Style="{StaticResource NavbarButtonStyle}" Grid.Column="4" />
 
 
             <!-- Logout button -->

@@ -13,8 +13,7 @@
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Margin" Value="5"/>
                 <Setter Property="Background" Value="White"/>
-                <Setter Property="BorderBrush" Value="#888"/>
-                <Setter Property="BorderThickness" Value="2"/>
+                
                 <Setter Property="Effect">
                     <Setter.Value>
                         <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="15"/>
@@ -25,7 +24,7 @@
 
         <Border Style="{StaticResource ShadowBorderStyle}">
 
-            <Grid Height="245" Background="White" Margin="10">
+            <Grid Height="250" Background="White" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -35,8 +34,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="imageControl" Margin="0 0 5 0" Width="230" Height="230 "  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
-                    <Grid Grid.Column="1">
+                    <Image x:Name="imageControl"  Width="230" Height="230 " Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
+                    <Grid Grid.Column="1" Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>

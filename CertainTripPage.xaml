@@ -8,6 +8,12 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CertainTripPage">
+    <Page.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </Page.CommandBindings>
+    <Page.InputBindings>
+        <KeyBinding Key="F1" Command="ApplicationCommands.Help"/>
+    </Page.InputBindings>
 
     <Page.Resources>
         <Style x:Key="CircularButtonStyle" TargetType="Button">
@@ -53,19 +59,25 @@
         <Border Style="{StaticResource ShadowBorderStyle}">
             <Grid Background="White">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="6*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="9*"/>
                         <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="8*"/>
-                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="15*"/>
+                            <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
                         <Border Style="{StaticResource ShadowBorderStyle}">
                             <Image Name="accomendationImages" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
@@ -85,19 +97,56 @@
                     </Grid>
                     <TextBlock Name="accomendationName" Text="Na dobrom si putu" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
 
-                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <TextBlock Name="accomendationDescritpion" Text="Opis Opis opis" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
-                    </ScrollViewer>
+                    <Grid Grid.Row="3" HorizontalAlignment="Center" Width="250">
+                        <TextBlock Name="accomendationPrice" Text="Price: 35 $/night"  HorizontalAlignment="center"  FontSize="15"/>
+                    </Grid>
+                    <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
+                        <TextBlock Name="accomendationBeds" Text="Beds: 3" Grid.Row="5" HorizontalAlignment="center" FontSize="15"/>
+                    </Grid>
+                    
+                    
                 </Grid>
-                <Grid Grid.Column="1">
+                <GridSplitter  Grid.Column="1"   Margin ="5" Width="1" ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch"/>
+                <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                        
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource ShadowBorderStyle}">
+                        <Grid Grid.Row="0">
+
+                            <Image Name="tripImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
+                        </Grid>
+                    </Border>
+                    <TextBlock Name="tripName" Text="Na dobrom si putu" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
+                    <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Hidden">
+                        <TextBlock Name="tripDescription" Text="Desc" HorizontalAlignment="Center" Margin="4" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+
+
+
+
+
+
+                </Grid>
+                <GridSplitter  Grid.Column="3"   Margin ="5" Width="1" ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch"/>
+
+                <Grid Grid.Column="4">
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="9*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
+                        
                     </Grid.RowDefinitions>
                     <Border Style="{StaticResource ShadowBorderStyle}">
                         <Grid Grid.Row="0">
@@ -105,8 +154,8 @@
                             <m:Map x:Name="myMap" CredentialsProvider="yQf68os4c4HuyVo5IUNR~WX58e8NVpKnTDswqWo0zfQ~AojoZD63rjtEfrLRFwN8lH4sTiqHYWvEAdmIF605L3kS8YTmdUZHHTxnqs72XAf2" />
                         </Grid>
                     </Border>
-                    <TextBlock Name="accomendationLocation" Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="18"/>
-                    <Grid Grid.Row="2" HorizontalAlignment="Center" Width="250">
+                    <TextBlock Name="accomendationLocation" Text="France Paris 15 Av. Claude Vellefaux" Foreground="#2196F3" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" FontSize="12"/>
+                    <Grid Grid.Row="3" HorizontalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="5*"/>
@@ -114,7 +163,7 @@
                         <TextBlock Grid.Column="0"  Text="Check In: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
                         <DatePicker Grid.Column="1" Name="checkInDate" HorizontalAlignment="Left" Height="25" SelectedDate="{Binding CheckInDate}" Loaded="checkInDate_Loaded" />
                     </Grid>
-                    <Grid Grid.Row="3" HorizontalAlignment="Center" Width="250">
+                    <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="5*"/>
@@ -122,14 +171,9 @@
                         <TextBlock Grid.Column="0"  Text="Check out: " HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15"/>
                         <DatePicker Grid.Column="1" Name="checkoutDate" HorizontalAlignment="Left" DisplayDateStart="2020-01-01" Height="25"  SelectedDate="{Binding CheckInDate}" Loaded="checkOutDate_Loaded"/>
                     </Grid>
-                    <Grid Grid.Row="4" HorizontalAlignment="Center" Width="250">
-                        <TextBlock Name="accomendationPrice" Text="Price: 35 $/night"  HorizontalAlignment="left"  FontSize="15"/>
-                    </Grid>
-                    <Grid Grid.Row="5" HorizontalAlignment="Center" Width="250">
-                        <TextBlock Name="accomendationBeds" Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
-                    </Grid>
                     <TextBlock x:Name="errorMessage" Foreground="Red" Grid.Row="6" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                    <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
+                    <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Center"  FontSize="15"/>
+
 
                 </Grid>
 

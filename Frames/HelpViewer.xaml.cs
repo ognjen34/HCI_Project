@@ -15,7 +15,7 @@ namespace HCI.Frames
         private Dictionary<int, List<string>> modePages = new Dictionary<int, List<string>>
         {
             { 0, new List<string> { "login", "register" } },
-            { 1, new List<string> { "clienthome", "attractions", "clienthistory", "historydetails" } },
+            { 1, new List<string> { "clienthome", "tripdetails","attractions", "clienthistory", "historydetails" } },
             { 2, new List<string> { "agenthome","agenttripsform","agentrestaurants","agentrestaurantsform", "agentattractions","agentattractionsform", "agentaccommodations","agentaccommodationsform","agentlocationform" } }
         };
 
