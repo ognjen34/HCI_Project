@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="HCI.Frames.Agemt.AccommodationCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HCI" xmlns:local1="clr-namespace:HCI.Tools"
+             mc:Ignorable="d" 
+             d:DesignHeight="280" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <local1:RatingToStarsConverter x:Key="RatingToStarsConverter" />
+        <local1:RatingToVisibilityConverter x:Key="RatingToVisibilityConverter" />
+        <Style x:Key="ShadowBorderStyle" TargetType="Border">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#888"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="15"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource ShadowBorderStyle}" Background="White" Margin="5" HorizontalAlignment="Center" Width="800">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image x:Name="accommodationImage" Grid.RowSpan="5" Grid.Column="0" Width="200" Height="200" Margin="20" Stretch="UniformToFill" />
+
+            <TextBlock Text="Name:" FontWeight="Bold" Grid.Column="1" Margin="10" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Name}" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+
+            
+
+            <TextBlock Text="Location:" FontWeight="Bold" Margin="10" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Location.Address}" Grid.Row="1" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+
+            <TextBlock Text="Price per Day:" FontWeight="Bold" Margin="10" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding PricePerDay, StringFormat='{}{0} €'}" Grid.Row="2" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+            
+            <TextBlock Text="Beds:" FontWeight="Bold" Margin="10" Grid.Row="3"  Grid.Column="1" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Beds}" Grid.Row="3" Grid.Column="2" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+
+            <StackPanel Grid.ColumnSpan="3" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <Button Content="Edit" Background="#2196F3" Foreground="White" Margin="0,0,15,0" Padding="10,5" Width="80" Height="30" x:Name="editButton" />
+                <Button Content="Delete" Background="#2196F3" Foreground="White" Padding="10,5" Width="80" Height="30" Click="DeleteButton_Click" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

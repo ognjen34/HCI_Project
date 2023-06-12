@@ -24,6 +24,7 @@ namespace HCI.Navbars
         public event EventHandler RestaurantClicked;
         public event EventHandler AttractionsClicked;
         public event EventHandler LogoutClicked;
+        public event EventHandler AccomodationClicked;
 
         public AgentNavBar()
         {
@@ -32,6 +33,7 @@ namespace HCI.Navbars
             logoutButton.Click += LogoutButton_Click;
             restaurantsButton.Click += RestaurantsButton_Click;
             attractionsButton.Click += AttractionsButton_Click;
+            accomodationsButton.Click += AccomodationsButton_Click;
 
         }
 
@@ -49,6 +51,11 @@ namespace HCI.Navbars
         private void AttractionsButton_Click(object sender, RoutedEventArgs e)
         {
             AttractionsClicked?.Invoke(this, EventArgs.Empty);
+        }
+        private void AccomodationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            AccomodationClicked?.Invoke(this, EventArgs.Empty);
+            Console.WriteLine("XD");
         }
 
 

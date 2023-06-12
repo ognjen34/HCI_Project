@@ -20,7 +20,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using HCI.Frames.Client;
+
+using HCI.Tools;
+
 
 namespace HCI
 {
@@ -104,6 +108,23 @@ namespace HCI
             Trip trip = e.trip;
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.contentControl.Navigate(new TripForm(trip,_tripService, _accommodationService, _pictureService, () => mainWindow.NavigateToHome()));
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                if(_user.Type == UserType.Agent)
+                {
+                    HelpProvider.ShowHelp("agenthome", mainWindow,2);
+                }
+                else
+                {
+                    HelpProvider.ShowHelp("clienthome", mainWindow,1);
+                }
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
