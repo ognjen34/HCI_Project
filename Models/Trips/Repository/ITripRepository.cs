@@ -11,7 +11,9 @@ namespace HCI.Models.Trips.Repository
     {
         Trip GetById(int id);
         void Add(Trip trip);
-        void Remove(Trip trip);
+        public void Delete(int id);
         IEnumerable<Trip> GetAll();
+        public IEnumerable<Trip> GetAllDeletedAndActive();
+        void Update(Trip trip);
     }
 }

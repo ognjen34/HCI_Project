@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History Documentation</title>
+    <style>
+        /* Reset default list styles */
+        ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            overflow: auto;
+            position: relative;
+        }
+
+            li > div {
+                margin-left: 20px;
+            }
+
+        .step-number {
+            position: absolute;
+            top: 0;
+            left: 0px;
+            font-weight: bold;
+        }
+
+        img {
+            display: block;
+            float: left;
+            margin-right: 10px;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            list-style-type: disc;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>History</h1>
+
+    <h2>Viewing Order History</h2>
+    <ol>
+        <li>
+            <span class="step-number">1.</span>
+            <div>
+                <p>On the History page, you will see a list of your ordered trips.</p>
+                <p>The history items on the page will display the following information:</p>
+                <ul>
+                    <li>Trip Name</li>
+                    <li>Location</li>
+                    <li>Check-in Date</li>
+                    <li>Check-out Date</li>
+                    <li>Total Price</li>
+                    <li>Status</li>
+                </ul>
+                <img src="Pictures/clienthistory_page.png" alt="History Page" width="700">
+            </div>
+        </li>
+        <li>
+            <span class="step-number">2.</span>
+            <div>
+                <p>To view detailed information about a trip, click on the <strong>Details</strong> button associated with the trip.</p>
+                <p>This will open a page with more information about the trip.</p>
+                <img src="Pictures/clienthistory_details_button.png" alt="History Details Button" width="700">
+            </div>
+        </li>
+    </ol>
+</body>
+</html>

@@ -18,7 +18,14 @@ namespace HCI.Models.Trips.Repository
 
         public Trip GetById(int id)
         {
-            return _dbContext.Trips.Find(id);
+            return _dbContext.Trips.FirstOrDefault(r => r.Id == id && !r.IsDeleted);
+        }
+
+        public IEnumerable<Trip> GetAllDeletedAndActive()
+        {
+            return _dbContext.Trips
+                    .OrderBy(t => t.IsDeleted) 
+                    .ToList();
         }
 
         public void Add(Trip trip)
@@ -27,15 +34,24 @@ namespace HCI.Models.Trips.Repository
             _dbContext.SaveChanges();
         }
 
-        public void Remove(Trip trip)
+        public void Delete(int id)
         {
-            _dbContext.Trips.Remove(trip);
+            var trip = _dbContext.Trips.FirstOrDefault(a => a.Id == id);
+            if (trip != null)
+            {
+                trip.IsDeleted = true;
+                _dbContext.SaveChanges();
+            }
+}
+        public void Update(Trip trip)
+        {
+            _dbContext.Trips.Update(trip);
             _dbContext.SaveChanges();
         }
 
         public IEnumerable<Trip> GetAll()
         {
-            return _dbContext.Trips.ToList();
+            return _dbContext.Trips.Where(r => !r.IsDeleted).ToList();
         }
     }
 }

@@ -13,5 +13,6 @@ namespace HCI.Models.Trips.Service
         void AddOrderedTrip(OrderedTrip orderedTrip);
         void RemoveOrderedTrip(OrderedTrip orderedTrip);
         IEnumerable<OrderedTrip> GetAllOrderedTrips();
+        IEnumerable<OrderedTrip> GetAllByUserId(int id);
     }
 }

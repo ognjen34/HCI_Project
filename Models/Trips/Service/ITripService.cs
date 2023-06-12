@@ -12,6 +12,8 @@ namespace HCI.Models.Trips.Service
         Trip GetById(int id);
         void AddTrip(Trip trip);
         void RemoveTrip(Trip trip);
+        void UpdateTrip(Trip trip);
         IEnumerable<Trip> GetAllTrips();
+        IEnumerable<Trip> GetAllDeletedAndActive();
     }
 }

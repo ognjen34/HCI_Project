@@ -1,4 +1,5 @@
-﻿using HCI.Models.Restaurants.Model;
+﻿using HCI.Models.Attractions.Model;
+using HCI.Models.Restaurants.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace HCI.Models.Restaurants.Repository
         void Add(Restaurant restaurant);
         void Update(Restaurant restaurant);
         void Delete(int id);
+        IEnumerable<Restaurant> GetAllFromCity(string city);
+
     }
 }

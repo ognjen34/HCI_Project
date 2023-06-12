@@ -5,10 +5,10 @@ namespace HCI.Models.Locations.Repository
 {
     public interface ILocationRepository
     {
-        Task<Location> GetById(int id);
-        Task<List<Location>> GetAll();
-        Task Add(Location location);
-        Task Update(Location location);
-        Task Delete(int id);
+        Location GetLocationById(int id);
+        List<Location> GetAllLocations();
+        void AddLocation(Location location);
+        void UpdateLocation(Location location);
+        void DeleteLocation(int id);
     }
 }

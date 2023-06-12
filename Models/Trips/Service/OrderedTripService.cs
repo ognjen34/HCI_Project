@@ -36,5 +36,10 @@ namespace HCI.Models.Trips.Service
         {
             return _orderedTripRepository.GetAll();
         }
+
+        public IEnumerable<OrderedTrip> GetAllByUserId(int id)
+        {
+            return _orderedTripRepository.GetAllByUserId(id);
+        }
     }
 }

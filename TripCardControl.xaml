@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="HCI.TripCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:HCI"
+             mc:Ignorable="d"
+             d:DesignHeight="260" d:DesignWidth="900">
+
+    <Grid>
+
+        <Grid.Resources>
+            <Style x:Key="ShadowBorderStyle" TargetType="Border">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Background" Value="White"/>
+                
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="15"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Border Style="{StaticResource ShadowBorderStyle}">
+
+            <Grid Height="250" Background="White" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="imageControl"  Width="230" Height="230 " Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
+                    <Grid Grid.Column="1" Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="tripName"  Text="aksjdlkasdjlk"  FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="4"/>
+                        <TextBlock Name="locationName" Text="Location Name" FontSize="12" Foreground="#2196F3" Margin="0,5,0,0"  VerticalAlignment="Center" Grid.Row="2"/>
+                        <TextBlock Name="description" Text="aaaaaaaaaaaaaaaaaaaa" FontSize="10" Margin="0,10,0,0"   VerticalAlignment="Center" Grid.Row="3" Width="150" Height="auto" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1" Margin="10 10 10 20" HorizontalAlignment="Right">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Name="priceLabel" Text="Price:" HorizontalAlignment="Left" Grid.Row="0" Margin="0,20,5,0" Grid.Column="0"/>
+                    <TextBlock Name="accomendationPrice" Text="35 $/night" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="0" Grid.Column="1"/>
+                    <TextBlock Name="bedsLabel" Text="Beds:" HorizontalAlignment="Left" Grid.Row="1" Margin="0,20,5,0" Grid.Column="0"/>
+                    <TextBlock Name="bedsValue" Text="3" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="1" Grid.Column="1"/>
+                    <TextBlock Name="statistics" Text="Total Sold: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Name="statisticsValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="2" Grid.Column="1"/>
+                    <TextBlock Name="totalPrice" Text="Total earned: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="3" Grid.Column="0"/>
+                    <TextBlock Name="totalPriceValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="3" Grid.Column="1"/>
+                    <TextBlock Name="isActive" Text="Active: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="4" Grid.Column="0"/>
+                    <TextBlock Name="isActiveValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="4" Grid.Column="1"/>
+
+                    <Grid HorizontalAlignment="Right" Grid.Row="5" VerticalAlignment="Bottom"  Grid.ColumnSpan="3" Width="300" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Book" x:Name="orderButton" Visibility="Visible" Width="80" Height="30" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" Background="#2196F3" Foreground="White" Click="OrderButton_Click" />
+                        <Button Content="Details" x:Name="detailButton" Visibility="Visible" Width="80" Margin="0,0,20,0" Height="30" Grid.Column="0"  Background="#2196F3" Foreground="White" Click="detailButton_Click"/>
+                        
+                        <Button Content="Edit" x:Name="editButton" Visibility="Visible" Width="80" Height="30" Grid.Column="1" Background="#2196F3" Foreground="White" Click="EditClicked" />
+                        <Button Content="Delete" x:Name="deleteButton" Visibility="Visible" Width="80" Margin="20,0,0,0" Height="30" Grid.Column="2" Background="#2196F3" Foreground="White" Click="DeleteButton_Click"/>
+
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

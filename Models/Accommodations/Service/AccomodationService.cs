@@ -36,5 +36,10 @@ namespace HCI.Models.Accommodations.Service
         {
             return _accommodationRepository.GetAll();
         }
+
+        public void Update(Accommodation accommodation)
+        {
+            _accommodationRepository.Update(accommodation);
+        }
     }
 }

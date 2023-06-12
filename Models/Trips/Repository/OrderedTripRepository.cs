@@ -37,5 +37,10 @@ namespace HCI.Models.Trips.Repository
         {
             return _dbContext.OrderedTrips.ToList();
         }
+
+        public IEnumerable<OrderedTrip> GetAllByUserId(int id)
+        {
+            return _dbContext.OrderedTrips.Where(t => t.User.Id == id).ToList();
+        }
     }
 }

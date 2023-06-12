@@ -36,5 +36,14 @@ namespace HCI.Models.Users.Service
         {
             return _userRepository.GetAll();
         }
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            return _userRepository.GetUserByEmailAndPassword(email, password);
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return _userRepository.GetUserByEmail(email);
+        }
     }
 }

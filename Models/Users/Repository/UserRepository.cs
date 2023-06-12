@@ -37,5 +37,15 @@ namespace HCI.Models.Users.Repository
         {
             return _dbContext.Users.ToList();
         }
+
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
 }

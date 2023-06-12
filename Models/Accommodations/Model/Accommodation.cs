@@ -1,4 +1,5 @@
 ﻿using HCI.Models.Locations.Model;
+using HCI.Models.Pictures.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,17 +17,14 @@ namespace HCI.Models.Accommodations.Model
         public int Beds { get; set; }
         public Location Location { get; set; }
         public List<Picture> Pictures { get; set; }
+        public bool IsDeleted { get; set; }
         public double PricePerDay { get; set; }
 
         public Accommodation()
         {
+            IsDeleted = false;
             Pictures = new List<Picture>();
         }
     }
-    public class Picture
-    {
-        public int Id { get; set; }
-        public String Pictures { get; set; }
 
-    }
 }
