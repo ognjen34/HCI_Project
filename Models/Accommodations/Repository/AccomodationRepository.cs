@@ -1,5 +1,6 @@
 ﻿using HCI.Models.Accommodations.Model;
 using HCI.Models.Attractions.Model;
+using HCI.Models.Trips.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,13 +32,18 @@ namespace HCI.Models.Accommodations.Repository
 
         public void Remove(Accommodation accommodation)
         {
-            _dbContext.Accommodations.Remove(accommodation);
+            accommodation.IsDeleted = true;
+            List<Trip> tripsWithHotel = _dbContext.Trips.Where(trip => trip.Accommodation.Id == accommodation.Id).ToList();
+            foreach(Trip trip in tripsWithHotel)
+            {
+                trip.IsDeleted = true;
+            }
             _dbContext.SaveChanges();
         }
 
         public IEnumerable<Accommodation> GetAll()
         {
-            return _dbContext.Accommodations.ToList();
+            return _dbContext.Accommodations.Where(r => !r.IsDeleted).ToList();
         }
         public void Update(Accommodation accommodation)
         {

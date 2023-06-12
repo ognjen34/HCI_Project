@@ -30,6 +30,7 @@ namespace HCI.Frames.Client
         public Restaurant RestaurantData { get; set; }
         public User _user;
         private Dictionary<int, int> _attractionStatistic;
+        private Dictionary<int, double> _attraciontEarnings;
         private Trip _trip;
 
         public AttractionItem(Attraction item = null,Restaurant res = null, User user = null, IOrderedTripService orderedTripService = null, Trip trip = null)
@@ -41,9 +42,9 @@ namespace HCI.Frames.Client
             RestaurantData = res;
             _orderedTripService = orderedTripService;
             InitializeComponent();
-            _attractionStatistic = getAttractionStatistics();
+            totalEarned.Visibility = Visibility.Collapsed;
             MouseDown += AttractionItem_MouseDown;
-            if(user.Type == UserType.Agent)
+            if (user.Type == UserType.Agent)
             {
                 statistics.Visibility = Visibility.Visible;
             }
@@ -57,7 +58,17 @@ namespace HCI.Frames.Client
                 Type.Text = AttractionData.ClassName;
                 tripName.Text = AttractionData.Name;
                 Location.Text = AttractionData.Location.Address;
-                statistics.Text = "Sold: " + _attractionStatistic[AttractionData.Id].ToString();
+               
+                if (user.Type == UserType.Agent)
+                {
+                    totalEarned.Visibility = Visibility.Visible;
+                    _attractionStatistic = getAttractionStatistics();
+                    _attraciontEarnings = getAttractionEarnings();
+                    totalEarned.Visibility = Visibility.Visible;
+                    statistics.Text = "Sold: " + _attractionStatistic[AttractionData.Id].ToString();
+                    totalEarned.Text = "Total earned: " + _attraciontEarnings[AttractionData.Id].ToString() + "$";
+
+                }
             }
             if (RestaurantData != null)
             {
@@ -65,11 +76,47 @@ namespace HCI.Frames.Client
                 Type.Text = RestaurantData.ClassName;
                 tripName.Text = RestaurantData.Name;
                 Location.Text = RestaurantData.Location.Address;
-                statistics.Text = "Sold: " + _attractionStatistic[RestaurantData.Id].ToString();
+                if (user.Type == UserType.Agent)
+                {
+                    totalEarned.Visibility = Visibility.Collapsed;
+                    _attractionStatistic = getAttractionStatistics();
+                    statistics.Text = "Sold: " + _attractionStatistic[RestaurantData.Id].ToString();
+
+                }
             }
 
 
 
+        }
+
+
+        private Dictionary<int, double> getAttractionEarnings()
+        {
+            Dictionary<int, double> attractionEarnings = new Dictionary<int, double>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            if (RestaurantData == null)
+            {
+                foreach (OrderedTrip orderedTrip in orderedTrips)
+                {
+                    if (orderedTrip.Trip.Id == _trip.Id)
+                    {
+                        foreach (Attraction attraction in orderedTrip.Attractions)
+                        {
+                            if (attractionEarnings.ContainsKey(attraction.Id))
+                            {
+                                attractionEarnings[attraction.Id] += attraction.Price;
+                            }
+                            else
+                            {
+                                attractionEarnings.Add(attraction.Id, attraction.Price);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return attractionEarnings;
         }
 
         private Dictionary<int, int> getAttractionStatistics()

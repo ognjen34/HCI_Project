@@ -18,6 +18,7 @@ namespace HCI.Models.Restaurants.Model
 
     public class Restaurant
     {
+
         public int Id { get; set; }
         public string Name { get; set; }
         public Location Location { get; set; }
@@ -25,6 +26,12 @@ namespace HCI.Models.Restaurants.Model
         public double Rating { get; set; }
         public CuisineType CuisineType { get; set; }
         public Picture Picture { get; set; }
+        public bool IsDeleted { get; set; }
         public string ClassName { get; set; }
+
+        public Restaurant()
+        {
+            IsDeleted = false;
+        }
     }
 }

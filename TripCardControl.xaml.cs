@@ -28,12 +28,14 @@ namespace HCI
         public event EventHandler<OrderTripArgs> OrderTrip;
         public event EventHandler<OrderTripArgs> EditClickedEvent;
         public event EventHandler<OrderTripArgs> DetailsClickedEvent;
+        public event EventHandler<OrderTripArgs> DeleteClickedEvent;
  
 
         private readonly UserType userType;
         private readonly ITripService _tripService;
         private readonly IOrderedTripService _orderedTripService;
         private Dictionary<int, int> _tripStatistics;
+        private Dictionary<int, double> _tripTotalPrice;
 
         public TripCardControl(Trip trip, UserType userType, ITripService tripService, IOrderedTripService orderedTripService)
         {
@@ -46,8 +48,22 @@ namespace HCI
             description.Text = trip.Description;
             bedsValue.Text = trip.Accommodation.Beds.ToString();
             locationName.Text = trip.Accommodation.Location.Address.ToString();
-            _tripStatistics = getTripStatistics();
-            statisticsValue.Text = _tripStatistics[trip.Id].ToString();
+            if (!trip.IsDeleted)
+            {
+                isActiveValue.Text = "Active";
+            }
+            else
+            {
+                isActiveValue.Text = "Inactive";
+            }
+            if(this.userType == UserType.Agent)
+            {
+                _tripStatistics = getTripStatistics();
+                _tripTotalPrice = getTotalPrice();
+                statisticsValue.Text = _tripStatistics[trip.Id].ToString();
+                totalPriceValue.Text = _tripTotalPrice[trip.Id].ToString() + " $";
+            }
+            
             Console.WriteLine(trip.Name);
             Console.WriteLine(trip.Description);
             SetImageSource(trip.Picture.Pictures);
@@ -63,7 +79,11 @@ namespace HCI
                     orderButton.Visibility = Visibility.Collapsed;
                     editButton.Visibility = Visibility.Visible;
                     statistics.Visibility = Visibility.Visible;
+                    totalPrice.Visibility = Visibility.Visible;
+                    totalPriceValue.Visibility = Visibility.Visible;
                     statisticsValue.Visibility = Visibility.Visible;
+                    isActive.Visibility = Visibility.Visible;
+                    isActiveValue.Visibility = Visibility.Visible;
                     detailButton.Visibility = Visibility.Visible;
                     deleteButton.Visibility = Visibility.Visible;
                     break;
@@ -71,29 +91,59 @@ namespace HCI
                     orderButton.Visibility = Visibility.Visible;
                     statistics.Visibility = Visibility.Collapsed;
                     statisticsValue.Visibility = Visibility.Collapsed;
+                    totalPrice.Visibility = Visibility.Collapsed;
+                    totalPriceValue.Visibility = Visibility.Collapsed;
+                    isActive.Visibility = Visibility.Collapsed;
+                    isActiveValue.Visibility = Visibility.Collapsed;
                     detailButton.Visibility = Visibility.Collapsed;
                     editButton.Visibility = Visibility.Collapsed;
                     deleteButton.Visibility = Visibility.Collapsed;
                     break;
+            }
+
+            if(Trip.IsDeleted == true)
+            {
+                editButton.Visibility = Visibility.Collapsed;
+                deleteButton.Visibility = Visibility.Collapsed;
             }
         }
 
         private Dictionary<int, int> getTripStatistics()
         {
             Dictionary<int, int> tripStatisticsMap = new Dictionary<int, int>();
+            Dictionary<int, int> tripPriceMap = new Dictionary<int, int>();
             List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
             foreach (OrderedTrip trip in orderedTrips)
             {
-                if (tripStatisticsMap.ContainsKey(trip.Id))
+                if (tripStatisticsMap.ContainsKey(trip.Trip.Id))
                 {
-                    tripStatisticsMap[trip.Id] += 1;
+                    tripStatisticsMap[trip.Trip.Id] += 1;
                 }
                 else
                 {
-                    tripStatisticsMap.Add(trip.Id, 1);
+                    tripStatisticsMap.Add(trip.Trip.Id, 1);
                 }
             }
             return tripStatisticsMap;
+
+        }
+
+        private Dictionary<int, double> getTotalPrice()
+        {
+            Dictionary<int, double> tripPriceMap = new Dictionary<int, double>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            foreach (OrderedTrip trip in orderedTrips)
+            {
+                if (tripPriceMap.ContainsKey(trip.Trip.Id))
+                {
+                    tripPriceMap[trip.Trip.Id] += trip.TotalPrice;
+                }
+                else
+                {
+                    tripPriceMap.Add(trip.Trip.Id, trip.TotalPrice);
+                }
+            }
+            return tripPriceMap;
 
         }
 
@@ -101,18 +151,15 @@ namespace HCI
         {
             try
             {
-                // Create a BitmapImage from the base64 string
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = new System.IO.MemoryStream(Convert.FromBase64String(base64Image));
                 bitmapImage.EndInit();
 
-                // Set the BitmapImage as the source of the Image control
                 imageControl.Source = bitmapImage;
             }
             catch (Exception ex)
             {
-                // Handle any exceptions
                 Console.WriteLine("Error setting image source: " + ex.Message);
             }
         }
@@ -135,15 +182,10 @@ namespace HCI
             {
                 _tripService.RemoveTrip(Trip);
 
-                var parentStackPanel = Parent as StackPanel;
-                parentStackPanel?.Children.Remove(this);
+                DeleteClickedEvent?.Invoke(this, new OrderTripArgs(this.Trip));
             }
         }
 
-        private void EditTrip()
-        {
-            // Perform the necessary actions for editing the trip
-        }
 
         private void detailButton_Click(object sender, RoutedEventArgs e)
         {

@@ -52,6 +52,9 @@ namespace HCI
             Pictures = new List<Picture>();
             Pictures = Trip.Accommodation.Pictures.ToList();
             InitializeComponent();
+
+            errorMessage.Visibility = Visibility.Collapsed;
+
             GeocodeAddress(Trip.Accommodation.Location.Address);
             accomendationLocation.Text = Trip.Accommodation.Location.City + " " + Trip.Accommodation.Location.Address; 
             accomendationName.Text = trip.Accommodation.Name;
@@ -111,8 +114,35 @@ namespace HCI
             }
         }
 
+        private void ShowErrorMessage(string message)
+        {
+            errorMessage.Text = message;
+            errorMessage.Visibility = Visibility.Visible;
+        }
+
         private void resrveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (checkInDate.SelectedDate == null || checkoutDate.SelectedDate == null)
+            {
+                ShowErrorMessage("Please select both check-in and check-out dates.");
+                return;
+            }
+
+            DateTime checkIn = checkInDate.SelectedDate.Value.Date;
+            DateTime checkOut = checkoutDate.SelectedDate.Value.Date;
+
+            if (checkIn < DateTime.Today)
+            {
+                ShowErrorMessage("Check-in date cannot be in the past.");
+                return;
+            }
+
+            if (checkOut <= checkIn)
+            {
+                ShowErrorMessage("Check-out date must be after the check-in date.");
+                return;
+            }
+
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             OrderedTrip orderedTrip = new OrderedTrip();
             orderedTrip.Trip = Trip;
@@ -120,7 +150,7 @@ namespace HCI
             orderedTrip.CheckOut = checkoutDate.SelectedDate ?? DateTime.MinValue;
             orderedTrip.CheckIn = checkInDate.SelectedDate ?? DateTime.MinValue;
             
-            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService, _orderedTripService, orderedTrip));
+            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService, _orderedTripService, orderedTrip,_user));
         }
 
 

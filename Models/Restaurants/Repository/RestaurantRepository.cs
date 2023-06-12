@@ -20,12 +20,12 @@ namespace HCI.Models.Restaurants.Repository
 
         public Restaurant GetById(int id)
         {
-            return _dbContext.Restaurants.FirstOrDefault(r => r.Id == id);
+            return _dbContext.Restaurants.FirstOrDefault(r => r.Id == id && !r.IsDeleted);
         }
 
         public IEnumerable<Restaurant> GetAll()
         {
-            return _dbContext.Restaurants.ToList();
+            return _dbContext.Restaurants.Where(r => !r.IsDeleted).ToList();
         }
 
         public void Add(Restaurant restaurant)
@@ -49,7 +49,7 @@ namespace HCI.Models.Restaurants.Repository
             var restaurant = GetById(id);
             if (restaurant != null)
             {
-                _dbContext.Restaurants.Remove(restaurant);
+                restaurant.IsDeleted = true;
                 _dbContext.SaveChanges();
             }
         }

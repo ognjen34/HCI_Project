@@ -32,7 +32,7 @@ namespace HCI.Frames.Client
         OrderedTrip OrderedTrip { get; set; }
         double TotalPriceDouble { get; set; }
 
-        public Attractions(IAttractionService attractionService, IRestaurantService restaurantService,IOrderedTripService  orderedTripService,OrderedTrip trip)
+        public Attractions(IAttractionService attractionService, IRestaurantService restaurantService,IOrderedTripService  orderedTripService,OrderedTrip trip,User user)
         {
             OrderedTrip = trip;
             this.attractionService = attractionService;
@@ -41,11 +41,9 @@ namespace HCI.Frames.Client
             InitializeComponent();
             GeocodeAddress(OrderedTrip.Trip.Accommodation.Location.Address);
 
-            // Get the data from both services
             var attractions = attractionService.GetAllFromCity(OrderedTrip.Trip.Accommodation.Location.City);
             var restaurants = restaurantService.GetAllFromCity(OrderedTrip.Trip.Accommodation.Location.City);
 
-            // Merge the data into a single collection
             var mergedItems = new List<object>();
             mergedItems.AddRange(attractions);
             mergedItems.AddRange(restaurants);
@@ -55,16 +53,15 @@ namespace HCI.Frames.Client
 
 
 
-            // Create AttractionItem instances and set the Data property
             foreach (var item in attractions)
             {
-                var attractionItem = new AttractionItem(item);
+                var attractionItem = new AttractionItem(item,null, user);
                 attractionItem.ItemClicked += AttractionItem_Clicked;
                 attractionItemsControl.Items.Add(attractionItem);
             }
             foreach (var item in restaurants)
             {
-                var attractionItem = new AttractionItem(null,item);
+                var attractionItem = new AttractionItem(null,item, user);
                 attractionItem.ItemClicked += AttractionItem_Clicked;
                 attractionItemsControl.Items.Add(attractionItem);
             }

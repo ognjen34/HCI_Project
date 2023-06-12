@@ -14,5 +14,6 @@ namespace HCI.Models.Trips.Service
         void RemoveTrip(Trip trip);
         void UpdateTrip(Trip trip);
         IEnumerable<Trip> GetAllTrips();
+        IEnumerable<Trip> GetAllDeletedAndActive();
     }
 }

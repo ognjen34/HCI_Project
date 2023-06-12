@@ -17,10 +17,12 @@ namespace HCI.Models.Accommodations.Model
         public int Beds { get; set; }
         public Location Location { get; set; }
         public List<Picture> Pictures { get; set; }
+        public bool IsDeleted { get; set; }
         public double PricePerDay { get; set; }
 
         public Accommodation()
         {
+            IsDeleted = false;
             Pictures = new List<Picture>();
         }
     }

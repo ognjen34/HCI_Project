@@ -41,6 +41,8 @@ namespace HCI.Models.Restaurants.Service
                 _restaurantRepository.Update(restaurant);
             }
 
+
+
             public void Delete(int id)
             {
                 _restaurantRepository.Delete(id);
