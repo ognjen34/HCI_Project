@@ -1,4 +1,3 @@
-
 using HCI.Frames;
 using HCI.Frames.Agemt;
 using HCI.Frames.Client;
@@ -12,7 +11,6 @@ using HCI.Models.Restaurants.Service;
 using HCI.Models.Trips.Model;
 using HCI.Models.Trips.Service;
 using HCI.Models.Users.DTO;
-
 using HCI.Models.Users.Model;
 using HCI.Models.Users.Service;
 using HCI.Navbars;
@@ -43,13 +41,9 @@ namespace HCI
         private ToolTip helpToolTip;
         private DispatcherTimer timer;
 
-
-
-
-
         private User user;
 
-        public MainWindow(IUserService userService, IPictureService pictureService,IAccommodationService accommodationService,ITripService tripService,IAttractionService attractionService,IRestaurantService restaurantService, ILocationService locationService ,IOrderedTripService orderedTripService)
+        public MainWindow(IUserService userService, IPictureService pictureService, IAccommodationService accommodationService, ITripService tripService, IAttractionService attractionService, IRestaurantService restaurantService, ILocationService locationService, IOrderedTripService orderedTripService)
         {
             user = null;
             SetWindowLogo();
@@ -73,8 +67,8 @@ namespace HCI
             contentControl.Navigate(loginForm);
             loginForm.LoginSuccess += LoginForm_LoginSuccess;
             loginForm.RegisterPressed += RegisterClicked;
-
         }
+
         private void SetWindowLogo()
         {
             try
@@ -83,10 +77,8 @@ namespace HCI
                 string assemblyPath = Assembly.GetExecutingAssembly().Location;
                 string solutionPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(assemblyPath)));
 
-
                 DirectoryInfo solutionDirectory = Directory.GetParent(solutionPath);
                 string parentFolderPath = solutionDirectory?.FullName;
-
 
                 string path = Path.Combine(parentFolderPath, logoPath);
 
@@ -103,43 +95,64 @@ namespace HCI
 
         private void MainWindow_MouseMove(object sender, MouseEventArgs e)
         {
-            timer.Stop();
-            timer.Start();
+            if (IsMouseDirectlyOverWindow())
+            {
+                timer.Stop();
+                timer.Start();
+                helpToolTip.IsOpen = false;
+            }
+            else
+            {
+                timer.Stop();
+                helpToolTip.IsOpen = false;
+            }
+        }
 
-            helpToolTip.IsOpen = false;
+        private bool IsMouseDirectlyOverWindow()
+        {
+            Point mousePos = Mouse.GetPosition(this);
+            return (mousePos.X >= 0 && mousePos.X < ActualWidth && mousePos.Y >= 0 && mousePos.Y < ActualHeight);
         }
 
         private void InitializeToolTip()
         {
             helpToolTip = new ToolTip();
-            helpToolTip.Content = "If you need help open the documentation\nUse the F1 key";
+            helpToolTip.Content = "If you need help, open the documentation. Use the F1 key.";
         }
 
         private void InitializeTimer()
         {
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Interval = TimeSpan.FromSeconds(4);
             timer.Tick += Timer_Tick;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             timer.Stop();
-            helpToolTip.IsOpen = true;
+            if (IsMouseDirectlyOverWindow() && IsActive)
+            {
+                helpToolTip.IsOpen = true;
+            }
+            else
+            {
+                helpToolTip.IsOpen = false;
+            }
         }
 
-        protected override void OnGotFocus(RoutedEventArgs e)
+        protected override void OnActivated(EventArgs e)
         {
-            base.OnGotFocus(e);
+            base.OnActivated(e);
             timer.Start();
         }
 
-        protected override void OnLostFocus(RoutedEventArgs e)
+        protected override void OnDeactivated(EventArgs e)
         {
-            base.OnLostFocus(e);
+            base.OnDeactivated(e);
             timer.Stop();
             helpToolTip.IsOpen = false;
         }
+
         private void LoginForm_LoginSuccess(object sender, LoginSuccessArgs e)
         {
             user = e.User;
@@ -155,8 +168,7 @@ namespace HCI
                 clientNavBar.LogoutClicked += LogoutClicked;
                 navbarViewBox.Visibility = Visibility.Visible;
 
-                contentControl.Navigate(new HomePage(_tripService,_pictureService, _accommodationService,_attractionService, _restaurantService, _orderedTripService,user));
-
+                contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, user));
             }
             else if (user.Type == UserType.Agent)
             {
@@ -169,16 +181,15 @@ namespace HCI
                 navbarControl.Content = agentNavBar;
                 navbarViewBox.Visibility = Visibility.Visible;
                 contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, user));
-
             }
         }
 
         private void HistoryClicked(object? sender, EventArgs e)
         {
             NavigateToHistoryClient();
-
         }
-        public void NavigateToHistoryClient ()
+
+        public void NavigateToHistoryClient()
         {
             contentControl.Navigate(new History(_orderedTripService, user));
         }
@@ -186,16 +197,12 @@ namespace HCI
         public void NavigateToHome()
         {
             contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, user));
-
         }
+
         private void HomeClicked(object sender, EventArgs e)
         {
-            NavigateToHome();   
+            NavigateToHome();
         }
-
-
-
-
 
         private void RegisterClicked(object sender, EventArgs e)
         {
@@ -214,17 +221,17 @@ namespace HCI
 
         public void NavigateToRestaurantsAgent()
         {
-            contentControl.Navigate(new RestaurantPage(_restaurantService,_locationService,_pictureService));
+            contentControl.Navigate(new RestaurantPage(_restaurantService, _locationService, _pictureService));
         }
+
         private void RestaurantClicked(object sender, EventArgs e)
         {
             NavigateToRestaurantsAgent();
-
         }
+
         private void AccomodationsClicked(object sender, EventArgs e)
         {
             NavigateToAccomodationsAgent();
-
         }
 
         public void NavigateToAccomodationsAgent()
@@ -234,13 +241,13 @@ namespace HCI
 
         public void NavigateToAttractionsAgent()
         {
-            contentControl.Navigate(new AttractionPage(_attractionService,_locationService,_pictureService));
+            contentControl.Navigate(new AttractionPage(_attractionService, _locationService, _pictureService));
         }
+
         private void AttractionsClicked(object sender, EventArgs e)
         {
             NavigateToAttractionsAgent();
         }
-
 
         private void LogoutClicked(object sender, EventArgs e)
         {
@@ -258,8 +265,5 @@ namespace HCI
         {
             Application.Current.Shutdown();
         }
-
     }
-
-
 }
