@@ -35,6 +35,7 @@ namespace HCI
         private readonly ITripService _tripService;
         private readonly IOrderedTripService _orderedTripService;
         private Dictionary<int, int> _tripStatistics;
+        private Dictionary<int, double> _tripTotalPrice;
 
         public TripCardControl(Trip trip, UserType userType, ITripService tripService, IOrderedTripService orderedTripService)
         {
@@ -55,8 +56,14 @@ namespace HCI
             {
                 isActiveValue.Text = "Inactive";
             }
-            _tripStatistics = getTripStatistics();
-            statisticsValue.Text = _tripStatistics[trip.Id].ToString();
+            if(this.userType == UserType.Agent)
+            {
+                _tripStatistics = getTripStatistics();
+                _tripTotalPrice = getTotalPrice();
+                statisticsValue.Text = _tripStatistics[trip.Id].ToString();
+                totalPriceValue.Text = _tripTotalPrice[trip.Id].ToString() + " $";
+            }
+            
             Console.WriteLine(trip.Name);
             Console.WriteLine(trip.Description);
             SetImageSource(trip.Picture.Pictures);
@@ -72,6 +79,8 @@ namespace HCI
                     orderButton.Visibility = Visibility.Collapsed;
                     editButton.Visibility = Visibility.Visible;
                     statistics.Visibility = Visibility.Visible;
+                    totalPrice.Visibility = Visibility.Visible;
+                    totalPriceValue.Visibility = Visibility.Visible;
                     statisticsValue.Visibility = Visibility.Visible;
                     isActive.Visibility = Visibility.Visible;
                     isActiveValue.Visibility = Visibility.Visible;
@@ -82,6 +91,8 @@ namespace HCI
                     orderButton.Visibility = Visibility.Visible;
                     statistics.Visibility = Visibility.Collapsed;
                     statisticsValue.Visibility = Visibility.Collapsed;
+                    totalPrice.Visibility = Visibility.Collapsed;
+                    totalPriceValue.Visibility = Visibility.Collapsed;
                     isActive.Visibility = Visibility.Collapsed;
                     isActiveValue.Visibility = Visibility.Collapsed;
                     detailButton.Visibility = Visibility.Collapsed;
@@ -100,6 +111,7 @@ namespace HCI
         private Dictionary<int, int> getTripStatistics()
         {
             Dictionary<int, int> tripStatisticsMap = new Dictionary<int, int>();
+            Dictionary<int, int> tripPriceMap = new Dictionary<int, int>();
             List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
             foreach (OrderedTrip trip in orderedTrips)
             {
@@ -113,6 +125,25 @@ namespace HCI
                 }
             }
             return tripStatisticsMap;
+
+        }
+
+        private Dictionary<int, double> getTotalPrice()
+        {
+            Dictionary<int, double> tripPriceMap = new Dictionary<int, double>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            foreach (OrderedTrip trip in orderedTrips)
+            {
+                if (tripPriceMap.ContainsKey(trip.Trip.Id))
+                {
+                    tripPriceMap[trip.Trip.Id] += trip.TotalPrice;
+                }
+                else
+                {
+                    tripPriceMap.Add(trip.Trip.Id, trip.TotalPrice);
+                }
+            }
+            return tripPriceMap;
 
         }
 

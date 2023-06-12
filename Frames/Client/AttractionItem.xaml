@@ -41,6 +41,7 @@
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -70,6 +71,7 @@
                     </TextBlock>
                 </Grid>
                 <TextBlock Grid.Row="4" Text="Sold: 50" Name="statistics" FontWeight="Bold" FontSize="12"  VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <TextBlock Grid.Row="5" Text="Total earned: 50" Name="totalEarned" FontWeight="Bold" FontSize="12"  VerticalAlignment="Center" Margin="10,0,0,0"/>
             </Grid>
         </Grid>
     </Border>

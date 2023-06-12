@@ -20,7 +20,7 @@ using HCI.Models.Users.Model;
 using HCI.Models.Trips.Service;
 
 using HCI.Tools;
-
+using System.Globalization;
 
 namespace HCI.Frames.Client
 {
@@ -34,12 +34,22 @@ namespace HCI.Frames.Client
         private readonly IOrderedTripService _orderedTripService;
         public List<Picture> Pictures { get; set; }
         public User _user;
+        public int month;
+        public int year;
+        public DateTime date;
+        private Dictionary<int, int> _tripStatistics;
+        private Dictionary<int, double> _tripTotalPrice;
         public HistoryItemDetails(OrderedTrip trip, User user, IOrderedTripService orderedTripService)
         {
+            month = 1;
+            year = 2023;
+            date = new DateTime(year, month, 1);
             _user = user;
             _trip = trip;
             _orderedTripService = orderedTripService;
             InitializeComponent();
+            _tripStatistics = new Dictionary<int, int>();
+            _tripTotalPrice = new Dictionary<int, double>();
             GeocodeAddress(_trip.Trip.Accommodation.Location.Address);
             AddPins();
             SelectedImg = 1;
@@ -56,14 +66,133 @@ namespace HCI.Frames.Client
 
         }
 
+        private int ConvertMonthToInt(string monthString)
+        {
+            DateTimeFormatInfo formatInfo = new DateTimeFormatInfo();
+            return formatInfo.MonthNames.ToList().IndexOf(monthString) + 1;
+        }
+
+        private void MonthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedMonth = MonthComboBox.SelectedItem.ToString();
+            month = ConvertMonthToInt(selectedMonth);
+            date = new DateTime(year, month, 1);
+            if (soldTextBlock != null)
+            {
+                AddText();
+            }
+            // Do something with the selected month
+        }
+
+
+        private void YearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedYear = (int)YearComboBox.SelectedItem;
+            year = selectedYear;
+            date = new DateTime(year, month, 1);
+            if(soldTextBlock != null)
+            {
+                AddText();
+            }
+            // Do something with the selected year
+        }
+
+
+        private Dictionary<int, int> getTripStatistics(DateTime statisticDate)
+        {
+            Dictionary<int, int> tripStatisticsMap = new Dictionary<int, int>();
+            Dictionary<int, int> tripPriceMap = new Dictionary<int, int>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            foreach (OrderedTrip trip in orderedTrips)
+            {
+                if(trip.CheckIn.Month == statisticDate.Month && trip.CheckIn.Year == statisticDate.Year)
+                {
+                    if (tripStatisticsMap.ContainsKey(trip.Trip.Id))
+                    {
+                        tripStatisticsMap[trip.Trip.Id] += 1;
+                    }
+                    else
+                    {
+                        tripStatisticsMap.Add(trip.Trip.Id, 1);
+                    }
+                }
+                
+            }
+            return tripStatisticsMap;
+
+        }
+
+        private Dictionary<int, double> getTotalPrice(DateTime statisticDate)
+        {
+            Dictionary<int, double> tripPriceMap = new Dictionary<int, double>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            foreach (OrderedTrip trip in orderedTrips)
+            {
+                if (trip.CheckIn.Month == statisticDate.Month && trip.CheckIn.Year == statisticDate.Year)
+                {
+                    if (tripPriceMap.ContainsKey(trip.Trip.Id))
+                    {
+                        tripPriceMap[trip.Trip.Id] += trip.TotalPrice;
+                    }
+                    else
+                    {
+                        tripPriceMap.Add(trip.Trip.Id, trip.TotalPrice);
+                    }
+                }
+                
+            }
+            return tripPriceMap;
+
+        }
+
+
         private void AddText()
         {
             AccomodationName.Text = _trip.Trip.Accommodation.Name;
             AccomodationDescritpion.Text = _trip.Trip.Accommodation.Description;
             TripName.Text = _trip.Trip.Name;
-            TotalPrice.Text = _trip.TotalPrice.ToString();
-            CheckIn.Text = _trip.CheckIn.ToString();
-            CheckOut.Text = _trip.CheckOut.ToString();
+            
+            if(_user.Type == UserType.Client)
+            {
+                TotalPrice.Text = _trip.TotalPrice.ToString();
+                checkInTextBlock.Visibility = Visibility.Visible;
+                checkoutTextBock.Visibility = Visibility.Visible;
+                CheckOut.Visibility = Visibility.Visible;
+                CheckIn.Visibility = Visibility.Visible;
+                monthLabel.Visibility = Visibility.Collapsed;
+                MonthComboBox.Visibility = Visibility.Collapsed;
+                soldTextBlock.Visibility = Visibility.Collapsed;
+                yearLabel.Visibility = Visibility.Collapsed;
+                YearComboBox.Visibility = Visibility.Collapsed;
+                CheckIn.Text = _trip.CheckIn.ToString();
+                CheckOut.Text = _trip.CheckOut.ToString();
+            }
+            else
+            {
+                
+                monthLabel.Visibility = Visibility.Visible;
+                MonthComboBox.Visibility = Visibility.Visible;
+                soldTextBlock.Visibility = Visibility.Visible;
+                yearLabel.Visibility = Visibility.Visible;
+                YearComboBox.Visibility = Visibility.Visible;
+                CheckOut.Visibility = Visibility.Collapsed;
+                CheckIn.Visibility = Visibility.Collapsed;
+                checkInTextBlock.Visibility = Visibility.Collapsed;
+                checkoutTextBock.Visibility = Visibility.Collapsed;
+                _tripTotalPrice = getTotalPrice(date);
+                _tripStatistics = getTripStatistics(date);
+                if (_tripStatistics.ContainsKey(_trip.Trip.Id))
+                {
+                    soldTextBlock.Text = "Sold: " + _tripStatistics[_trip.Trip.Id].ToString();
+                    TotalPrice.Text = _tripTotalPrice[_trip.Trip.Id].ToString();
+                }
+                else
+                {
+                    soldTextBlock.Text = "Sold: 0";
+                    TotalPrice.Text = "0 $";
+                }
+            }
+            
             Location.Text = _trip.Trip.Accommodation.Location.Address;
             
         }

@@ -30,6 +30,7 @@ namespace HCI.Frames.Client
         public Restaurant RestaurantData { get; set; }
         public User _user;
         private Dictionary<int, int> _attractionStatistic;
+        private Dictionary<int, double> _attraciontEarnings;
         private Trip _trip;
 
         public AttractionItem(Attraction item = null,Restaurant res = null, User user = null, IOrderedTripService orderedTripService = null, Trip trip = null)
@@ -58,8 +59,11 @@ namespace HCI.Frames.Client
                 Location.Text = AttractionData.Location.Address;
                 if (user.Type == UserType.Agent)
                 {
+                    totalEarned.Visibility = Visibility.Visible;
                     _attractionStatistic = getAttractionStatistics();
+                    _attraciontEarnings = getAttractionEarnings();
                     statistics.Text = "Sold: " + _attractionStatistic[AttractionData.Id].ToString();
+                    totalEarned.Text = "Total earned: " + _attraciontEarnings[AttractionData.Id].ToString() + "$";
 
                 }
             }
@@ -71,6 +75,7 @@ namespace HCI.Frames.Client
                 Location.Text = RestaurantData.Location.Address;
                 if (user.Type == UserType.Agent)
                 {
+                    totalEarned.Visibility = Visibility.Collapsed;
                     _attractionStatistic = getAttractionStatistics();
                     statistics.Text = "Sold: " + _attractionStatistic[RestaurantData.Id].ToString();
 
@@ -79,6 +84,36 @@ namespace HCI.Frames.Client
 
 
 
+        }
+
+
+        private Dictionary<int, double> getAttractionEarnings()
+        {
+            Dictionary<int, double> attractionEarnings = new Dictionary<int, double>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            if (RestaurantData == null)
+            {
+                foreach (OrderedTrip orderedTrip in orderedTrips)
+                {
+                    if (orderedTrip.Trip.Id == _trip.Id)
+                    {
+                        foreach (Attraction attraction in orderedTrip.Attractions)
+                        {
+                            if (attractionEarnings.ContainsKey(attraction.Id))
+                            {
+                                attractionEarnings[attraction.Id] += attraction.Price;
+                            }
+                            else
+                            {
+                                attractionEarnings.Add(attraction.Id, attraction.Price);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return attractionEarnings;
         }
 
         private Dictionary<int, int> getAttractionStatistics()

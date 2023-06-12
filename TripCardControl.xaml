@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HCI"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="450">
+             d:DesignHeight="260" d:DesignWidth="900">
 
     <Grid>
 
@@ -25,7 +25,7 @@
 
         <Border Style="{StaticResource ShadowBorderStyle}">
 
-            <Grid Height="230" Background="White" Margin="10">
+            <Grid Height="245" Background="White" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -35,7 +35,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="imageControl" Margin="0 0 5 0" Width="200" Height="200"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
+                    <Image x:Name="imageControl" Margin="0 0 5 0" Width="230" Height="230"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -53,10 +53,12 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -68,10 +70,12 @@
                     <TextBlock Name="bedsValue" Text="3" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="1" Grid.Column="1"/>
                     <TextBlock Name="statistics" Text="Total Sold: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="2" Grid.Column="0"/>
                     <TextBlock Name="statisticsValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="2" Grid.Column="1"/>
-                    <TextBlock Name="isActive" Text="Active: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="3" Grid.Column="0"/>
-                    <TextBlock Name="isActiveValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="3" Grid.Column="1"/>
+                    <TextBlock Name="totalPrice" Text="Total earned: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="3" Grid.Column="0"/>
+                    <TextBlock Name="totalPriceValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="3" Grid.Column="1"/>
+                    <TextBlock Name="isActive" Text="Active: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="4" Grid.Column="0"/>
+                    <TextBlock Name="isActiveValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="4" Grid.Column="1"/>
 
-                    <Grid HorizontalAlignment="Right" Grid.Row="4" VerticalAlignment="Bottom"  Grid.ColumnSpan="3" Width="300" >
+                    <Grid HorizontalAlignment="Right" Grid.Row="5" VerticalAlignment="Bottom"  Grid.ColumnSpan="3" Width="300" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
