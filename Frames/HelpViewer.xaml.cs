@@ -16,7 +16,7 @@ namespace HCI.Frames
         {
             { 0, new List<string> { "login", "register" } },
             { 1, new List<string> { "clienthome", "tripdetails","attractions", "clienthistory", "historydetails" } },
-            { 2, new List<string> { "agenthome","agenttripsform","agentrestaurants","agentrestaurantsform", "agentattractions","agentattractionsform", "agentaccommodations","agentaccommodationsform","agentlocationform" } }
+            { 2, new List<string> { "agenthome", "agenttripdetails", "agenttripsform","agentrestaurants","agentrestaurantsform", "agentattractions","agentattractionsform", "agentaccommodations","agentaccommodationsform","agentlocationform" } }
         };
 
         private Dictionary<int, Stack<string>> navigationHistory = new Dictionary<int, Stack<string>>();

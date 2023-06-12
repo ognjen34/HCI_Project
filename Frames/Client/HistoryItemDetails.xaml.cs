@@ -344,9 +344,16 @@ namespace HCI.Frames.Client
             if (focusedControl is DependencyObject)
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                
-                HelpProvider.ShowHelp("historydetails", mainWindow,1);
-               
+
+                if (_user.Type == UserType.Client)
+                {
+                    HelpProvider.ShowHelp("historydetails", mainWindow, 1);
+                }
+                else
+                {
+                    HelpProvider.ShowHelp("agenttripdetails", mainWindow, 2);
+
+                }
 
             }
         }
