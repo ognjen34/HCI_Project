@@ -35,7 +35,7 @@ namespace HCI.Frames.Client
             List<OrderedTrip> trips = (List<OrderedTrip>)_orderedTripService.GetAllByUserId(_user.Id);
             foreach (var item in trips)
             {
-                var historyItem = new HistoryItem(item);
+                var historyItem = new HistoryItem(item, _user, _orderedTripService);
                 //historyItem.ItemClicked += AttractionItem_Clicked;
                 historyItemsControl.Items.Add(historyItem);
             }
