@@ -25,7 +25,7 @@
 
         <Border Style="{StaticResource ShadowBorderStyle}">
 
-            <Grid Height="200" Background="White" Margin="10">
+            <Grid Height="230" Background="White" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -52,6 +52,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -59,21 +60,26 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Name="priceLabel" Text="Price:" HorizontalAlignment="Left" Grid.Row="0" Margin="0,20,5,0" Grid.Column="0"/>
                     <TextBlock Name="accomendationPrice" Text="35 $/night" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="0" Grid.Column="1"/>
                     <TextBlock Name="bedsLabel" Text="Beds:" HorizontalAlignment="Left" Grid.Row="1" Margin="0,20,5,0" Grid.Column="0"/>
                     <TextBlock Name="bedsValue" Text="3" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="1" Grid.Column="1"/>
-                    <TextBlock Name="statistics" Text="Sold: " HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="2" Grid.Column="0"/>
-                    <TextBlock Name="statisticsValue" Text="50" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="2" Grid.Column="1"/>
-                    <Grid HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Bottom"  Grid.ColumnSpan="3" >
+                    <TextBlock Name="statistics" Text="Total Sold: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Name="statisticsValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="2" Grid.Column="1"/>
+                    <TextBlock Name="isActive" Text="Active: " HorizontalAlignment="Left" Margin="0,20,5,0" Grid.Row="3" Grid.Column="0"/>
+                    <TextBlock Name="isActiveValue" Text="50"  HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="3" Grid.Column="1"/>
+
+                    <Grid HorizontalAlignment="Right" Grid.Row="4" VerticalAlignment="Bottom"  Grid.ColumnSpan="3" Width="300" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Content="Book" x:Name="orderButton" Visibility="Visible" Width="80" Height="30" Grid.Column="0" Background="#2196F3" Foreground="White" Click="OrderButton_Click"/>
-                        <Button Content="Details" x:Name="detailButton" Visibility="Visible" Width="80" Margin="0,0,20,0" Height="30" Grid.Column="0" Background="#2196F3" Foreground="White" Click="detailButton_Click"/>
+                        <Button Content="Book" x:Name="orderButton" Visibility="Visible" Width="80" Height="30" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" Background="#2196F3" Foreground="White" Click="OrderButton_Click" />
+                        <Button Content="Details" x:Name="detailButton" Visibility="Visible" Width="80" Margin="0,0,20,0" Height="30" Grid.Column="0"  Background="#2196F3" Foreground="White" Click="detailButton_Click"/>
                         
                         <Button Content="Edit" x:Name="editButton" Visibility="Visible" Width="80" Height="30" Grid.Column="1" Background="#2196F3" Foreground="White" Click="EditClicked" />
                         <Button Content="Delete" x:Name="deleteButton" Visibility="Visible" Width="80" Margin="20,0,0,0" Height="30" Grid.Column="2" Background="#2196F3" Foreground="White" Click="DeleteButton_Click"/>

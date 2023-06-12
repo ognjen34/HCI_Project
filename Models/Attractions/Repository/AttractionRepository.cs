@@ -21,7 +21,7 @@ namespace HCI.Models.Attractions.Repository
 
         public IEnumerable<Attraction> GetAll()
         {
-            return dbContext.Attractions.ToList();
+            return dbContext.Attractions.Where(r => !r.IsDeleted).ToList();
         }
 
         public void Add(Attraction attraction)
@@ -49,7 +49,7 @@ namespace HCI.Models.Attractions.Repository
             var attraction = dbContext.Attractions.FirstOrDefault(a => a.Id == id);
             if (attraction != null)
             {
-                dbContext.Attractions.Remove(attraction);
+                attraction.IsDeleted = true;
                 dbContext.SaveChanges();
             }
         }

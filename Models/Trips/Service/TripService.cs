@@ -32,12 +32,16 @@ namespace HCI.Models.Trips.Service
         }
         public void RemoveTrip(Trip trip)
         {
-            _tripRepository.Remove(trip);
+            _tripRepository.Delete(trip.Id);
         }
 
         public IEnumerable<Trip> GetAllTrips()
         {
             return _tripRepository.GetAll();
+        }
+        public IEnumerable<Trip> GetAllDeletedAndActive()
+        {
+            return _tripRepository.GetAllDeletedAndActive();
         }
     }
 }

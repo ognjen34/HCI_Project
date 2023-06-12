@@ -41,9 +41,8 @@ namespace HCI.Frames.Client
             RestaurantData = res;
             _orderedTripService = orderedTripService;
             InitializeComponent();
-            _attractionStatistic = getAttractionStatistics();
             MouseDown += AttractionItem_MouseDown;
-            if(user.Type == UserType.Agent)
+            if (user.Type == UserType.Agent)
             {
                 statistics.Visibility = Visibility.Visible;
             }
@@ -57,7 +56,12 @@ namespace HCI.Frames.Client
                 Type.Text = AttractionData.ClassName;
                 tripName.Text = AttractionData.Name;
                 Location.Text = AttractionData.Location.Address;
-                statistics.Text = "Sold: " + _attractionStatistic[AttractionData.Id].ToString();
+                if (user.Type == UserType.Agent)
+                {
+                    _attractionStatistic = getAttractionStatistics();
+                    statistics.Text = "Sold: " + _attractionStatistic[AttractionData.Id].ToString();
+
+                }
             }
             if (RestaurantData != null)
             {
@@ -65,7 +69,12 @@ namespace HCI.Frames.Client
                 Type.Text = RestaurantData.ClassName;
                 tripName.Text = RestaurantData.Name;
                 Location.Text = RestaurantData.Location.Address;
-                statistics.Text = "Sold: " + _attractionStatistic[RestaurantData.Id].ToString();
+                if (user.Type == UserType.Agent)
+                {
+                    _attractionStatistic = getAttractionStatistics();
+                    statistics.Text = "Sold: " + _attractionStatistic[RestaurantData.Id].ToString();
+
+                }
             }
 
 

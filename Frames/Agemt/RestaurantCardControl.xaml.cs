@@ -72,7 +72,6 @@ namespace HCI
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception if unable to load the image
                     Console.WriteLine("Error loading image: " + ex.Message);
                 }
             }

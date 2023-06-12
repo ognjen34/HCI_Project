@@ -55,20 +55,22 @@ namespace HCI
             _user = user;
 
             InitializeComponent();
-            IEnumerable<Trip> trips = _tripService.GetAllTrips();
 
             if (_user.Type == UserType.Agent)
             {
+                IEnumerable<Trip> trips = _tripService.GetAllDeletedAndActive();
                 trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Agent,_tripService, _orderedTripService)); });
                 foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
                 {
                     tripCardControl.EditClickedEvent += TripCardControl_EditClicked;
                     tripCardControl.DetailsClickedEvent += TripCardControl_DetailsClicked;
+                    tripCardControl.DeleteClickedEvent += TripCardControl_DeleteClicked;
                 }
                 addButton.Visibility = Visibility.Visible;
             }
             else
             {
+                IEnumerable<Trip> trips = _tripService.GetAllTrips();
                 trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Client,_tripService, _orderedTripService)); });
                 foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
                 {
@@ -108,6 +110,13 @@ namespace HCI
             Trip trip = e.trip;
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.contentControl.Navigate(new TripForm(trip,_tripService, _accommodationService, _pictureService, () => mainWindow.NavigateToHome()));
+        }
+
+        private void TripCardControl_DeleteClicked(object sender, OrderTripArgs e)
+        {
+            Trip trip = e.trip;
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.contentControl.Navigate(new HomePage(_tripService, _pictureService, _accommodationService, _attractionService, _restaurantService, _orderedTripService, _user));
         }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

@@ -120,7 +120,7 @@ namespace HCI
             orderedTrip.CheckOut = checkoutDate.SelectedDate ?? DateTime.MinValue;
             orderedTrip.CheckIn = checkInDate.SelectedDate ?? DateTime.MinValue;
             
-            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService, _orderedTripService, orderedTrip));
+            mainWindow.contentControl.Navigate(new Attractions(_attractionService, _restaurantService, _orderedTripService, orderedTrip,_user));
         }
 
 

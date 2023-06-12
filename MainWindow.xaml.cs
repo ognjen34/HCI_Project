@@ -118,7 +118,7 @@ namespace HCI
         private void InitializeTimer()
         {
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(3);
+            timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += Timer_Tick;
         }
 
