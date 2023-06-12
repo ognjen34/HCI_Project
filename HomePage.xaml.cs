@@ -20,7 +20,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using HCI.Frames.Client;
+
 using HCI.Tools;
+
 
 namespace HCI
 {
@@ -55,16 +59,17 @@ namespace HCI
 
             if (_user.Type == UserType.Agent)
             {
-                trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Agent,_tripService)); });
+                trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Agent,_tripService, _orderedTripService)); });
                 foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
                 {
                     tripCardControl.EditClickedEvent += TripCardControl_EditClicked;
+                    tripCardControl.DetailsClickedEvent += TripCardControl_DetailsClicked;
                 }
                 addButton.Visibility = Visibility.Visible;
             }
             else
             {
-                trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Client,_tripService)); });
+                trips.ToList().ForEach(trip => { tripsStackPanel.Children.Add(new TripCardControl(trip,UserType.Client,_tripService, _orderedTripService)); });
                 foreach (TripCardControl tripCardControl in tripsStackPanel.Children)
                 {
                     tripCardControl.OrderTrip += TripCardControl_OrderClicked;
@@ -73,6 +78,22 @@ namespace HCI
             }
 
             
+        }
+
+        private void TripCardControl_DetailsClicked(object sender, OrderTripArgs e)
+        {
+            Trip trip = e.trip;
+            OrderedTrip ordered = new OrderedTrip();
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            foreach (OrderedTrip orderedTrip in orderedTrips)
+            {
+                if(orderedTrip.Trip.Id == trip.Id)
+                {
+                    ordered = orderedTrip;
+                }
+            }
+            mainWindow.contentControl.Navigate(new HistoryItemDetails(ordered, _user, _orderedTripService));
         }
 
         private void TripCardControl_OrderClicked(object sender, OrderTripArgs e)

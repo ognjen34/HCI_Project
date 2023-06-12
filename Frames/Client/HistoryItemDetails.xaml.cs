@@ -16,7 +16,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Threading;
 using HCI.Models.Users.Model;
+
+using HCI.Models.Trips.Service;
+
 using HCI.Tools;
+
 
 namespace HCI.Frames.Client
 {
@@ -27,10 +31,14 @@ namespace HCI.Frames.Client
     {
         private OrderedTrip _trip;
         public int SelectedImg { get; set; }
+        private readonly IOrderedTripService _orderedTripService;
         public List<Picture> Pictures { get; set; }
-        public HistoryItemDetails(OrderedTrip trip)
+        public User _user;
+        public HistoryItemDetails(OrderedTrip trip, User user, IOrderedTripService orderedTripService)
         {
+            _user = user;
             _trip = trip;
+            _orderedTripService = orderedTripService;
             InitializeComponent();
             GeocodeAddress(_trip.Trip.Accommodation.Location.Address);
             AddPins();
@@ -64,13 +72,13 @@ namespace HCI.Frames.Client
         {
             foreach (var item in _trip.Attractions)
             {
-                var attractionItem = new AttractionItem(item);
+                var attractionItem = new AttractionItem(item,null, _user, _orderedTripService, _trip.Trip);
                 attractionItem.ItemClicked += AttractionItem_Clicked;
                 attractionItemsControl.Items.Add(attractionItem);
             }
             foreach (var item in _trip.Restaurants)
             {
-                var attractionItem = new AttractionItem(null, item);
+                var attractionItem = new AttractionItem(null, item, _user, _orderedTripService, _trip.Trip);
                 attractionItem.ItemClicked += AttractionItem_Clicked;
                 attractionItemsControl.Items.Add(attractionItem);
             }

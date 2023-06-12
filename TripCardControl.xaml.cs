@@ -27,20 +27,27 @@ namespace HCI
         public Trip Trip;
         public event EventHandler<OrderTripArgs> OrderTrip;
         public event EventHandler<OrderTripArgs> EditClickedEvent;
+        public event EventHandler<OrderTripArgs> DetailsClickedEvent;
+ 
 
         private readonly UserType userType;
         private readonly ITripService _tripService;
+        private readonly IOrderedTripService _orderedTripService;
+        private Dictionary<int, int> _tripStatistics;
 
-        public TripCardControl(Trip trip, UserType userType, ITripService tripService)
+        public TripCardControl(Trip trip, UserType userType, ITripService tripService, IOrderedTripService orderedTripService)
         {
             this.userType = userType;
             _tripService = tripService;
+            this._orderedTripService = orderedTripService;
             Trip = trip;
             InitializeComponent();
             tripName.Text = trip.Name;
             description.Text = trip.Description;
             bedsValue.Text = trip.Accommodation.Beds.ToString();
             locationName.Text = trip.Accommodation.Location.Address.ToString();
+            _tripStatistics = getTripStatistics();
+            statisticsValue.Text = _tripStatistics[trip.Id].ToString();
             Console.WriteLine(trip.Name);
             Console.WriteLine(trip.Description);
             SetImageSource(trip.Picture.Pictures);
@@ -55,14 +62,39 @@ namespace HCI
                 case UserType.Agent:
                     orderButton.Visibility = Visibility.Collapsed;
                     editButton.Visibility = Visibility.Visible;
+                    statistics.Visibility = Visibility.Visible;
+                    statisticsValue.Visibility = Visibility.Visible;
+                    detailButton.Visibility = Visibility.Visible;
                     deleteButton.Visibility = Visibility.Visible;
                     break;
                 case UserType.Client:
                     orderButton.Visibility = Visibility.Visible;
+                    statistics.Visibility = Visibility.Collapsed;
+                    statisticsValue.Visibility = Visibility.Collapsed;
+                    detailButton.Visibility = Visibility.Collapsed;
                     editButton.Visibility = Visibility.Collapsed;
                     deleteButton.Visibility = Visibility.Collapsed;
                     break;
             }
+        }
+
+        private Dictionary<int, int> getTripStatistics()
+        {
+            Dictionary<int, int> tripStatisticsMap = new Dictionary<int, int>();
+            List<OrderedTrip> orderedTrips = _orderedTripService.GetAllOrderedTrips().ToList();
+            foreach (OrderedTrip trip in orderedTrips)
+            {
+                if (tripStatisticsMap.ContainsKey(trip.Id))
+                {
+                    tripStatisticsMap[trip.Id] += 1;
+                }
+                else
+                {
+                    tripStatisticsMap.Add(trip.Id, 1);
+                }
+            }
+            return tripStatisticsMap;
+
         }
 
         private void SetImageSource(string base64Image)
@@ -111,6 +143,11 @@ namespace HCI
         private void EditTrip()
         {
             // Perform the necessary actions for editing the trip
+        }
+
+        private void detailButton_Click(object sender, RoutedEventArgs e)
+        {
+            DetailsClickedEvent?.Invoke(this, new OrderTripArgs(this.Trip));
         }
     }
 }

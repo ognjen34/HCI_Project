@@ -47,6 +47,7 @@ namespace HCI
             this.attractionService = attractionService;
             existingLocation = attraction.Location;
             locationService = service;
+            ZoomMapToSerbia();
 
             this.navigateBackStep = navigateBackStep;
             this.navigateBackPage = navigateBackPage;

@@ -1,4 +1,6 @@
 ﻿using HCI.Models.Trips.Model;
+using HCI.Models.Trips.Service;
+using HCI.Models.Users.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,9 +25,13 @@ namespace HCI.Frames.Client
     public partial class HistoryItem : UserControl
     {
         private OrderedTrip _trip;
-        public HistoryItem(OrderedTrip trip)
+        private User _user;
+        private IOrderedTripService _orderedTripService;
+        public HistoryItem(OrderedTrip trip, User user, IOrderedTripService orderedTripService)
         {
             _trip = trip;
+            _user = user;
+            _orderedTripService = orderedTripService;
 
             InitializeComponent();
             Img.Source = StrToImg(_trip.Trip.Picture.Pictures);
@@ -50,7 +56,7 @@ namespace HCI.Frames.Client
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-            mainWindow.contentControl.Navigate(new HistoryItemDetails(_trip));
+            mainWindow.contentControl.Navigate(new HistoryItemDetails(_trip, _user, _orderedTripService));
 
         }
 
