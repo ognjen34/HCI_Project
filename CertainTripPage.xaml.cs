@@ -25,6 +25,7 @@ using HCI.Models.Restaurants.Service;
 using HCI.Frames.Client;
 using HCI.Models.Trips.Service;
 using HCI.Models.Users.Model;
+using HCI.Tools;
 
 namespace HCI
 {
@@ -56,9 +57,11 @@ namespace HCI
             errorMessage.Visibility = Visibility.Collapsed;
 
             GeocodeAddress(Trip.Accommodation.Location.Address);
+            tripImage.Source = StrToBit(trip.Picture.Pictures);
             accomendationLocation.Text = Trip.Accommodation.Location.City + " " + Trip.Accommodation.Location.Address; 
             accomendationName.Text = trip.Accommodation.Name;
-            accomendationDescritpion.Text = trip.Accommodation.Description;
+            tripName.Text = trip.Name;
+            tripDescription.Text = trip.Description;
             accomendationPrice.Text = "Price: " + trip.Accommodation.PricePerDay.ToString() + "$/night";
             accomendationBeds.Text = "Beds:" + trip.Accommodation.Beds.ToString();
 
@@ -93,19 +96,36 @@ namespace HCI
             }
 
         }
+        private BitmapImage StrToBit(string str)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.StreamSource = new System.IO.MemoryStream(Convert.FromBase64String(str));
+            bitmapImage.EndInit();
+            return bitmapImage;
+
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+                HelpProvider.ShowHelp("tripdetails", mainWindow, 1);
+
+
+            }
+        }
 
         private void SetImageSource(string base64Image)
         {
             try
             {
-                // Create a BitmapImage from the base64 string
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = new System.IO.MemoryStream(Convert.FromBase64String(base64Image));
-                bitmapImage.EndInit();
+                
 
                 // Set the BitmapImage as the source of the Image control
-                accomendationImages.Source = bitmapImage;
+                accomendationImages.Source = StrToBit(base64Image);
             }
             catch (Exception ex)
             {

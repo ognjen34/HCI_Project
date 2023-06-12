@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HCI.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,7 @@ namespace HCI.Navbars
             restaurantsButton.Click += RestaurantsButton_Click;
             attractionsButton.Click += AttractionsButton_Click;
             accomodationsButton.Click += AccomodationsButton_Click;
+            helpButton.Click += HelpButton_Click;
 
         }
 
@@ -55,7 +57,12 @@ namespace HCI.Navbars
         private void AccomodationsButton_Click(object sender, RoutedEventArgs e)
         {
             AccomodationClicked?.Invoke(this, EventArgs.Empty);
-            Console.WriteLine("XD");
+        }
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+            HelpProvider.ShowHelp("agenthome", mainWindow, 2);
         }
 
 
