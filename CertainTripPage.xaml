@@ -41,11 +41,10 @@
             <Style x:Key="ShadowBorderStyle" TargetType="Border">
                 <Setter Property="Margin" Value="10"/>
                 <Setter Property="Background" Value="White"/>
-                <Setter Property="BorderBrush" Value="#888"/>
-                <Setter Property="BorderThickness" Value="2"/>
+
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect ShadowDepth="3" Color="#888" Opacity="0.8" BlurRadius="10"/>
+                        <DropShadowEffect ShadowDepth="0" Color="#888" Opacity="0.8" BlurRadius="10"/>
                     </Setter.Value>
                 </Setter>
             </Style>
@@ -129,6 +128,7 @@
                     <Grid Grid.Row="5" HorizontalAlignment="Center" Width="250">
                         <TextBlock Name="accomendationBeds" Text="Beds: 3" Grid.Row="5" HorizontalAlignment="Left" FontSize="15"/>
                     </Grid>
+                    <TextBlock x:Name="errorMessage" Foreground="Red" Grid.Row="6" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     <Button Click="resrveButton_Click" Name="resrveButton" Margin="0 0 5 5"  Grid.Row="6" Width="80" Height="30" Background="#2196F3" Content="Reserve" Foreground="White" HorizontalAlignment="Right"  FontSize="15"/>
 
                 </Grid>

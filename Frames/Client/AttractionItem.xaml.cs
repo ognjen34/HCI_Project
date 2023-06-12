@@ -42,6 +42,7 @@ namespace HCI.Frames.Client
             RestaurantData = res;
             _orderedTripService = orderedTripService;
             InitializeComponent();
+            totalEarned.Visibility = Visibility.Collapsed;
             MouseDown += AttractionItem_MouseDown;
             if (user.Type == UserType.Agent)
             {
@@ -57,11 +58,13 @@ namespace HCI.Frames.Client
                 Type.Text = AttractionData.ClassName;
                 tripName.Text = AttractionData.Name;
                 Location.Text = AttractionData.Location.Address;
+               
                 if (user.Type == UserType.Agent)
                 {
                     totalEarned.Visibility = Visibility.Visible;
                     _attractionStatistic = getAttractionStatistics();
                     _attraciontEarnings = getAttractionEarnings();
+                    totalEarned.Visibility = Visibility.Visible;
                     statistics.Text = "Sold: " + _attractionStatistic[AttractionData.Id].ToString();
                     totalEarned.Text = "Total earned: " + _attraciontEarnings[AttractionData.Id].ToString() + "$";
 

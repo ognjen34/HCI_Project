@@ -13,8 +13,8 @@ namespace HCI.Models.Trips.Model
     {
         public int Id { get; set; }
         public Trip Trip { get; set; }
-        public List<Restaurant> Restaurants { get; set; }
-        public List<Attraction> Attractions { get; set; }
+        public HashSet<Restaurant> Restaurants { get; set; }
+        public HashSet<Attraction> Attractions { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
         public double TotalPrice => CalculateTotalPrice();
@@ -22,8 +22,8 @@ namespace HCI.Models.Trips.Model
 
         public OrderedTrip()
         {
-            Restaurants = new List<Restaurant>();
-            Attractions = new List<Attraction>();
+            Restaurants = new HashSet<Restaurant>();
+            Attractions = new HashSet<Attraction>();
         }
 
         private double CalculateTotalPrice()
